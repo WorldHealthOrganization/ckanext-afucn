@@ -1,41 +1,117 @@
-scheming_version: 2
-group_type: countries
-about: Countries schema for location countries group
-about_url: http://github.com/ckan/ckanext-scheming
+scheming_version: "1"
+group_type: "location"
+about_url: "http://github.com/ckan/ckanext-afucn"
+fields: 
+- field_name: "title"
+  label: "Name"
+  validators: "ignore_missing unicode_safe"
+  form_snippet: "large_text.html"
+  form_attrs: 
+    data-module: "slug-preview-target"
+  form_placeholder: "Enter Country"
 
+- field_name: "name"
+  label: "URL"
+  validators: "not_empty unicode_safe name_validator group_name_validator"
+  form_snippet: "slug.html"
+  form_placeholder: "my-theme"
 
-dataset_fields:
+- field_name: "countrycode"
+  label: "Country Code"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
 
-  - field_name: title
-    label: Name
-    validators: ignore_missing unicode_safe
-    form_snippet: large_text.html
-    form_attrs:
-      data-module: slug-preview-target
-    form_placeholder: Enter Country
+- field_name: "notes"
+  label: "Description"
+  form_snippet: "markdown.html"
+  form_placeholder: "A little information about my group..."
 
-  - field_name: name
-    label: URL
-    validators: not_empty unicode_safe name_validator group_name_validator
-    form_snippet: slug.html
-    form_placeholder: my-theme
+- field_name: "url"
+  label: "Image URL"
+  form_placeholder: "http://example.com/my-image.jpg"
 
-  - field_name: notes
-    label: Description
-    form_snippet: markdown.html
-    form_placeholder: A little information about my group...
+- field_name: "parent_location"
+  label: "Parent group"
+  display_snippet: 
+  form_snippet: "org_hierarchy.html"
+  validators: "ignore_missing"
 
-  - field_name: url
-    label: Image URL
-    form_placeholder: http://example.com/my-image.jpg
+- form_snippet: "select.html"
+  display_snippet: "select.html"
+  validators: "scheming_required scheming_choices"
+  field_name: "ist"
+  label: "Inter-Country Support Teams"
+  output_validators: "ignore_missing"
+  preset: "select"
+  choices: 
+  - label: "IST Central Africa"
+    value: "IST Central Africa"
+  - label: "IST Eastern and Southern Africa"
+    value: "IST Eastern and Southern Africa"
+  - label: "IST West Africa"
+    value: "IST West Africa"
 
-  - field_name: ist
-    label: Inter-Country Support Teams
-    output_validators: ignore_missing
-    choices:
-      - label: IST Central Africa
-        value: ist-c-africa
-      - label: IST Eastern and Southern Africa
-        value: ist-es-africa
-      - label: IST West Africa
-        value: ist-w-africa
+- form_snippet: "select.html"
+  display_snippet: "select.html"
+  validators: "scheming_required scheming_choices"
+  field_name: "locationtype"
+  label: "Location Type"
+  output_validators: "ignore_missing"
+  preset: "select"
+  choices: 
+  - label: "Country"
+    value: "country"
+  - label: "Province"
+    value: "province"
+  - label: "District"
+    value: "district"
+
+- field_name: "language"
+  label: "Official Language"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "population"
+  label: "Population"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "gni_per_capita"
+  label: "GNI per Capita (PPP international $, 2013)"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "life_expectancy"
+  label: "Life Expectancy at Birth m/f (years, 2015)"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "probability_of_dying_under_five"
+  label: "Probability of Dying Under Five (per 1 000 live births, 0)"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "probability_of_dying_15_60"
+  label: "Probability of Dying between 15 and 60 Years m/f (per 1 000 population, 2013)"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "health_expenditure_per_capita"
+  label: "Total Expenditure on Health per Capita (Intl $, 2014)"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "health_expenditure_gdp_percentage"
+  label: "Total Expenditure on Health as % of GDP (2014)"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "latitude"
+  label: "Latitude"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
+
+- field_name: "longitude"
+  label: "Longitude"
+  validators: "ignore_missing"
+  form_snippet: "text.html"
