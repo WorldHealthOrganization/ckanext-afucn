@@ -1,0 +1,27 @@
+
+@use 'base' as *;
+
+.form-group {
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: bold;
+    color: $foreground-weaker;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid $foreground-weaker;
+    border-radius: 4px;
+    font-size: 1rem;
+
+    &:focus {
+      border-color: $brand-base;
+      outline: none;
+      box-shadow: 0 0 4px rgba($brand-base, 0.3);
+    }
+  }
+}

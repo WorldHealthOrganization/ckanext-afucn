@@ -1,0 +1,141 @@
+.header {
+  background-color: #0F2D5B;
+  color: #ffffff;
+  padding: 1rem;
+}
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+.header .nav a {
+  color: #ffffff;
+  margin-left: 1.2rem;
+  text-decoration: none;
+}
+.header .nav a:hover {
+  color: #F4A81D;
+}
+
+.breadcrumbs {
+  background-color: #F7F7F7;
+  padding: 0.5rem 1rem;
+}
+.breadcrumbs a {
+  color: #008DC9;
+}
+.breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.button {
+  background-color: #008DC9;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: rgb(0, 105.223880597, 150);
+}
+.button--highlight {
+  background-color: #F4A81D;
+  color: #595959;
+}
+.button--highlight:hover {
+  background-color: rgb(211.6962025316, 140.5063291139, 10.3037974684);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  font-weight: bold;
+  color: #595959;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #595959;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #008DC9;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 141, 201, 0.3);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th {
+  background-color: #008DC9;
+  color: #ffffff;
+  padding: 0.75rem;
+}
+.table td {
+  padding: 0.75rem;
+  border: 1px solid #595959;
+}
+.table tr:nth-child(even) {
+  background-color: #F7F7F7;
+}
+.table tr:hover {
+  background-color: hsl(0, 0%, 101.862745098%);
+}
+
+h1, h2, h3, h4 {
+  color: #008DC9;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+p {
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #008DC9;
+  text-decoration: underline;
+}
+a:hover {
+  color: #0F2D5B;
+}
+
+.footer {
+  background-color: #0F2D5B;
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem;
+}
+.footer a {
+  color: #F4A81D;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=index.css.map */
