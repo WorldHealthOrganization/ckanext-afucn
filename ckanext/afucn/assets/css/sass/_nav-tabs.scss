@@ -1,0 +1,31 @@
+@use 'base' as *;
+
+.nav-tabs {
+  display: flex;
+  border-bottom: 1px solid $foreground-weaker;
+
+  .nav-item {
+    margin-right: 1rem;
+    list-style: none;
+
+    .nav-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      color: $brand-base;
+      text-decoration: none;
+      border: 1px solid transparent;
+      border-bottom: none;
+
+      &:hover {
+        background-color: $background-weaker;
+        color: $brand-stronger;
+      }
+
+      &.active {
+        color: #ffffff;
+        background-color: $brand-base;
+        border-color: $brand-base $brand-base $background-weaker;
+      }
+    }
+  }
+}

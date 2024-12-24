@@ -1,0 +1,29 @@
+@use 'base' as *;
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+
+  .page-item {
+    margin: 0 0.25rem;
+
+    a {
+      color: $brand-base;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid $foreground-weaker;
+      border-radius: 4px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $background-weaker;
+        color: $brand-stronger;
+      }
+
+      &.active {
+        background-color: $brand-base;
+        color: #ffffff;
+      }
+    }
+  }
+}

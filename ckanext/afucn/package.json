@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack", 
-    "watch": "webpack --watch" 
+    "build": "webpack --mode production",
+    "dev": "webpack serve --mode development",
+    "watch": "webpack --watch"
   },
   "keywords": [],
   "author": "",
@@ -21,5 +22,10 @@
     "sass-loader": "^16.0.4",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "babel-loader": "^9.2.1",
+    "dotenv": "^16.4.7",
+    "fs-extra": "^11.2.0"
   }
 }

@@ -1,0 +1,30 @@
+@use 'base' as *;
+
+.filters-panel {
+  background-color: $background-weaker;
+  padding: 1rem;
+  border: 1px solid $foreground-weaker;
+
+  .filter-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $brand-base;
+  }
+
+  .filter-option {
+    margin-bottom: 0.5rem;
+
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .slider {
+    width: 100%;
+    margin: 1rem 0;
+
+    input[type="range"] {
+      width: 100%;
+    }
+  }
+}

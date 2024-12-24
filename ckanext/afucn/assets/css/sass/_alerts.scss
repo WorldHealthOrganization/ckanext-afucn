@@ -1,0 +1,22 @@
+@use 'base' as *;
+
+.alert {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+
+  &.alert-success {
+    background-color: $sentiment-good;
+    color: $foreground-weaker;
+  }
+
+  &.alert-error {
+    background-color: $sentiment-bad;
+    color: #ffffff;
+  }
+
+  &.alert-warning {
+    background-color: $sentiment-neutral;
+    color: $foreground-weaker;
+  }
+}

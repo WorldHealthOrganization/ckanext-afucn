@@ -1,0 +1,15 @@
+@use 'base' as *;
+
+.chart-container {
+  background-color: $background-base;
+  border: 1px solid $foreground-weaker;
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  .chart-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $brand-base;
+    margin-bottom: 0.5rem;
+  }
+}
