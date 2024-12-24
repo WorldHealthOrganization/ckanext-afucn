@@ -1,0 +1,147 @@
+# English translations for ckanext-afucn.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the ckanext-afucn
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-afucn 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-12-24 15:08+0100\n"
+"PO-Revision-Date: 2024-12-24 15:09+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: ckanext/afucn/plugin.py:24 ckanext/afucn/plugin.py:36
+#: ckanext/afucn/plugin.py:48
+msgid "Country"
+msgstr ""
+
+#: ckanext/afucn/plugin.py:25 ckanext/afucn/plugin.py:37
+#: ckanext/afucn/plugin.py:49
+msgid "Organization"
+msgstr ""
+
+#: ckanext/afucn/plugin.py:26 ckanext/afucn/plugin.py:38
+#: ckanext/afucn/plugin.py:50 ckanext/afucn/templates/header.html:108
+msgid "Groups"
+msgstr "Topics"
+
+#: ckanext/afucn/plugin.py:27 ckanext/afucn/plugin.py:39
+#: ckanext/afucn/plugin.py:51
+msgid "tags"
+msgstr ""
+
+#: ckanext/afucn/plugin.py:28 ckanext/afucn/plugin.py:40
+#: ckanext/afucn/plugin.py:52
+msgid "Format"
+msgstr ""
+
+#: ckanext/afucn/plugin.py:29 ckanext/afucn/plugin.py:41
+#: ckanext/afucn/plugin.py:53
+msgid "License"
+msgstr ""
+
+#: ckanext/afucn/templates/footer.html:9
+msgid "About {0}"
+msgstr ""
+
+#: ckanext/afucn/templates/footer.html:15
+msgid "CKAN API"
+msgstr ""
+
+#: ckanext/afucn/templates/footer.html:16
+msgid "CKAN Association"
+msgstr ""
+
+#: ckanext/afucn/templates/footer.html:24
+msgid ""
+"<strong>Powered by</strong> <a class=\"hide-text ckan-footer-logo\" "
+"href=\"http://ckan.org\">CKAN</a>"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:11
+msgid "Sysadmin settings"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:13
+msgid "Admin"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:19
+msgid "View profile"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:27
+msgid "View dashboard"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:29
+msgid "Dashboard"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:35
+#: ckanext/afucn/templates/header.html:37
+msgid "Profile settings"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:42
+#: ckanext/afucn/templates/header.html:44
+msgid "Log out"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:51
+msgid "Account"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:54
+msgid "Log in"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:56
+msgid "Register"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:90
+msgid "Toggle navigation"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:102
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:104
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:106
+msgid "Locations"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:109
+msgid "About"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:116
+msgid "Search Datasets..."
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:117
+msgid "Search"
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:117
+msgid "Search datasets..."
+msgstr ""
+
+#: ckanext/afucn/templates/header.html:118
+msgid "Submit"
+msgstr ""
+
