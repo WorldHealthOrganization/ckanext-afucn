@@ -17,7 +17,7 @@ section {
 
 aside {
   padding: 1rem;
-  background-color: lighten($background-weaker, 5%);
+  background-color: $background-weaker;
   border: 1px solid $foreground-weaker;
   border-radius: 4px;
 
