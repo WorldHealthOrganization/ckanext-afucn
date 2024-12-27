@@ -1,0 +1,20 @@
+@use 'base' as *;
+
+.navigation {
+  background-color: $brand-stronger;
+  color: #ffffff;
+
+  .nav-link {
+    color: #ffffff;
+    margin: 0 1rem;
+    text-decoration: none;
+    &:hover {
+      color: $highlight-color;
+    }
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+}

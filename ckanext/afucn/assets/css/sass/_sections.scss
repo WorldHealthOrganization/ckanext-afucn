@@ -1,0 +1,30 @@
+@use 'base' as *;
+
+section {
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: $background-weaker;
+  border: 1px solid $foreground-weaker;
+  border-radius: 4px;
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $brand-base;
+    margin-bottom: 1rem;
+  }
+}
+
+aside {
+  padding: 1rem;
+  background-color: $background-weaker;
+  border: 1px solid $foreground-weaker;
+  border-radius: 4px;
+
+  .aside-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $brand-stronger;
+    margin-bottom: 1rem;
+  }
+}

@@ -5,7 +5,10 @@ $brand-stronger: #0F2D5B !default;
 $foreground-weaker: #595959 !default;
 $background-weaker: #F7F7F7 !default;
 $highlight-color: #F4A81D !default;
-
+$background-base:  #0F2D5B !default;
+$sentiment-good: $brand-base;
+$sentiment-bad: red;
+$sentiment-neutral: #F7F7F7 !default;
 // Typography
 $font-family-primary: 'Noto Sans', Arial, sans-serif !default;
 $font-size-base: 12px !default;
