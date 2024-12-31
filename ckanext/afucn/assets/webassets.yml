@@ -3,7 +3,7 @@ afucn-js:
   output: ckanext-afucn/%(version)s-afucn.js
   contents:
     - js/afucn.js
-    - js/bundle.js
+    - js/afucn.bundle.js
   extra:
     preload:
       - base/main
