@@ -1,27 +1,70 @@
+.table-selected td {
+    background-color: $input-bg;
+    .edit {
+        display: block;
+    }
+}
 
-@use 'base' as *;
-@use 'sass:color';
+.table-bulk-edit {
+    th input {
+        top: -5px;
+    }
+    .table-actions .btn-group {
+        float: left;
+        margin: 0 10px 0 0;
+    }
+    .context p {
+        margin-bottom: 0;
+    }
+}
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
+.table-header thead th {
+    background-color: $moduleHeadingBackgroundColor;
+}
 
-  th {
-    background-color: $brand-base;
-    color: #ffffff;
-    padding: 0.75rem;
-  }
+.table-edit-hover {
+    .edit {
+        display: none;
+        float: right;
+    }
+    tr:hover .edit {
+        display: block;
+    }
+}
 
-  td {
-    padding: 0.75rem;
-    border: 1px solid $foreground-weaker;
-  }
-
-  tr:nth-child(even) {
-    background-color: $background-weaker;
-  }
-
-  tr:hover {
-    background-color: color.adjust($background-weaker, $lightness: 5%);
-  }
+.js {
+    .table-toggle-more {
+        .toggle-more {
+            display: none;
+        }
+        .show-more {
+            display: inline;
+        }
+        .show-less {
+            display: none;
+        }
+        .toggle-seperator {
+            display: table-row;
+            td {
+                height: 11px;
+                padding: 0;
+                background-image: url("#{$imagePath}/table-seperator.png");
+            }
+        }
+    }
+    .table .toggle-show td {
+        background: none;
+        text-align: center;
+    }
+    .table-toggle-less {
+        .show-less {
+            display: inline;
+        }
+        .show-more {
+            display: none;
+        }
+        .toggle-seperator {
+            display: none;
+        }
+    }
 }
