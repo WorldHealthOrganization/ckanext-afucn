@@ -32,7 +32,12 @@ msgstr ""
 #: ckanext/afucn/plugin.py:26 ckanext/afucn/plugin.py:38
 #: ckanext/afucn/plugin.py:50 ckanext/afucn/templates/header.html:108
 msgid "Groups"
-msgstr "Topics"
+msgstr "Health Topics"
+
+#: ckanext/afucn/plugin.py:26 ckanext/afucn/plugin.py:38
+#: ckanext/afucn/plugin.py:50 ckanext/afucn/templates/header.html:108
+msgid "Tools and Guidelines"
+msgstr ""
 
 #: ckanext/afucn/plugin.py:27 ckanext/afucn/plugin.py:39
 #: ckanext/afucn/plugin.py:51

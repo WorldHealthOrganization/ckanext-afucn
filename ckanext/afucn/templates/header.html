@@ -3,7 +3,7 @@
 {% block header_wrapper %} {% block header_account %}
 <div class="account-masthead">
   <div class="container">
-    <div class="account avatar authed" id="main-navigation-toggle"">
+    <div class="main-menu" id="main-navigation-toggle"">
       <ul class="list-unstyled">
         {% block header_site_navigation %}
         {% block header_site_navigation_tabs %}
@@ -14,9 +14,12 @@
         (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'),
         ["dataset", "resource"]),
         (org_type ~ '.index',
-        h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),
+        h.humanize_entity_type('organization', org_type, 'main nav') or _('Programme'), ['organization']),
+        (group_type ~ '.index',
+        h.humanize_entity_type('group', group_type, 'main nav') or _('Location'), ['group']),
         (group_type ~ '.index',
         h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
+        ('home.about', _('Tools and Guidelines')) ,
         ('home.about', _('About')) ) }}
         {% endblock %}
         {% endblock %}
@@ -26,14 +29,14 @@
         <label class="d-none" for="field-sitewide-search">{% block header_site_search_label %}{{
           h.humanize_entity_type('package', dataset_type, 'search_placeholder') or _('Search Datasets...') }}{%
           endblock %}</label>
-        <!-- <input id="field-sitewide-search" class="form-control me-2" type="text" name="q"
+        <input id="field-sitewide-search" class="form-control me-2 main-menu-search" type="text" name="q"
           placeholder="{{ _('Search') }}" 
-          aria-label="{{ h.humanize_entity_type('package', dataset_type, 'search_placeholder') or _('Search datasets...') }}" />-->
+          aria-label="{{ h.humanize_entity_type('package', dataset_type, 'search_placeholder') or _('Search datasets...') }}" />
         <button class="btn search" type="submit" aria-label="{{ _('Submit') }}"><i class="fa fa-search"></i></button>
       </form>
       {% endblock %}
     </div>
-    {% block header_account_container_content %} {% if c.userobj %}
+   <!--  {% block header_account_container_content %} {% if c.userobj %}
     <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
       <ul class="list-unstyled">
         {% block header_account_logged %} {% if c.userobj.sysadmin %}
@@ -87,7 +90,7 @@
         {% endif %} {% endblock %}
       </ul>
     </nav>
-    {% endif %} {% endblock %}
+    {% endif %} {% endblock %} -->
   </div>
 </div>
 {% endblock %}

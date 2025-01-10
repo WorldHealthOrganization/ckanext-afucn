@@ -15548,14 +15548,66 @@ td.diff_header {
   margin-bottom: 30px;
 }
 
-.site-footer .footer_region h2 {
-  font-size: 22px;
+.site-footer .footer_region{
+  font-size: 1.3125rem;
   padding-bottom: 15px;
-  width: 100%;
-  border-bottom: solid 2px #298ac8;
   padding-top: 30px;
+/*   border-bottom: solid 2px #298ac8; */
 }
 
-.btn.search{
+.btn.search {
   color: #fff;
+}
+/**********Main Menu*************/
+.main-menu {
+  float: left;
+  margin-left: 300px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.main-menu ul li {
+  display: block;
+  float: left;
+  border-left: 1px solid #00232e;
+}
+
+.main-menu ul li a {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 10px;
+  line-height: 31px;
+}
+
+.main-menu ul li a span.username,
+.account-masthead .account ul li a span.text {
+  margin: 0 2px 0 4px;
+}
+
+.main-menu ul li a span.text {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+.main-menu ul li a:hover {
+  color: #fff;
+  background-color: #0078d4;
+  text-decoration: none;
+}
+
+.main-menu ul li a.sub {
+  font-weight: 300;
+}
+
+.main-menu ul li a .btn {
+  vertical-align: 1px;
+  margin-left: 3px;
+}
+
+.main-menu-search {
+  min-width: 250px;
 }
