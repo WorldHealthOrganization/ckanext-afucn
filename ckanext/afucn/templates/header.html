@@ -1,47 +1,6 @@
 {% set dataset_type = h.default_package_type() %}
 
 {% block header_wrapper %} {% block header_account %}
-<<<<<<< HEAD
-<div class="account-masthead">
-  <div class="container">
-    <div class="main-menu" id="main-navigation-toggle"">
-      <ul class="list-unstyled">
-        {% block header_site_navigation %}
-        {% block header_site_navigation_tabs %}
-        {% set org_type = h.default_group_type('organization') %}
-        {% set group_type = h.default_group_type('group') %}
-
-        {{ h.build_nav_main(
-        (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'),
-        ["dataset", "resource"]),
-        (org_type ~ '.index',
-        h.humanize_entity_type('organization', org_type, 'main nav') or _('Programme'), ['organization']),
-        (group_type ~ '.index',
-        h.humanize_entity_type('group', group_type, 'main nav') or _('Location'), ['group']),
-        (group_type ~ '.index',
-        h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
-        ('home.about', _('Tools and Guidelines')) ,
-        ('home.about', _('About')) ) }}
-        {% endblock %}
-        {% endblock %}
-      </ul>
-      {% block header_site_search %}
-      <form class="d-flex site-search" action="{% url_for dataset_type ~ '.search' %}" method="get">
-        <label class="d-none" for="field-sitewide-search">{% block header_site_search_label %}{{
-          h.humanize_entity_type('package', dataset_type, 'search_placeholder') or _('Search Datasets...') }}{%
-          endblock %}</label>
-        <input id="field-sitewide-search" class="form-control me-2 main-menu-search" type="text" name="q"
-          placeholder="{{ _('Search') }}" 
-          aria-label="{{ h.humanize_entity_type('package', dataset_type, 'search_placeholder') or _('Search datasets...') }}" />
-        <button class="btn search" type="submit" aria-label="{{ _('Submit') }}"><i class="fa fa-search"></i></button>
-      </form>
-      {% endblock %}
-    </div>
-   <!--  {% block header_account_container_content %} {% if c.userobj %}
-    <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
-      <ul class="list-unstyled">
-        {% block header_account_logged %} {% if c.userobj.sysadmin %}
-=======
 {% block header_account_container_content %} {% if c.userobj %}
 {% block header_account_logged %}
 <div class="account-masthead">
@@ -49,7 +8,6 @@
     <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
       <ul class="list-unstyled">
         {% if c.userobj.sysadmin %}
->>>>>>> b235d08 (ux update)
         <li>
           <a href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}">
             <i class="fa fa-gavel" aria-hidden="true"></i>
@@ -90,10 +48,6 @@
         {% endblock %} {% endblock %}
       </ul>
     </div>
-<<<<<<< HEAD
-    {% else %}
-=======
->>>>>>> b235d08 (ux update)
     <nav class="account not-authed" aria-label="{{ _('Account') }}">
       <ul class="list-unstyled">
         {% block header_account_notlogged %}
@@ -103,21 +57,12 @@
         {% endif %} {% endblock %}
       </ul>
     </nav>
-<<<<<<< HEAD
-    {% endif %} {% endblock %} -->
-  </div>
-</div>
-{% endblock %}
-<header class="masthead">
-  <div class="container">
-=======
     {% endif %} {% endblock %}
   </div>
 </div>
 {% endblock %}
 <header class="">
   <!--   <div class="container">
->>>>>>> b235d08 (ux update)
     {% block header_debug %} {% if g.debug and not g.debug_supress_header %}
     <div class="debug">Blueprint : {{ g.blueprint }}<br />View : {{ g.view }}</div>
     {% endif %} {% endblock %}
@@ -147,11 +92,6 @@
       </button>
 
       <div class="main-navbar collapse navbar-collapse" id="main-navigation-toggle">
-<<<<<<< HEAD
-       
-      </div>
-    </nav>
-=======
         <div class="main-menu" id="main-navigation-toggle"">
       <ul class=" list-unstyled">
           {% block header_site_navigation %}
@@ -410,7 +350,6 @@
       </div>
     </div>
 
->>>>>>> b235d08 (ux update)
   </div>
 </header>
 {% endblock %}
