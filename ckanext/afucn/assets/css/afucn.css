@@ -74,7 +74,11 @@
 
 body {
   margin: 0;
+<<<<<<< HEAD
   font-family: var(--bs-body-font-family);
+=======
+  font-family: 'Noto Sans', sans-serif;
+>>>>>>> b235d08 (ux update)
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
@@ -3167,17 +3171,27 @@ fieldset:disabled .btn {
 
 .btn-primary {
   color: #fff;
+<<<<<<< HEAD
   background-color: #206b82;
+=======
+  background-color: #0078d4;
+>>>>>>> b235d08 (ux update)
   border-color: #206b82;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .btn-primary:hover {
   color: #fff;
+<<<<<<< HEAD
   background-color: #1b5b6f;
   border-color: #1a5668;
 }
 
+=======
+  background-color: #006cbe;
+  border-color: #006cbe;
+}
+>>>>>>> b235d08 (ux update)
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
   color: #fff;
@@ -14640,7 +14654,12 @@ td.diff_header {
 .homepage .module-search .tags {
   margin-top: -5px;
   padding: 5px 10px 10px 10px;
+<<<<<<< HEAD
   background-color: #003647;
+=======
+  background-color: #0b2960;
+  color: #fff;
+>>>>>>> b235d08 (ux update)
 }
 
 .homepage .module-search .tags h3,
@@ -14657,6 +14676,10 @@ td.diff_header {
   display: block;
   float: left;
   margin: 5px 10px 0 0;
+<<<<<<< HEAD
+=======
+  color: #fff;
+>>>>>>> b235d08 (ux update)
 }
 
 .homepage .module-stats {
@@ -14728,7 +14751,11 @@ td.diff_header {
 .account-masthead {
   min-height: 30px;
   color: #fff;
+<<<<<<< HEAD
   background: #264273 url("../../../base/images/bg.png");
+=======
+  background: #0F2D5B url("../../../base/images/bg.png");
+>>>>>>> b235d08 (ux update)
 }
 
 .account-masthead .account {
@@ -14806,7 +14833,11 @@ td.diff_header {
 }
 
 .masthead {
+<<<<<<< HEAD
   background: #fff url("../../../base/images/bg.png");
+=======
+  background: # url("https://azapp-pph-dataportal-wp-02.azurewebsites.net/wp-content/uploads/2025/01/UCN-Data-Portal-Recovered.png");
+>>>>>>> b235d08 (ux update)
 }
 
 .masthead .debug {
@@ -14925,7 +14956,11 @@ td.diff_header {
 }
 
 .site-footer {
+<<<<<<< HEAD
   background: #0c2b64 url("../../../base/images/bg.png");
+=======
+  background: #0F2D5B url("../../../base/images/bg.png");
+>>>>>>> b235d08 (ux update)
   padding: 20px 0;
   color: #fff;
   width: 100%;
@@ -15563,7 +15598,10 @@ td.diff_header {
   float: left;
   margin-left: 300px;
   margin-top: 5px;
+<<<<<<< HEAD
   margin-bottom: 5px;
+=======
+>>>>>>> b235d08 (ux update)
 }
 
 .main-menu ul li {
@@ -15595,7 +15633,11 @@ td.diff_header {
 
 .main-menu ul li a:hover {
   color: #fff;
+<<<<<<< HEAD
   background-color: #0078d4;
+=======
+  background-color: #008DC9;
+>>>>>>> b235d08 (ux update)
   text-decoration: none;
 }
 
@@ -15610,4 +15652,34 @@ td.diff_header {
 
 .main-menu-search {
   min-width: 250px;
+<<<<<<< HEAD
 }
+=======
+}
+
+/*Facet list*/
+.facet-dropdown {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.dropdown-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.facet-dropdown:focus {
+  border-color: #007bff;
+  outline: none;
+}
+ 
+.tags { color: #fff;}
+
+/***************New footer *****************/
+
+>>>>>>> b235d08 (ux update)
