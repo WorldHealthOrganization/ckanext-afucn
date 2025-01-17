@@ -187,6 +187,10 @@ dataset_fields:
   display_snippet: email.html
   display_email_name_field: maintainer
 
+- field_name : spatial
+  label: Spatial
+  form_placeholder : geojson format data
+
 - field_name: license_id
   label: License
   form_snippet: license.html
