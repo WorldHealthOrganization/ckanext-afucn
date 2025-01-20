@@ -5774,8 +5774,8 @@ fieldset:disabled .btn {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #206b82;
-  border-color: #206b82;
+  background-color: #0F2D5B;
+  border-color: #0F2D5B;
 }
 
 .page-item.disabled .page-link {
@@ -15898,4 +15898,15 @@ td.diff_header {
 
 .btn-light:focus-within, .btn-default:focus-within a {
   color: #fff !important;
+}
+
+.resource-item .heading {
+color: var(--l2-neutralForegroundRest) !important;
+}
+
+.nav-link, .page-header .nav-tabs li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #0F2D5B;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }

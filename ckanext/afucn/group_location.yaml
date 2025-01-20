@@ -76,36 +76,6 @@ fields:
   validators: "ignore_missing"
   form_snippet: "text.html"
 
-- field_name: "gni_per_capita"
-  label: "GNI per Capita (PPP international $, 2013)"
-  validators: "ignore_missing"
-  form_snippet: "text.html"
-
-- field_name: "life_expectancy"
-  label: "Life Expectancy at Birth m/f (years, 2015)"
-  validators: "ignore_missing"
-  form_snippet: "text.html"
-
-- field_name: "probability_of_dying_under_five"
-  label: "Probability of Dying Under Five (per 1 000 live births, 0)"
-  validators: "ignore_missing"
-  form_snippet: "text.html"
-
-- field_name: "probability_of_dying_15_60"
-  label: "Probability of Dying between 15 and 60 Years m/f (per 1 000 population, 2013)"
-  validators: "ignore_missing"
-  form_snippet: "text.html"
-
-- field_name: "health_expenditure_per_capita"
-  label: "Total Expenditure on Health per Capita (Intl $, 2014)"
-  validators: "ignore_missing"
-  form_snippet: "text.html"
-
-- field_name: "health_expenditure_gdp_percentage"
-  label: "Total Expenditure on Health as % of GDP (2014)"
-  validators: "ignore_missing"
-  form_snippet: "text.html"
-
 - field_name: "latitude"
   label: "Latitude"
   validators: "ignore_missing"
