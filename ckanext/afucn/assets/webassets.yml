@@ -14,3 +14,4 @@ afucn-css:
   contents:
     - css/afucn.css
     - css/styles.css
+    - css/custom.css
