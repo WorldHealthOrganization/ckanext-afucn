@@ -1,0 +1,118 @@
+{#
+  Displays a single dataset.
+  
+  package        - A package to display.
+  item_class     - The class name to use on the list item.
+  hide_resources - If true hides the resources (default: false).
+  
+  Example:
+  
+    {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
+  
+  #}
+  {% set title = package.title or package.name %}
+  {% set notes = h.markdown_extract(package.notes, extract_length=180) %}
+  
+  {% block package_item %}
+    <li class="{{ item_class or "dataset-item" }}">
+      {% block content %}
+        <div class="dataset-content dataset-content2">
+          <div class="row">
+            <div class="col-6">
+              {% block heading %}
+                <div class="dataset-heading" data-module="highlight">
+                  {% if package.private %}
+                    <span class="dataset-private badge bg-secondary">
+                      <i class="fa fa-lock"></i>
+                      {{ _('Private') }}
+                    </span>
+                  {% endif %}
+                  <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}" title="{{ title }}">
+                    {{title|truncate(80)}}
+                  </a>
+                </div>
+              {% endblock %}
+  
+              {% block heading_meta %}
+                {% if package.get('state', '').startswith('draft') %}
+                  <span class="badge bg-info">{{ _('Draft') }}</span>
+                {% elif package.get('state', '').startswith('deleted') %}
+                  <span class="badge bg-danger">{{ _('Deleted') }}</span>
+                {% endif %}
+                {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+              {% endblock %}
+  
+              <div class="dataset-updated">
+                <div class="dataset-updated-org" id="organization-{{ package.owner_org }}">
+                  <a href="/organization/{{ package.owner_org }}" class="updatedNameColor">
+                    Loading organization...
+                  </a>
+                </div>
+              </div>
+              <div>
+                <span class="download-counts">
+                  This dataset updates: 
+                  {% if package.update_frequency %}
+                    {{ package.update_frequency }}
+                  {% else %}
+                    never
+                  {% endif %}
+                </span>
+              </div>              
+            </div>
+  
+            <div class="col-6">
+              {% block notes %}
+                {% if notes %}
+                  <div class="dataset-description">
+                    {{ notes | urlize }}
+                  </div>
+                {% else %}
+                  <p class="empty">{{ _('There is no description for this dataset') }}</p>
+                {% endif %}
+              {% endblock %}
+              
+              <div class="dataset-others">
+                <ul class="hdx-bs3 list-items dataset-resources unstyled">
+                  {% block resources %}
+                    {% if package.resources and not hide_resources %}
+                      <ul class="dataset-resources list-unstyled">
+                        {% for resource in h.dict_list_reduce(package.resources, 'format') %}
+                          <li>
+                            <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}" class="badge badge-default" data-format="{{ resource.lower() }}">{{ resource }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  {% endblock %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endblock %}
+    </li>
+  {% endblock %}
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const orgId = "{{ package.owner_org }}";
+      const orgElement = document.getElementById(`organization-${orgId}`);
+      
+      // Fetch organization details from the CKAN API
+      fetch(`/api/3/action/organization_show?id=${orgId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const orgName = data.result.title;
+            const orgLink = `/organization/${orgId}`;
+            orgElement.innerHTML = `<a href="${orgLink}" class="updatedNameColor">${orgName}</a>`;
+          } else {
+            orgElement.innerHTML = "Organization not found";
+          }
+        })
+        .catch(() => {
+          orgElement.innerHTML = "Error loading organization";
+        });
+    });
+  </script>

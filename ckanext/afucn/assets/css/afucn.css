@@ -6,6 +6,8 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ @import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles);
+
 :root {
   --bs-blue: #206b82;
   --bs-indigo: #6610f2;
@@ -12484,10 +12486,10 @@ a.tag:hover {
   padding: 0.5rem 25px;
   font-size: 0.875rem;
   line-height: 1.3;
-  background-color: #f6f6f6;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  color: #092862;
+  background-color: var(--l2-neutralForegroundRest);
+  border-top: 1px solid var(--l2-neutralForegroundRest);
+  border-bottom: 1px solid var(--l2-neutralForegroundRest);
+  color: #fff;
 }
 
 .module-heading::after {
@@ -12898,7 +12900,7 @@ a.tag:hover {
 .module-narrow .nav-aside li.active a {
   position: relative;
   color: #FFF;
-  background-color: #647A82;
+  background-color: var(--d-l3-accentFillActive);
 }
 
 .module-narrow .nav-item.active>a:hover,
@@ -13515,8 +13517,8 @@ select[data-module=autocomplete] {
 }
 
 .stages li.active .highlight {
-  color: #fff;
-  background: #8cc68a;
+  color: rgb(255, 255, 255);
+  background: var(--l4-accentFillRest);
 }
 
 .stages li.complete .highlight {
@@ -13780,7 +13782,7 @@ select[data-module=autocomplete] {
 }
 
 .dataset-heading a {
-  color: #333;
+  color: ;
 }
 
 .dataset-heading .badge {
@@ -13934,35 +13936,34 @@ select[data-module=autocomplete] {
 .additional-info th {
   width: 50%;
 }
-
 .badge[data-format=html],
 .badge[data-format*=html] {
-  background-color: #2E759E;
+  background-color: #55a1ce;
 }
 
 .badge[data-format=json],
 .badge[data-format*=json] {
-  background-color: #D63B00;
+  background-color: #ef7100;
 }
 
 .badge[data-format=xml],
 .badge[data-format*=xml] {
-  background-color: #D63B00;
+  background-color: #ef7100;
 }
 
 .badge[data-format=text],
 .badge[data-format*=text] {
-  background-color: #1A7EA3;
+  background-color: #74cbec;
 }
 
 .badge[data-format=csv],
 .badge[data-format*=csv] {
-  background-color: #856A00;
+  background-color: #2db55d;
 }
 
 .badge[data-format=xls],
 .badge[data-format*=xls] {
-  background-color: #207E42;
+  background-color: #2db55d;
 }
 
 .badge[data-format=zip],
@@ -13972,7 +13973,7 @@ select[data-module=autocomplete] {
 
 .badge[data-format=api],
 .badge[data-format*=api] {
-  background-color: #D22D81;
+  background-color: #ec96be;
 }
 
 .badge[data-format=pdf],
@@ -13986,6 +13987,13 @@ select[data-module=autocomplete] {
 .badge[data-format*=ntriples],
 .badge[data-format*=turtle] {
   background-color: #0b4498;
+}
+
+.badge-default[href]:hover,
+.badge-default[href]:focus {
+  background-color: #5e5e5e;
+  color: #fff;
+  text-decoration: none;
 }
 
 .badge-default[href]:hover,
@@ -15909,4 +15917,247 @@ color: var(--l2-neutralForegroundRest) !important;
   padding: 0.5rem 1rem;
   color: #0F2D5B;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 33px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--l2-neutralForegroundRest); /* Circle border */
+  border-radius: 50%; /* Circular shape */
+  font-size: 14px; /* FontAwesome icon size */
+  color: #fff;
+  background-color: var(--l2-neutralForegroundRest);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.toggle-icon .fa {
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.collapsed {
+  background-color: var(--l2-neutralForegroundRest); /* Darker background when collapsed */
+  color: white; /* White icon color */
+}
+
+.toggle-icon.collapsed .fa {
+  transform: rotate(180deg); /* Rotate animation */
+}
+
+/* HDX */
+
+.list-items.search-form h2 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #000;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  margin: 35px 0;
+}
+
+.search-list .dataset-item {
+  border-bottom: 1px solid #cccccc;
+  margin: 0;
+  position: relative;
+}
+
+.search-list .dataset-item .dataset-content {
+  padding: 15px;
+}
+
+.search-list .dataset-item .dataset-content .dataset-heading {
+  margin-bottom: 0;
+  line-height: 1;
+  font-size: 14px;
+}
+
+.search-list .dataset-item .dataset-content .dataset-heading a {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.search-list .dataset-item .dataset-content .dataset-updated {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #888888;
+  letter-spacing: 0.01em;
+}
+
+.search-list .dataset-item .dataset-content .updatedNameColor {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #333333;
+  letter-spacing: 0.01em;
+}
+
+.search-list .dataset-item .dataset-content .dataset-actions>ul {
+  display: inline;
+  list-style: none;
+}
+
+.search-list .dataset-item .dataset-content .dataset-actions>ul>li {
+  display: inline;
+  color: #007CE0;
+}
+
+.search-list .dataset-item .dataset-content .dataset-actions>ul>li>a {
+  text-transform: uppercase;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #007CE0;
+  letter-spacing: 0.01em;
+}
+
+.search-list .dataset-item .dataset-content .dataset-description {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #888888;
+  letter-spacing: 0.01em;
+}
+
+.search-list .dataset-item .dataset-content .dataset-others .label-size {
+  font-size: 10px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  color: #888888;
+  letter-spacing: 0.01em;
+  margin-left: 5px;
+}
+
+.search-list .dataset-item .dataset-content2 {
+  padding: 32px 12px;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-heading a {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #007CE0;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-updated {
+  line-height: 1;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-org {
+  margin: 8px 0;
+  font-size: 13.25px;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons {
+  margin-bottom: 8px;
+  font-size: 13.25px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class^="icon-"], .search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class*=" icon-"] {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  color: #888888;
+  font-size: 18px;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons .humanitarianicons-Chart:hover::before {
+  color: #007CE0;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons .icon-check:hover::before {
+  color: #1ebfb3;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons .icon-hxl-tags:hover::before {
+  color: #f2645a;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-dates {
+  margin-bottom: 8px;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-dates span {
+  display: inline-block;
+  width: 155px;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-dataseries {
+  margin-top: 8px;
+}
+
+.search-list .dataset-item .dataset-content2 .dataset-dataseries a {
+  color: #007CE0;
+}
+
+.search-list .dataset-item .dataset-content2 .updatedNameColor {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 600;
+  font-size: 13.25px;
+  color: #888888;
+}
+
+.search-list .dataset-item:last-of-type {
+  border-bottom: none;
+}
+
+.search-nav>li>a {
+  padding-top: 0;
+}
+
+.select2-results .select2-result-label {
+  max-height: 2em;
+  overflow: hidden;
+}
+
+.select2-results .select2-result-label:hover {
+  max-height: inherit;
+  overflow: inherit;
+}
+
+.dataset-private.badge.bg-secondary {
+  --bs-bg-opacity: 1;
+    background-color: red  !important;
+}
+
+.dataset-heading>a {
+  font-weight: 600;
+  font-size: 14px;
+  color: #007CE0;
+}
+
+.updatedNameColor {
+  font-weight: 600;
+  font-size: 13.25px;
+  color: #888888;
+}
+
+.download-counts {
+  font-size: 13.25px;
+  color: #888888;
+}
+
+
+.input-group .form-control {
+  z-index: 0;
+}
+
+/* HDX end */
+
+.context-info h1.heading, .context-info .heading.h1 {
+  color: #0F2D5B !important;
+  font-weight: bold;
 }
