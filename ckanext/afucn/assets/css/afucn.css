@@ -6,7 +6,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
- @import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles);
+@import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles);
 
 :root {
   --bs-blue: #206b82;
@@ -61,225 +61,225 @@
   --bs-body-color: #333333;
   --bs-body-bg: #fff;
   --l-l2-background: #e1e4ec;
-    --l-l2-accentFillRest: #006cbe;
-    --l-l2-accentFillHover: #0078d4;
-    --l-l2-accentFillActive: #005ca3;
-    --l-l2-accentFillSelected: #00477d;
-    --l-l2-accentForegroundCut: #ffffff;
-    --l-l2-neutralFocusInnerAccent: #d4e8f8;
-    --l-l2-neutralFocus: #64789c;
-    --l-l2-neutralFillRest: #f6f7f9;
-    --l-l2-neutralFillHover: #ffffff;
-    --l-l2-neutralFillActive: #f0f2f5;
-    --l-l2-neutralFillSelected: #f6f7f9;
-    --l-l2-neutralForegroundRest: #00153c;
-    --l-l2-neutralFillStealthRest: #e1e4ec;
-    --l-l2-neutralFillStealthHover: #f0f2f5;
-    --l-l2-neutralFillStealthActive: #eaecf1;
-    --l-l2-neutralFillStealthSelected: #f6f7f9;
-    --l-l2-neutralOutlineRest: #95a2bb;
-    --l-l2-neutralOutlineHover: #677a9e;
-    --l-l2-neutralOutlineActive: #b0bacd;
-    --l-l3-background: #d8dce6;
-    --l-l3-accentFillRest: #006cbe;
-    --l-l3-accentFillHover: #0078d4;
-    --l-l3-accentFillActive: #005ca3;
-    --l-l3-accentFillSelected: #00477d;
-    --l-l3-accentForegroundCut: #ffffff;
-    --l-l3-neutralFocusInnerAccent: #c7e1f6;
-    --l-l3-neutralFocus: #5e7298;
-    --l-l3-neutralFillRest: #edeff3;
-    --l-l3-neutralFillHover: #f6f7f9;
-    --l-l3-neutralFillActive: #e7eaef;
-    --l-l3-neutralFillSelected: #edeff3;
-    --l-l3-neutralForegroundRest: #000d25;
-    --l-l3-neutralFillStealthRest: #d8dce6;
-    --l-l3-neutralFillStealthHover: #e7eaef;
-    --l-l3-neutralFillStealthActive: #e1e4ec;
-    --l-l3-neutralFillStealthSelected: #edeff3;
-    --l-l3-neutralOutlineRest: #8c9ab5;
-    --l-l3-neutralOutlineHover: #5e7298;
-    --l-l3-neutralOutlineActive: #a7b2c7;
-    --l-l4-background: #ced5e0;
-    --l-l4-accentFillRest: #006cbe;
-    --l-l4-accentFillHover: #0078d4;
-    --l-l4-accentFillActive: #005ca3;
-    --l-l4-accentFillSelected: #00477d;
-    --l-l4-accentForegroundCut: #ffffff;
-    --l-l4-neutralFocusInnerAccent: #b6f8f3;
-    --l-l4-neutralFocus: #586d94;
-    --l-l4-neutralFillRest: #e4e7ee;
-    --l-l4-neutralFillHover: #edeff3;
-    --l-l4-neutralFillActive: #dee2ea;
-    --l-l4-neutralFillSelected: #e4e7ee;
-    --l-l4-neutralForegroundRest: #000000;
-    --l-l4-neutralFillStealthRest: #ced5e0;
-    --l-l4-neutralFillStealthHover: #dee2ea;
-    --l-l4-neutralFillStealthActive: #d8dce6;
-    --l-l4-neutralFillStealthSelected: #e4e7ee;
-    --l-l4-neutralOutlineRest: #8392af;
-    --l-l4-neutralOutlineHover: #556a92;
-    --l-l4-neutralOutlineActive: #9eaac1;
-    --d-l1-background: #274375;
-    --d-l1-accentFillRest: #006cbe;
-    --d-l1-accentFillHover: #0078d4;
-    --d-l1-accentFillActive: #005ca3;
-    --d-l1-accentFillSelected: #238ada;
-    --d-l1-accentForegroundCut: #ffffff;
-    --d-l1-neutralFocusInnerAccent: #004478;
-    --d-l1-neutralFocus: #8f9db7;
-    --d-l1-neutralFillRest: #3d5583;
-    --d-l1-neutralFillHover: #465d89;
-    --d-l1-neutralFillActive: #37507f;
-    --d-l1-neutralFillSelected: #3d5583;
-    --d-l1-neutralForegroundRest: #ffffff;
-    --d-l1-neutralFillStealthRest: #274375;
-    --d-l1-neutralFillStealthHover: #37507f;
-    --d-l1-neutralFillStealthActive: #314a7b;
-    --d-l1-neutralFillStealthSelected: #3d5583;
-    --d-l1-neutralOutlineRest: #7385a6;
-    --d-l1-neutralOutlineHover: #a1adc3;
-    --d-l-neutralOutlineActive: #586d94;
-    --d-l2-background: #15336a;
-    --d-l2-accentFillRest: #006cbe;
-    --d-l2-accentFillHover: #0078d4;
-    --d-l2-accentFillActive: #005ca3;
-    --d-l2-accentFillSelected: #238ada;
-    --d-l2-accentForegroundCut: #ffffff;
-    --d-l2-neutralFocusInnerAccent: #00355d;
-    --d-l2-neutralFocus: #798aaa;
-    --d-l2-neutralFillRest: #2a4577;
-    --d-l2-neutralFillHover: #344d7d;
-    --d-l2-neutralFillActive: #244073;
-    --d-l2-neutralFillSelected: #2a4577;
-    --d-l2-neutralForegroundRest: #ffffff;
-    --d-l2-neutralFillStealthRest: #15336a;
-    --d-l2-neutralFillStealthHover: #244073;
-    --d-l2-neutralFillStealthActive: #1e3b6f;
-    --d-l2-neutralFillStealthSelected: #2a4577;
-    --d-l2-neutralOutlineRest: #61759a;
-    --d-l2-neutralOutlineHover: #8f9db7;
-    --d-l2-neutralOutlineActive: #465d89;
-    --d-l3-background: #0c2b64;
-    --d-l3-accentFillRest: #006cbe;
-    --d-l3-accentFillHover: #0078d4;
-    --d-l3-accentFillActive: #005ca3;
-    --d-l3-accentFillSelected: #238ada;
-    --d-l3-accentForegroundCut: #ffffff;
-    --d-l3-neutralFocusInnerAccent: #002f52;
-    --d-l3-neutralFocus: #7082a4;
-    --d-l3-neutralFillRest: #213d71;
-    --d-l3-neutralFillHover: #2a4577;
-    --d-l3-neutralFillActive: #1b386d;
-    --d-l3-neutralFillSelected: #213d71;
-    --d-l3-neutralForegroundRest: #ffffff;
-    --d-l3-neutralFillStealthRest: #0c2b64;
-    --d-l3-neutralFillStealthHover: #1b386d;
-    --d-l3-neutralFillStealthActive: #15336a;
-    --d-l3-neutralFillStealthSelected: #213d71;
-    --d-l3-neutralOutlineRest: #586d94;
-    --d-l3-neutralOutlineHover: #8695b1;
-    --d-l3-neutralOutlineActive: #3d5583;
-    --d-l4-background: #03235e;
-    --d-l4-accentFillRest: #006cbe;
-    --d-l4-accentFillHover: #0078d4;
-    --d-l4-accentFillActive: #005ca3;
-    --d-l4-accentFillSelected: #238ada;
-    --d-l4-accentForegroundCut: #ffffff;
-    --d-l4-neutralFocusInnerAccent: #002847;
-    --d-l4-neutralFocus: #6a7da0;
-    --d-l4-neutralFillRest: #18356c;
-    --d-l4-neutralFillHover: #213d71;
-    --d-l4-neutralFillActive: #12306b;
-    --d-l4-neutralFillSelected: #18356c;
-    --d-l4-neutralForegroundRest: #f9fafb;
-    --d-l4-neutralFillStealthRest: #03235e;
-    --d-l4-neutralFillStealthHover: #12306b;
-    --d-l4-neutralFillStealthActive: #0c2b64;
-    --d-l4-neutralFillStealthSelected: #18356c;
-    --d-l4-neutralOutlineRest: #4f658e;
-    --d-l4-neutralOutlineHover: #7c8dac;
-    --d-l4-neutralOutlineActive: #344d7d;
-    --l1-background: #ffffff;
-    --l1-accentFillRest: #0078d4;
-    --l1-accentFillHover: #006cbe;
-    --l1-accentFillActive: #1683d8;
-    --l1-accentFillSelected: #005393;
-    --l1-accentForegroundCut: #ffffff;
-    --l1-neutralFocusInnerAccent: #fbfdfe;
-    --l1-neutralFocus: #7688a8;
-    --l1-neutralFillRest: #eaecf1;
-    --l1-neutralFillHover: #e1e4ec;
-    --l1-neutralFillActive: #f0f2f5;
-    --l1-neutralFillSelected: #eaecf1;
-    --l1-neutralForegroundRest: #092862;
-    --l1-neutralFillStealthRest: #ffffff;
-    --l1-neutralFillStealthHover: #f0f2f5;
-    --l1-neutralFillStealthActive: #f6f7f9;
-    --l1-neutralFillStealthSelected: #eaecf1;
-    --l1-neutralOutlineRest: #b3bdce;
-    --l1-neutralOutlineHover: #8695b1;
-    --l1-neutralOutlineActive: #ced5e0;
-    --l2-background: #ffffff;
-    --l2-accentFillRest: #0078d4;
-    --l2-accentFillHover: #006cbe;
-    --l2-accentFillActive: #1683d8;
-    --l2-accentFillSelected: #005393;
-    --l2-accentForegroundCut: #ffffff;
-    --l2-neutralFocusInnerAccent: #fbfdfe;
-    --l2-neutralFocus: #7688a8;
-    --l2-neutralFillRest: #eaecf1;
-    --l2-neutralFillHover: #e1e4ec;
-    --l2-neutralFillActive: #f0f2f5;
-    --l2-neutralFillSelected: #eaecf1;
-    --l2-neutralForegroundRest: #092862;
-    --l2-neutralFillStealthRest: #ffffff;
-    --l2-neutralFillStealthHover: #f0f2f5;
-    --l2-neutralFillStealthActive: #f6f7f9;
-    --l2-neutralFillStealthSelected: #eaecf1;
-    --l2-neutralOutlineRest: #b3bdce;
-    --l2-neutralOutlineHover: #8695b1;
-    --l2-neutralOutlineActive: #ced5e0;
-    --l3-background: #ffffff;
-    --l3-accentFillRest: #0078d4;
-    --l3-accentFillHover: #006cbe;
-    --l3-accentFillActive: #1683d8;
-    --l3-accentFillSelected: #005393;
-    --l3-accentForegroundCut: #ffffff;
-    --l3-neutralFocusInnerAccent: #fbfdfe;
-    --l3-neutralFocus: #7688a8;
-    --l3-neutralFillRest: #eaecf1;
-    --l3-neutralFillHover: #e1e4ec;
-    --l3-neutralFillActive: #f0f2f5;
-    --l3-neutralFillSelected: #eaecf1;
-    --l3-neutralForegroundRest: #092862;
-    --l3-neutralFillStealthRest: #ffffff;
-    --l3-neutralFillStealthHover: #f0f2f5;
-    --l3-neutralFillStealthActive: #f6f7f9;
-    --l3-neutralFillStealthSelected: #eaecf1;
-    --l3-neutralOutlineRest: #b3bdce;
-    --l3-neutralOutlineHover: #8695b1;
-    --l3-neutralOutlineActive: #ced5e0;
-    --l4-background: #f6f7f9;
-    --l4-accentFillRest: #0078d4;
-    --l4-accentFillHover: #006cbe;
-    --l4-accentFillActive: #1683d8;
-    --l4-accentFillSelected: #005393;
-    --l4-accentForegroundCut: #ffffff;
-    --l4-neutralFocusInnerAccent: #eef6fc;
-    --l4-neutralFocus: #7082a4;
-    --l4-neutralFillRest: #e1e4ec;
-    --l4-neutralFillHover: #d8dce6;
-    --l4-neutralFillActive: #e7eaef;
-    --l4-neutralFillSelected: #e1e4ec;
-    --l4-neutralForegroundRest: #00205c;
-    --l4-neutralFillStealthRest: #f6f7f9;
-    --l4-neutralFillStealthHover: #e7eaef;
-    --l4-neutralFillStealthActive: #edeff3;
-    --l4-neutralFillStealthSelected: #e1e4ec;
-    --l4-neutralOutlineRest: #aab5c9;
-    --l4-neutralOutlineHover: #7c8dac;
-    --l4-neutralOutlineActive: #c5cdda;
+  --l-l2-accentFillRest: #006cbe;
+  --l-l2-accentFillHover: #0078d4;
+  --l-l2-accentFillActive: #005ca3;
+  --l-l2-accentFillSelected: #00477d;
+  --l-l2-accentForegroundCut: #ffffff;
+  --l-l2-neutralFocusInnerAccent: #d4e8f8;
+  --l-l2-neutralFocus: #64789c;
+  --l-l2-neutralFillRest: #f6f7f9;
+  --l-l2-neutralFillHover: #ffffff;
+  --l-l2-neutralFillActive: #f0f2f5;
+  --l-l2-neutralFillSelected: #f6f7f9;
+  --l-l2-neutralForegroundRest: #00153c;
+  --l-l2-neutralFillStealthRest: #e1e4ec;
+  --l-l2-neutralFillStealthHover: #f0f2f5;
+  --l-l2-neutralFillStealthActive: #eaecf1;
+  --l-l2-neutralFillStealthSelected: #f6f7f9;
+  --l-l2-neutralOutlineRest: #95a2bb;
+  --l-l2-neutralOutlineHover: #677a9e;
+  --l-l2-neutralOutlineActive: #b0bacd;
+  --l-l3-background: #d8dce6;
+  --l-l3-accentFillRest: #006cbe;
+  --l-l3-accentFillHover: #0078d4;
+  --l-l3-accentFillActive: #005ca3;
+  --l-l3-accentFillSelected: #00477d;
+  --l-l3-accentForegroundCut: #ffffff;
+  --l-l3-neutralFocusInnerAccent: #c7e1f6;
+  --l-l3-neutralFocus: #5e7298;
+  --l-l3-neutralFillRest: #edeff3;
+  --l-l3-neutralFillHover: #f6f7f9;
+  --l-l3-neutralFillActive: #e7eaef;
+  --l-l3-neutralFillSelected: #edeff3;
+  --l-l3-neutralForegroundRest: #000d25;
+  --l-l3-neutralFillStealthRest: #d8dce6;
+  --l-l3-neutralFillStealthHover: #e7eaef;
+  --l-l3-neutralFillStealthActive: #e1e4ec;
+  --l-l3-neutralFillStealthSelected: #edeff3;
+  --l-l3-neutralOutlineRest: #8c9ab5;
+  --l-l3-neutralOutlineHover: #5e7298;
+  --l-l3-neutralOutlineActive: #a7b2c7;
+  --l-l4-background: #ced5e0;
+  --l-l4-accentFillRest: #006cbe;
+  --l-l4-accentFillHover: #0078d4;
+  --l-l4-accentFillActive: #005ca3;
+  --l-l4-accentFillSelected: #00477d;
+  --l-l4-accentForegroundCut: #ffffff;
+  --l-l4-neutralFocusInnerAccent: #b6f8f3;
+  --l-l4-neutralFocus: #586d94;
+  --l-l4-neutralFillRest: #e4e7ee;
+  --l-l4-neutralFillHover: #edeff3;
+  --l-l4-neutralFillActive: #dee2ea;
+  --l-l4-neutralFillSelected: #e4e7ee;
+  --l-l4-neutralForegroundRest: #000000;
+  --l-l4-neutralFillStealthRest: #ced5e0;
+  --l-l4-neutralFillStealthHover: #dee2ea;
+  --l-l4-neutralFillStealthActive: #d8dce6;
+  --l-l4-neutralFillStealthSelected: #e4e7ee;
+  --l-l4-neutralOutlineRest: #8392af;
+  --l-l4-neutralOutlineHover: #556a92;
+  --l-l4-neutralOutlineActive: #9eaac1;
+  --d-l1-background: #274375;
+  --d-l1-accentFillRest: #006cbe;
+  --d-l1-accentFillHover: #0078d4;
+  --d-l1-accentFillActive: #005ca3;
+  --d-l1-accentFillSelected: #238ada;
+  --d-l1-accentForegroundCut: #ffffff;
+  --d-l1-neutralFocusInnerAccent: #004478;
+  --d-l1-neutralFocus: #8f9db7;
+  --d-l1-neutralFillRest: #3d5583;
+  --d-l1-neutralFillHover: #465d89;
+  --d-l1-neutralFillActive: #37507f;
+  --d-l1-neutralFillSelected: #3d5583;
+  --d-l1-neutralForegroundRest: #ffffff;
+  --d-l1-neutralFillStealthRest: #274375;
+  --d-l1-neutralFillStealthHover: #37507f;
+  --d-l1-neutralFillStealthActive: #314a7b;
+  --d-l1-neutralFillStealthSelected: #3d5583;
+  --d-l1-neutralOutlineRest: #7385a6;
+  --d-l1-neutralOutlineHover: #a1adc3;
+  --d-l-neutralOutlineActive: #586d94;
+  --d-l2-background: #15336a;
+  --d-l2-accentFillRest: #006cbe;
+  --d-l2-accentFillHover: #0078d4;
+  --d-l2-accentFillActive: #005ca3;
+  --d-l2-accentFillSelected: #238ada;
+  --d-l2-accentForegroundCut: #ffffff;
+  --d-l2-neutralFocusInnerAccent: #00355d;
+  --d-l2-neutralFocus: #798aaa;
+  --d-l2-neutralFillRest: #2a4577;
+  --d-l2-neutralFillHover: #344d7d;
+  --d-l2-neutralFillActive: #244073;
+  --d-l2-neutralFillSelected: #2a4577;
+  --d-l2-neutralForegroundRest: #ffffff;
+  --d-l2-neutralFillStealthRest: #15336a;
+  --d-l2-neutralFillStealthHover: #244073;
+  --d-l2-neutralFillStealthActive: #1e3b6f;
+  --d-l2-neutralFillStealthSelected: #2a4577;
+  --d-l2-neutralOutlineRest: #61759a;
+  --d-l2-neutralOutlineHover: #8f9db7;
+  --d-l2-neutralOutlineActive: #465d89;
+  --d-l3-background: #0c2b64;
+  --d-l3-accentFillRest: #006cbe;
+  --d-l3-accentFillHover: #0078d4;
+  --d-l3-accentFillActive: #005ca3;
+  --d-l3-accentFillSelected: #238ada;
+  --d-l3-accentForegroundCut: #ffffff;
+  --d-l3-neutralFocusInnerAccent: #002f52;
+  --d-l3-neutralFocus: #7082a4;
+  --d-l3-neutralFillRest: #213d71;
+  --d-l3-neutralFillHover: #2a4577;
+  --d-l3-neutralFillActive: #1b386d;
+  --d-l3-neutralFillSelected: #213d71;
+  --d-l3-neutralForegroundRest: #ffffff;
+  --d-l3-neutralFillStealthRest: #0c2b64;
+  --d-l3-neutralFillStealthHover: #1b386d;
+  --d-l3-neutralFillStealthActive: #15336a;
+  --d-l3-neutralFillStealthSelected: #213d71;
+  --d-l3-neutralOutlineRest: #586d94;
+  --d-l3-neutralOutlineHover: #8695b1;
+  --d-l3-neutralOutlineActive: #3d5583;
+  --d-l4-background: #03235e;
+  --d-l4-accentFillRest: #006cbe;
+  --d-l4-accentFillHover: #0078d4;
+  --d-l4-accentFillActive: #005ca3;
+  --d-l4-accentFillSelected: #238ada;
+  --d-l4-accentForegroundCut: #ffffff;
+  --d-l4-neutralFocusInnerAccent: #002847;
+  --d-l4-neutralFocus: #6a7da0;
+  --d-l4-neutralFillRest: #18356c;
+  --d-l4-neutralFillHover: #213d71;
+  --d-l4-neutralFillActive: #12306b;
+  --d-l4-neutralFillSelected: #18356c;
+  --d-l4-neutralForegroundRest: #f9fafb;
+  --d-l4-neutralFillStealthRest: #03235e;
+  --d-l4-neutralFillStealthHover: #12306b;
+  --d-l4-neutralFillStealthActive: #0c2b64;
+  --d-l4-neutralFillStealthSelected: #18356c;
+  --d-l4-neutralOutlineRest: #4f658e;
+  --d-l4-neutralOutlineHover: #7c8dac;
+  --d-l4-neutralOutlineActive: #344d7d;
+  --l1-background: #ffffff;
+  --l1-accentFillRest: #0078d4;
+  --l1-accentFillHover: #006cbe;
+  --l1-accentFillActive: #1683d8;
+  --l1-accentFillSelected: #005393;
+  --l1-accentForegroundCut: #ffffff;
+  --l1-neutralFocusInnerAccent: #fbfdfe;
+  --l1-neutralFocus: #7688a8;
+  --l1-neutralFillRest: #eaecf1;
+  --l1-neutralFillHover: #e1e4ec;
+  --l1-neutralFillActive: #f0f2f5;
+  --l1-neutralFillSelected: #eaecf1;
+  --l1-neutralForegroundRest: #092862;
+  --l1-neutralFillStealthRest: #ffffff;
+  --l1-neutralFillStealthHover: #f0f2f5;
+  --l1-neutralFillStealthActive: #f6f7f9;
+  --l1-neutralFillStealthSelected: #eaecf1;
+  --l1-neutralOutlineRest: #b3bdce;
+  --l1-neutralOutlineHover: #8695b1;
+  --l1-neutralOutlineActive: #ced5e0;
+  --l2-background: #ffffff;
+  --l2-accentFillRest: #0078d4;
+  --l2-accentFillHover: #006cbe;
+  --l2-accentFillActive: #1683d8;
+  --l2-accentFillSelected: #005393;
+  --l2-accentForegroundCut: #ffffff;
+  --l2-neutralFocusInnerAccent: #fbfdfe;
+  --l2-neutralFocus: #7688a8;
+  --l2-neutralFillRest: #eaecf1;
+  --l2-neutralFillHover: #e1e4ec;
+  --l2-neutralFillActive: #f0f2f5;
+  --l2-neutralFillSelected: #eaecf1;
+  --l2-neutralForegroundRest: #092862;
+  --l2-neutralFillStealthRest: #ffffff;
+  --l2-neutralFillStealthHover: #f0f2f5;
+  --l2-neutralFillStealthActive: #f6f7f9;
+  --l2-neutralFillStealthSelected: #eaecf1;
+  --l2-neutralOutlineRest: #b3bdce;
+  --l2-neutralOutlineHover: #8695b1;
+  --l2-neutralOutlineActive: #ced5e0;
+  --l3-background: #ffffff;
+  --l3-accentFillRest: #0078d4;
+  --l3-accentFillHover: #006cbe;
+  --l3-accentFillActive: #1683d8;
+  --l3-accentFillSelected: #005393;
+  --l3-accentForegroundCut: #ffffff;
+  --l3-neutralFocusInnerAccent: #fbfdfe;
+  --l3-neutralFocus: #7688a8;
+  --l3-neutralFillRest: #eaecf1;
+  --l3-neutralFillHover: #e1e4ec;
+  --l3-neutralFillActive: #f0f2f5;
+  --l3-neutralFillSelected: #eaecf1;
+  --l3-neutralForegroundRest: #092862;
+  --l3-neutralFillStealthRest: #ffffff;
+  --l3-neutralFillStealthHover: #f0f2f5;
+  --l3-neutralFillStealthActive: #f6f7f9;
+  --l3-neutralFillStealthSelected: #eaecf1;
+  --l3-neutralOutlineRest: #b3bdce;
+  --l3-neutralOutlineHover: #8695b1;
+  --l3-neutralOutlineActive: #ced5e0;
+  --l4-background: #f6f7f9;
+  --l4-accentFillRest: #0078d4;
+  --l4-accentFillHover: #006cbe;
+  --l4-accentFillActive: #1683d8;
+  --l4-accentFillSelected: #005393;
+  --l4-accentForegroundCut: #ffffff;
+  --l4-neutralFocusInnerAccent: #eef6fc;
+  --l4-neutralFocus: #7082a4;
+  --l4-neutralFillRest: #e1e4ec;
+  --l4-neutralFillHover: #d8dce6;
+  --l4-neutralFillActive: #e7eaef;
+  --l4-neutralFillSelected: #e1e4ec;
+  --l4-neutralForegroundRest: #00205c;
+  --l4-neutralFillStealthRest: #f6f7f9;
+  --l4-neutralFillStealthHover: #e7eaef;
+  --l4-neutralFillStealthActive: #edeff3;
+  --l4-neutralFillStealthSelected: #e1e4ec;
+  --l4-neutralOutlineRest: #aab5c9;
+  --l4-neutralOutlineHover: #7c8dac;
+  --l4-neutralOutlineActive: #c5cdda;
 }
 
 *,
@@ -3399,6 +3399,7 @@ fieldset:disabled .btn {
   background-color: #006cbe;
   border-color: #006cbe;
 }
+
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
   color: #fff;
@@ -12887,8 +12888,9 @@ a.tag:hover {
 
 .module-narrow .nav-item>a .badge,
 .module-narrow .nav-aside li a .badge {
-  background-color: #6e6e6e;
+  background-color: #0F2D5B;
   border-radius: 10px;
+  color: #fff;
 }
 
 .module-narrow .nav-item.active,
@@ -12915,7 +12917,7 @@ a.tag:hover {
   position: absolute;
   border: 20px solid transparent;
   border-right: none;
-  border-left-color: #647A82;
+  border-left-color: var(--d-l3-accentFillActive);
   border-left-width: 6px;
   top: 0;
   bottom: 0;
@@ -13936,6 +13938,7 @@ select[data-module=autocomplete] {
 .additional-info th {
   width: 50%;
 }
+
 .badge[data-format=html],
 .badge[data-format*=html] {
   background-color: #55a1ce;
@@ -15777,16 +15780,17 @@ td.diff_header {
   margin-bottom: 30px;
 }
 
-.site-footer .footer_region{
+.site-footer .footer_region {
   font-size: 1.3125rem;
   padding-bottom: 15px;
   padding-top: 30px;
-/*   border-bottom: solid 2px #298ac8; */
+  /*   border-bottom: solid 2px #298ac8; */
 }
 
 .btn.search {
   color: #fff;
 }
+
 /**********Main Menu*************/
 .main-menu {
   float: left;
@@ -15860,13 +15864,16 @@ td.diff_header {
   border-color: #007bff;
   outline: none;
 }
- 
-.tags { color: #fff;}
+
+.tags {
+  color: #fff;
+}
 
 /***************New footer *****************/
 
-.page-header .nav-tabs li.active a, .page-header .nav-tabs a:hover {
-  border-bottom: 4px solid var(--l1-accentFillSelected); 
+.page-header .nav-tabs li.active a,
+.page-header .nav-tabs a:hover {
+  border-bottom: 4px solid var(--l1-accentFillSelected);
   color: var(--l1-accentFillActive);
 
 }
@@ -15877,42 +15884,52 @@ td.diff_header {
 }
 
 
-.btn-light, .btn-default {
+.btn-light,
+.btn-default {
   background-color: #fff;
   border: 2px solid #00205c;
   background-color: transparent;
   color: var(--l1-neutralForegroundRest);
 }
 
-.btn-light, .btn-default a {
+.btn-light,
+.btn-default a {
   color: #00205c
 }
 
-.btn-light:hover, .btn-default:hover {
+.btn-light:hover,
+.btn-default:hover {
   background-color: #00205c !important;
   border: 2px solid #00205c !important;
   color: #fff !important;
 }
 
-.btn-light:hover, .btn-default:hover a {
+.btn-light:hover,
+.btn-default:hover a {
   color: #fff !important;
 }
 
-.btn-light:focus-within, .btn-default:focus-within {
-  background-color: #00205c !important;;
-  border-color: #fff !important;;
-  outline-color: #00205c !important;;
+.btn-light:focus-within,
+.btn-default:focus-within {
+  background-color: #00205c !important;
+  ;
+  border-color: #fff !important;
+  ;
+  outline-color: #00205c !important;
+  ;
 }
 
-.btn-light:focus-within, .btn-default:focus-within a {
+.btn-light:focus-within,
+.btn-default:focus-within a {
   color: #fff !important;
 }
 
 .resource-item .heading {
-color: var(--l2-neutralForegroundRest) !important;
+  color: var(--l2-neutralForegroundRest) !important;
 }
 
-.nav-link, .page-header .nav-tabs li a {
+.nav-link,
+.page-header .nav-tabs li a {
   display: block;
   padding: 0.5rem 1rem;
   color: #0F2D5B;
@@ -15928,9 +15945,12 @@ color: var(--l2-neutralForegroundRest) !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--l2-neutralForegroundRest); /* Circle border */
-  border-radius: 50%; /* Circular shape */
-  font-size: 14px; /* FontAwesome icon size */
+  border: 2px solid var(--l2-neutralForegroundRest);
+  /* Circle border */
+  border-radius: 50%;
+  /* Circular shape */
+  font-size: 14px;
+  /* FontAwesome icon size */
   color: #fff;
   background-color: var(--l2-neutralForegroundRest);
   cursor: pointer;
@@ -15943,18 +15963,21 @@ color: var(--l2-neutralForegroundRest) !important;
 }
 
 .toggle-icon.collapsed {
-  background-color: var(--l2-neutralForegroundRest); /* Darker background when collapsed */
-  color: white; /* White icon color */
+  background-color: var(--l2-neutralForegroundRest);
+  /* Darker background when collapsed */
+  color: white;
+  /* White icon color */
 }
 
 .toggle-icon.collapsed .fa {
-  transform: rotate(180deg); /* Rotate animation */
+  transform: rotate(180deg);
+  /* Rotate animation */
 }
 
 /* HDX */
 
 .list-items.search-form h2 {
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 700;
   font-size: 28px;
   color: #000;
@@ -15980,7 +16003,7 @@ color: var(--l2-neutralForegroundRest) !important;
 }
 
 .search-list .dataset-item .dataset-content .dataset-heading a {
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 400;
   font-size: 14px;
   letter-spacing: 0.01em;
@@ -15988,7 +16011,7 @@ color: var(--l2-neutralForegroundRest) !important;
 }
 
 .search-list .dataset-item .dataset-content .dataset-updated {
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 400;
   font-size: 12px;
   color: #888888;
@@ -15996,7 +16019,7 @@ color: var(--l2-neutralForegroundRest) !important;
 }
 
 .search-list .dataset-item .dataset-content .updatedNameColor {
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 400;
   font-size: 12px;
   color: #333333;
@@ -16015,7 +16038,7 @@ color: var(--l2-neutralForegroundRest) !important;
 
 .search-list .dataset-item .dataset-content .dataset-actions>ul>li>a {
   text-transform: uppercase;
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 700;
   font-size: 12px;
   color: #007CE0;
@@ -16023,7 +16046,7 @@ color: var(--l2-neutralForegroundRest) !important;
 }
 
 .search-list .dataset-item .dataset-content .dataset-description {
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 400;
   font-size: 12px;
   color: #888888;
@@ -16032,7 +16055,7 @@ color: var(--l2-neutralForegroundRest) !important;
 
 .search-list .dataset-item .dataset-content .dataset-others .label-size {
   font-size: 10px;
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 400;
   color: #888888;
   letter-spacing: 0.01em;
@@ -16044,7 +16067,7 @@ color: var(--l2-neutralForegroundRest) !important;
 }
 
 .search-list .dataset-item .dataset-content2 .dataset-heading a {
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 600;
   font-size: 14px;
   color: #007CE0;
@@ -16066,7 +16089,8 @@ color: var(--l2-neutralForegroundRest) !important;
   align-items: flex-end;
 }
 
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class^="icon-"], .search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class*=" icon-"] {
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class^="icon-"],
+.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class*=" icon-"] {
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
@@ -16104,7 +16128,7 @@ color: var(--l2-neutralForegroundRest) !important;
 }
 
 .search-list .dataset-item .dataset-content2 .updatedNameColor {
-  font-family: 'Source Sans Pro', sans-serif;
+
   font-weight: 600;
   font-size: 13.25px;
   color: #888888;
@@ -16130,7 +16154,7 @@ color: var(--l2-neutralForegroundRest) !important;
 
 .dataset-private.badge.bg-secondary {
   --bs-bg-opacity: 1;
-    background-color: red  !important;
+  background-color: red !important;
 }
 
 .dataset-heading>a {
@@ -16157,7 +16181,8 @@ color: var(--l2-neutralForegroundRest) !important;
 
 /* HDX end */
 
-.context-info h1.heading, .context-info .heading.h1 {
+.context-info h1.heading,
+.context-info .heading.h1 {
   color: #0F2D5B !important;
   font-weight: bold;
 }

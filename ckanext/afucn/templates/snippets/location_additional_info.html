@@ -1,0 +1,36 @@
+{% if extras %}
+  <h3>{{ _('Additional Info East') }}</h3>
+  <div class="additional-info-container">
+    {% for extra in extras %}
+      {% set key, value = extra %}
+      <div class="additional-info-item">
+        <span class="field-label">{{ _(key|e) }}</span>: 
+        <span class="field-value">{{ value }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <style>
+    /* Side-by-side layout styling */
+    .additional-info-container {
+      display: flex;
+      flex-wrap: wrap; /* Wrap items if there's not enough space */
+      gap: 1rem; /* Spacing between items */
+    }
+
+    .additional-info-item {
+      display: flex;
+      flex-direction: row; /* Align label and value side by side */
+      align-items: center;
+      padding: 0.5rem; /* Optional: Add padding */
+      border: 1px solid #ddd; /* Optional: Add borders for clarity */
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+
+    .field-label {
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+  </style>
+{% endif %}
