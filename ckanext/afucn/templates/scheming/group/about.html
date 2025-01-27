@@ -17,7 +17,7 @@
       </a>
       {% else %}
       <a href="{{ group_dict.url }}">
-      <img id="country-flag" src="" width="190" height="118" alt="{{ group_dict.title }}" />
+        <img id="country-flag" src="" width="190" height="118" alt="{{ group_dict.title }}" />
       </a>
       {% endif %}
 
@@ -39,9 +39,6 @@
 </div>
 
 {% endblock %}
-
-<img id="country-flag-{{ position }}" height="15" width="20" src="" />
-
 <script>
   const countries = [
     { "title": "Algeria", "name": "dza", "countrycode": "DZA" },

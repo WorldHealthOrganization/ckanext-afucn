@@ -35,7 +35,7 @@ Example:
     </div>
     
     <div class="col-md-3 ">
-      <p class="">{{ package.metadata_modified | truncate(12) }}</p>
+         <p class="">{{ h.render_datetime(package.metadata_modified) }}</p>
     </div>
     <div class="col-md-3 ">
       {% block resources %}
