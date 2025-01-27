@@ -8,4 +8,18 @@
     width: 20.875%;
 }
 
+.et_pb_menu .et-menu>li {
+padding-left: 0;
+padding-right: 0;
+}
+.et_pb_menu_0_tb_header.et_pb_menu ul li a {
+font-size: 17px;
+}
 
+
+ul.hierarchy-tree-top {
+    list-style-type: none !important;
+    background: none;
+    display: none;
+  }
+  

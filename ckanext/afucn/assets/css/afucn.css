@@ -16393,6 +16393,7 @@ td.diff_header {
   border-radius: 4px;
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
   justify-content: center;
+  align-content: center;
 }
 
 .portal-header {
@@ -16690,12 +16691,12 @@ td.diff_header {
   display: flex;
 }
 
-.notes.embedded-content:before {
+/* .notes.embedded-content:before {
   font-family: "EtMoudles";
   content: "\e060";
   margin-right: 1rem;
 }
-
+ */
 .resources h2 {
   border-bottom: #1d3d64;
    border-style: solid;
@@ -16703,8 +16704,8 @@ td.diff_header {
   width: 50%;
 }
 
-.package-description:before{
+/* .package-description:before{
   font-family: "EtMoudles";
-  content: "\e060";
+  content: "";
   margin-right: 1rem;
-}
+} */

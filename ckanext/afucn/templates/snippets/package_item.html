@@ -17,11 +17,11 @@ Example:
 <li class="dataset-item-container">
   <div class="row">
     <!-- Icon Section -->
-    <div class="col-md-1 ">
+<!--     <div class="col-md-1 ">
       <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
-        <strong><p class="ds-icon-breadcrumb-dataset"></strong>
+        <strong><p class=""></strong>
       </a>
-    </div>
+    </div> -->
     <!-- Title Section -->
     <div class="col-md-3 ">
       <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
@@ -31,11 +31,11 @@ Example:
 
     <!-- Metadata Section -->
     <div class="col-md-2 ">
-      <p class="ds-downloads">{{ package.num_resources }}</p>
+      <p class="">{{ package.num_resources }}</p>
     </div>
     
     <div class="col-md-3 ">
-      <p class="ds-dates">{{ package.metadata_modified | truncate(15) }}</p>
+      <p class="">{{ package.metadata_modified | truncate(12) }}</p>
     </div>
     <div class="col-md-3 ">
       {% block resources %}
