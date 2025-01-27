@@ -14569,7 +14569,7 @@ td.diff_header {
 
 .main {
   padding: 20px 0;
-  background: #fff url("https://azapp-pph-dataportal-wp-02.azurewebsites.net/wp-content/uploads/2025/01/section-bg-graph.png");
+  background: #fff ;
   background-position: center bottom;
   background-size: cover;
 }
