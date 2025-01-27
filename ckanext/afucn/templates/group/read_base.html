@@ -15,15 +15,15 @@
 {% endblock %}
 
 {% block content_primary_nav %}
- {{ h.build_nav_icon(group_type + '.about', _('About'), id=group_dict.name, icon='info-circle') }}
-  {{ h.build_nav_icon(group_type + '.read', h.humanize_entity_type('package', dataset_type, 'content tab') or _('Datasets'), id=group_dict.name, icon='sitemap') }}
+ <!-- {{ h.build_nav_icon(group_type + '.about', _('About'), id=group_dict.name, icon='info-circle') }} -->
+{{ h.build_nav_icon(group_type + '.read', h.humanize_entity_type('package', dataset_type, 'content tab') or _('Datasets'), id=group_dict.name, icon='sitemap') }}
 {% endblock %}
 
-{% block secondary_content %}
+ {% block secondary_content %}
   {% snippet "group/snippets/info.html", group=group_dict, show_nums=true %}
 {% endblock %}
 
 {% block links %}
   {{ super() }}
   {% include "group/snippets/feeds.html" %}
-{% endblock %}
+{% endblock %} 
