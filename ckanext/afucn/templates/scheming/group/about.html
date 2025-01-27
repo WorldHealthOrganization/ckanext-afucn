@@ -8,7 +8,11 @@
     <div class="info-container-items">
         {% set hidden_fields = ['name', 'countrycode', 'latitude', 'longitude', 'locationtype','parent_location'] %}
         <!-- Define fields to hide -->
-
+        <div class="image" style="margin: 1.5rem;">
+          <a href="{{ group_dict.url }}">
+            <img src="{{ group_dict.url or h.url_for_static('/base/images/placeholder-group.png') }}" width="190" height="118" alt="{{ group_dict.name }}" />
+          </a>
+        </div>
         {% for f in c.scheming_fields %}
         {% if f.field_name not in hidden_fields and 'image' not in f.field_name and 'url' not in f.field_name %}
         <div class="info-item" id="info-item-{{ f.field_name }}">

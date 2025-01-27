@@ -14362,7 +14362,8 @@ td.diff_header {
   float: left;
   padding-right: 0.5rem;
   color: #6c757d;
-  content: var(--bs-breadcrumb-divider, "")
+  font-size: 1.5rem;
+  content: var(--bs-breadcrumb-divider, ">")
     /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
 }
@@ -16623,12 +16624,12 @@ td.diff_header {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  color: #1d3d64;
 }
 
 
 .info-stats-item h3 {
   margin: 1rem;
-  color: #1d3d64;
   width: 100%;
   text-align: center;
   font-size: 25px;
@@ -16638,10 +16639,32 @@ td.diff_header {
 
 .info-stats-item span {
   margin-bottom: 1rem;
-  color: #1d3d64;
   width: 100%;
   text-align: center;
   font-size: 22px;
   font-weight: 400;
 
+}
+
+/**Indicator Stats*/
+.topline .indicator-title {
+  font-family: 'Gotham-Bold', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  color: #1d3d64;
+  line-height: 20px;
+  height: 40px;
+  background-color: rgb(249 250 251);
+  padding-top: 10px;
+}
+
+.keyfigures {
+  background-color: aliceblue;
+}
+
+
+.info-stats-item:hover {
+  background-color: aliceblue;
 }
