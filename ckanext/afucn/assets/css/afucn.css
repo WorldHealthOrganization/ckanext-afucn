@@ -16418,17 +16418,18 @@ td.diff_header {
   height: 50px;
   /* Adjust the height if necessary */
   text-align: center;
-  width: 100vw;
+  width: 120vw;
   /* Ensures the blue strip spans the entire screen width */
   position: relative;
   left: 0;
   /* Align it to the left edge */
   margin-left: 0 !important;
   margin-right: 0 !important;
-  left: -13.9%;
+  left: -40.9%;
   border-width: 1px;
   padding-top: 10px !important;
   padding-left: 12.5% !important;
+  max-width: 171.9% !important;
 }
 
 /* 
@@ -16583,10 +16584,6 @@ td.diff_header {
   color: #007CE0;
 }
 
-.dataset-item-container {
-  background-color: rgb(249 250 251);
-  border: #000f14;
-}
 
 .toolbar .breadcrumb .active {
   font-size: 1.5rem;
@@ -16632,7 +16629,7 @@ td.diff_header {
   margin: 1rem;
   width: 100%;
   text-align: center;
-  font-size: 25px;
+  font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -16667,4 +16664,47 @@ td.diff_header {
 
 .info-stats-item:hover {
   background-color: aliceblue;
+}
+
+
+.dataset-item-container {
+  padding: 5px;
+}
+
+.dataset-item-container {
+  background-color: rgb(249 250 251);
+  border: #000f14;
+  border: 50%;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.dataset-resources-item {
+  margin-top: 0 !important;
+}
+
+.notes.embedded-content {
+  margin-bottom: 30px;
+  font-size: 18px;
+  width: 80%;
+  display: flex;
+}
+
+.notes.embedded-content:before {
+  font-family: "EtMoudles";
+  content: "\e060";
+  margin-right: 1rem;
+}
+
+.resources h2 {
+  border-bottom: #1d3d64;
+   border-style: solid;
+  margin-bottom: 1rem;
+  width: 50%;
+}
+
+.package-description:before{
+  font-family: "EtMoudles";
+  content: "\e060";
+  margin-right: 1rem;
 }

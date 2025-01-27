@@ -20,7 +20,6 @@ afucn-css:
     - css/afucn.css
     - css/styles.css
     - css/custom.css
-    - css/packageitem.css
 
 
 afucn-map-css:

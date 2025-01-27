@@ -14,43 +14,58 @@ Example:
 {% set notes = h.markdown_extract(package.notes, extract_length=180) %}
 
 {% block package_item %}
-  <li class="dataset-item-container relative  mb-4 rounded-lg py-8 px-8 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-    <div class="flex flex-col md:gap-2 md:flex-row justify-between space-x-3">
-      <!-- Icon Section -->
-      <div class="icon mr-auto mb-2 md:mb-0 flex justify-center content-center px-4 py-2" >
-        <span class="ds-icon">
-      </div>
-
-      <!-- Title and Metadata Section -->
-      <div class="!ml-0 !md:ml-auto min-w-0 flex-1">
-        <a class="text-lg font-bold dataset-title" href="{{ h.url_for('%s.read' % package.type, id=package.name) }}" title="{{ title }}">
-          {{ title | truncate(80) }}
-        </a>
-
-        <!-- Metadata Section (Downloads, Last Updated, Org) -->
-        <div class="flex flex-wrap downloads">
-          <div class="col-sm-3 flex pr-3 text-sm">
-            <p class="ds-downloads">Resources: {{ package.num_resources }}</p>
-          </div>
-          <div class="col-sm-4 flex pr-4 text-sm">
-            <p class="ds-dates">Last updated: {{ package.metadata_modified | truncate(12)  }}</p>
-          </div>
-          <div class="col-sm-3 flex pr-4 text-sm">
-            <p class="ds-org" >Org: {{ package.organization.title }}</p>
-          </div>
-        </div>
-      </div>
+<li class="dataset-item-container">
+  <div class="row">
+    <!-- Icon Section -->
+    <div class="col-md-1 ">
+      <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
+        <strong><p class="ds-icon-breadcrumb-dataset"></strong>
+      </a>
+    </div>
+    <!-- Title Section -->
+    <div class="col-md-3 ">
+      <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
+        <strong>{{ package.title | truncate(80) }}</strong>
+      </a>
     </div>
 
-    <!-- Description Section -->
-    <div class="mt-1">
-      <p class="line-clamp-2 text-sm text-gray-600 mt-4">
-        {% if notes %}
-          {{ notes | urlize }}
-        {% else %}
-          {{ _('There is no description for this dataset') }}
-        {% endif %}
-      </p>
+    <!-- Metadata Section -->
+    <div class="col-md-2 ">
+      <p class="ds-downloads">{{ package.num_resources }}</p>
     </div>
-  </li>
+    
+    <div class="col-md-3 ">
+      <p class="ds-dates">{{ package.metadata_modified | truncate(15) }}</p>
+    </div>
+    <div class="col-md-3 ">
+      {% block resources %}
+      {% if package.resources and not hide_resources %}
+        {% block resources_outer %}
+          <ul class="dataset-resources list-unstyled dataset-resources-item">
+            {% block resources_inner %}
+              {% for resource in h.dict_list_reduce(package.resources, 'format') %}
+              <li>
+                <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}" class="badge badge-default" data-format="{{ resource.lower() }}">{{ resource }}</a>
+              </li>
+              {% endfor %}
+            {% endblock %}
+          </ul>
+        {% endblock %}
+      {% endif %}
+    {% endblock %}
+    </div>
+  </div>
+
+  <!-- Description Section -->
+  <div class="mt-1">
+    <p class="line-clamp-2 text-sm text-gray-600 mt-4 package-description">
+      {% if package.notes %}
+        {{ package.notes | urlize }}
+      {% else %}
+        {{ _('There is no description for this package') }}
+      {% endif %}
+    </p>
+  </div>
+</li>
+
 {% endblock %}
