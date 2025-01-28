@@ -16663,6 +16663,8 @@ td.diff_header {
 
 .keyfigures {
   background-color: aliceblue;
+  padding-top: 10px;
+  padding-left: 8px;
 }
 
 
