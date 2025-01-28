@@ -23,3 +23,11 @@ ul.hierarchy-tree-top {
     display: none;
   }
   
+
+  .module-narrow .nav-item>a .badge, .module-narrow .nav-aside li a .badge {
+    background-color: transparent;
+    border-radius: 0px;
+    color: #092862;
+    border: 0.5px solid #09286226;
+    font-weight: 400;
+}
