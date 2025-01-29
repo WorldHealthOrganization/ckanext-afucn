@@ -1,0 +1,133 @@
+{% if group_dict is not defined %}
+{% set group_dict = c.group_dict %}
+{% endif %}
+
+{% block primary_content_inner %}
+<div class="info-container">
+  <div class="info-container-items">
+    {% set hidden_fields = ['name', 'countrycode', 'latitude', 'longitude', 'locationtype','parent_location'] %}
+    <input type="hidden" id="group-field-value" value="{{ group_dict.title or ('&nbsp;'|safe) }}" class="group-field-value"
+      data-flag-img-id="country-flag">
+    <!-- Define fields to hide -->
+    <div class="image" style="margin: 1.5rem;">
+      {% if group_dict.url %}
+      <a href="{{ group_dict.url }}">
+        <img src="{{ group_dict.url or h.url_for_static('/base/images/placeholder-group.png') }}" width="190"
+          height="118" alt="{{ group_dict.name }}" />
+      </a>
+      {% else %}
+      <a href="{{ group_dict.url }}">
+        <img id="country-flag" src="" width="190" height="118" alt="{{ group_dict.title }}" />
+      </a>
+      {% endif %}
+
+    </div>
+    {% for f in c.scheming_fields %}
+    {% if f.field_name not in hidden_fields and 'image' not in f.field_name and 'url' not in f.field_name %}
+    <div class="info-item" id="info-item-{{ f.field_name }}">
+      <div class="info-item-name"><strong>{{ h.scheming_language_text(f.label) }}:</strong></div>
+      <div class="info-item-value"><span>{{ group_dict[f.field_name] or ("&nbsp;"|safe) }}</span></div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="info-container-items-map">
+    {% block afromap %}
+    {% snippet "group/snippets/afro_map_country.html" %}
+    {% endblock %}
+  </div>
+</div>
+
+{% endblock %}
+<script>
+  const countries = [
+    { "title": "Algeria", "name": "dza", "countrycode": "DZA" },
+    { "title": "Angola", "name": "ago", "countrycode": "AGO" },
+    { "title": "Benin", "name": "ben", "countrycode": "BEN" },
+    { "title": "Botswana", "name": "bwa", "countrycode": "BWA" },
+    { "title": "Burkina Faso", "name": "bfa", "countrycode": "BFA" },
+    { "title": "Burundi", "name": "bdi", "countrycode": "BDI" },
+    { "title": "Cabo Verde", "name": "cpv", "countrycode": "CPV" },
+    { "title": "Cameroon", "name": "cmr", "countrycode": "CMR" },
+    { "title": "Central African Republic", "name": "caf", "countrycode": "CAF" },
+    { "title": "Chad", "name": "tcd", "countrycode": "TCD" },
+    { "title": "Comoros", "name": "com", "countrycode": "COM" },
+    { "title": "Congo", "name": "cog", "countrycode": "COG" },
+    { "title": "Cote d'Ivoire", "name": "civ", "countrycode": "CIV" },
+    { "title": "Democratic Republic of the Congo", "name": "cod", "countrycode": "COD" },
+    { "title": "Equatorial Guinea", "name": "gnq", "countrycode": "GNQ" },
+    { "title": "Eritrea", "name": "eri", "countrycode": "ERI" },
+    { "title": "Eswatini", "name": "swz", "countrycode": "SWZ" },
+    { "title": "Ethiopia", "name": "eth", "countrycode": "ETH" },
+    { "title": "Gabon", "name": "gab", "countrycode": "GAB" },
+    { "title": "Gambia", "name": "gmb", "countrycode": "GMB" },
+    { "title": "Ghana", "name": "gha", "countrycode": "GHA" },
+    { "title": "Guinea", "name": "gin", "countrycode": "GIN" },
+    { "title": "Guinea-Bissau", "name": "gnb", "countrycode": "GNB" },
+    { "title": "Kenya", "name": "ken", "countrycode": "KEN" },
+    { "title": "Lesotho", "name": "lso", "countrycode": "LSO" },
+    { "title": "Liberia", "name": "lbr", "countrycode": "LBR" },
+    { "title": "Madagascar", "name": "mdg", "countrycode": "MDG" },
+    { "title": "Malawi", "name": "mwi", "countrycode": "MWI" },
+    { "title": "Mali", "name": "mli", "countrycode": "MLI" },
+    { "title": "Mauritania", "name": "mrt", "countrycode": "MRT" },
+    { "title": "Mauritius", "name": "mus", "countrycode": "MUS" },
+    { "title": "Mozambique", "name": "moz", "countrycode": "MOZ" },
+    { "title": "Namibia", "name": "nam", "countrycode": "NAM" },
+    { "title": "Niger", "name": "ner", "countrycode": "NER" },
+    { "title": "Nigeria", "name": "nga", "countrycode": "NGA" },
+    { "title": "Rwanda", "name": "rwa", "countrycode": "RWA" },
+    { "title": "Sao Tome and Principe", "name": "stp", "countrycode": "STP" },
+    { "title": "Senegal", "name": "sen", "countrycode": "SEN" },
+    { "title": "Seychelles", "name": "syc", "countrycode": "SYC" },
+    { "title": "Sierra Leone", "name": "sle", "countrycode": "SLE" },
+    { "title": "South Africa", "name": "zaf", "countrycode": "ZAF" },
+    { "title": "South Sudan", "name": "ssd", "countrycode": "SSD" },
+    { "title": "Togo", "name": "tgo", "countrycode": "TGO" },
+    { "title": "Uganda", "name": "uga", "countrycode": "UGA" },
+    { "title": "United Republic of Tanzania", "name": "tza", "countrycode": "TZA" },
+    { "title": "Zambia", "name": "zmb", "countrycode": "ZMB" },
+    { "title": "Zimbabwe", "name": "zwe", "countrycode": "ZWE" }
+  ];
+
+  // Function to find country data by title or name
+  function findCountryData(input) {
+    let country = countries.find(c => c.title.toLowerCase() === input.toLowerCase());
+
+    if (!country) {
+      country = countries.find(c => c.name.toLowerCase() === input.toLowerCase());
+    }
+
+    return country || null;
+  }
+
+  // Function to set the flag based on input
+  function getFlag(inputFieldId, flagImgId) {
+    const country = document.getElementById(inputFieldId).value.trim();  // Get input value and remove spaces
+    const countryData = findCountryData(country);  // Find the matching country
+
+    const flagImg = document.getElementById(flagImgId);
+
+    if (countryData) {
+      flagImg.src = `/${countryData.name}.jpg`;  // Update the flag image source
+    } else {
+      flagImg.src = "";  // Fallback flag if no match
+    }
+  }
+
+  // Wait for the page to load and set flag for each row
+  window.onload = function () {
+    // Get all group fields and their corresponding flag image elements
+    const inputFields = document.querySelectorAll('.group-field-value');
+
+    inputFields.forEach((inputField) => {
+      const flagImgId = inputField.dataset.flagImgId;  // Fetch the corresponding data-flag-img-id
+      inputField.addEventListener('input', function () {
+        getFlag(inputField.id, flagImgId);  // Update flag dynamically
+      });
+
+      // Call getFlag initially for the existing value
+      getFlag(inputField.id, flagImgId);
+    });
+  }
+</script>

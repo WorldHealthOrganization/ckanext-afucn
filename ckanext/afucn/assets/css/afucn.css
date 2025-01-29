@@ -51,7 +51,7 @@
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 51, 51, 51;
   --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --bs-font-sans-serif: 'Noto Sans', sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, fMonaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
@@ -3389,8 +3389,8 @@ fieldset:disabled .btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #0078d4;
-  border-color: #206b82;
+  background-color: #0078d4 !important;
+  border-color: #007CE0;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
@@ -5724,8 +5724,9 @@ fieldset:disabled .btn {
   float: left;
   padding-right: 0.5rem;
   color: #3c4245;
-  content: var(--bs-breadcrumb-divider, "/")
-    /* rtl: var(--bs-breadcrumb-divider, "/") */
+  content: var(--bs-breadcrumb-divider, ">");
+  font-weight: bold;
+  /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
 }
 
@@ -12487,9 +12488,9 @@ a.tag:hover {
   padding: 0.5rem 25px;
   font-size: 0.875rem;
   line-height: 1.3;
-  background-color: var(--l2-neutralForegroundRest);
-  border-top: 1px solid var(--l2-neutralForegroundRest);
-  border-bottom: 1px solid var(--l2-neutralForegroundRest);
+  background-color: #008DC9;
+  border-top: 1px solid #008DC9;
+  border-bottom: 1px solid #008DC9;
   color: #fff;
 }
 
@@ -13758,11 +13759,12 @@ select[data-module=autocomplete] {
   display: block;
 }
 
-.dataset-item {
+/* .dataset-item {
   border-bottom: 1px dotted #ddd;
   padding-bottom: 20px;
   margin-bottom: 20px;
-}
+  background-color: #f9fafb;
+} */
 
 @media (max-width: 575.98px) {
   .dataset-item {
@@ -13784,7 +13786,7 @@ select[data-module=autocomplete] {
 }
 
 .dataset-heading a {
-  color: ;
+  color: #0F2D5B !important;
 }
 
 .dataset-heading .badge {
@@ -14142,7 +14144,8 @@ select[data-module=autocomplete] {
 
 /* diff styles */
 table.diff {
-  font-family: Courier;
+  font-family: 'Noto Sans', sans-serif;
+  ;
   border: medium;
 }
 
@@ -14358,8 +14361,18 @@ td.diff_header {
 .toolbar .breadcrumb li:not(:first-child)::before {
   float: left;
   padding-right: 0.5rem;
-  color: #3c4245;
-  content: var(--bs-breadcrumb-divider, "/")
+  color: #6c757d;
+  font-size: 1.5rem;
+  content: var(--bs-breadcrumb-divider, ">")
+    /* rtl: var(--bs-breadcrumb-divider, "/") */
+  ;
+}
+
+.toolbar .breadcrumb li:second-child::before {
+  float: left;
+  padding-right: 0.5rem;
+  color: #6c757d;
+  content: var(--bs-breadcrumb-divider, ">")
     /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
 }
@@ -14377,7 +14390,9 @@ td.diff_header {
 }
 
 .toolbar .breadcrumb a {
+  font-size: 1.5rem;
   color: #505050;
+  font-weight: bold;
 }
 
 @media (max-width: 575.98px) {
@@ -14554,7 +14569,9 @@ td.diff_header {
 
 .main {
   padding: 20px 0;
-  background: #eee url("../../../base/images/bg.png");
+  background: #fff ;
+  background-position: center bottom;
+  background-size: cover;
 }
 
 .main:after,
@@ -15038,7 +15055,7 @@ td.diff_header {
 }
 
 .masthead {
-  background: # url("https://azapp-pph-dataportal-wp-02.azurewebsites.net/wp-content/uploads/2025/01/UCN-Data-Portal-Recovered.png");
+  background: url("https://azapp-pph-dataportal-wp-02.azurewebsites.net/wp-content/uploads/2025/01/UCN-Data-Portal-Recovered.png");
 }
 
 .masthead .debug {
@@ -15945,14 +15962,14 @@ td.diff_header {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--l2-neutralForegroundRest);
+  border: 2px solid #008DC9;
   /* Circle border */
   border-radius: 50%;
   /* Circular shape */
   font-size: 14px;
   /* FontAwesome icon size */
   color: #fff;
-  background-color: var(--l2-neutralForegroundRest);
+  background-color: #008DC9;
   cursor: pointer;
   transform: translateY(-50%);
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -15963,7 +15980,7 @@ td.diff_header {
 }
 
 .toggle-icon.collapsed {
-  background-color: var(--l2-neutralForegroundRest);
+  background-color: #008DC9;
   /* Darker background when collapsed */
   color: white;
   /* White icon color */
@@ -16186,3 +16203,514 @@ td.diff_header {
   color: #0F2D5B !important;
   font-weight: bold;
 }
+
+/* General styles for the media grid */
+.location-media-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: table;
+  width: 100%;
+}
+
+.location-media-item {
+  display: table-row;
+  border-bottom: 1px solid #ddd;
+}
+
+.location-media-item:last-child {
+  border-bottom: none;
+}
+
+/* Columns (cells) within each media item */
+.location-media-item>div {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+}
+
+/* Styling for each column */
+.location-media-item .location-col-md-4 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Aligning the country flag and name */
+.location-media-item .location-col-md-4 img {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.location-media-item .location-col-md-4 a {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.location-media-item .location-col-md-4 a:hover {
+  color: #007bff;
+}
+
+/* Text and count alignment for datasets and projects */
+.location-media-item .location-text-center {
+  text-align: center;
+}
+
+.location-media-item .location-count {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Hover effect for each item */
+.location-media-item:hover {
+  background-color: #f9f9f9;
+}
+
+.location-media-item .location-clearfix {
+  clear: both;
+}
+
+@media (max-width: 767px) {
+  .location-media-item {
+    display: block;
+  }
+
+  .location-media-item>div {
+    display: block;
+  }
+}
+
+.location-media-item-header {
+  margin: 0;
+  padding: 0.5rem 10px;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  background-color: var(--l2-neutralForegroundRest);
+  border-top: 1px solid var(--l2-neutralForegroundRest);
+  border-bottom: 1px solid var(--l2-neutralForegroundRest);
+  color: #fff;
+}
+
+/* Styles for the rows */
+.location-media-item:nth-child(odd) {
+  background-color: #fff;
+  /* Light blue for odd rows */
+}
+
+.location-media-item:nth-child(even) {
+  background-color: #f1f1f1;
+  /* Light grey for even rows */
+}
+
+.location-media-item .location-text-center {
+  padding: 8px;
+}
+
+.location-media-item:hover {
+  background-color: #d1e7e1;
+  /* A hover effect to highlight on hover */
+}
+
+.location-media-item .location-count {
+  font-size: 14px;
+  color: #666;
+}
+
+.location-media-item i {
+  color: #007bff;
+  /* Color for the info icon */
+}
+
+.col-md-3.location-text-center {
+  text-align: center;
+}
+
+.col-md-1.location-text-center {
+  text-align: center;
+}
+
+
+/* Scheming Group About  */
+
+.info-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  background-color: rgb(249 250 251);
+  padding: inherit;
+  margin-bottom: 50px;
+  gap: 2rem;
+}
+
+.info-container-items {
+  display: flex;
+  flex-wrap: wrap;
+  width: 55%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+}
+
+.info-item {
+  width: 85%;
+  margin: 1%;
+  padding: 5px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  color: #0F2D5B;
+  align-items: center;
+}
+
+.info-item-name {
+  font-weight: bold;
+  width: 40%;
+}
+
+.info-item-value {
+  flex-grow: 1;
+  text-align: left;
+  /* Aligns the value text to the left */
+  width: 58%;
+}
+
+
+@media (max-width: 768px) {
+  .info-item {
+    width: 100%;
+  }
+}
+
+.info-container-items-map {
+  display: flex;
+  flex-wrap: wrap;
+  width: 40%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+  align-content: center;
+}
+
+.portal-header {
+  position: sticky !important;
+  top: 0;
+  z-index: 999;
+}
+
+/*  breadcrumb-strip */
+.breadcrumb-strip {
+  background-color: #caecff;
+  color: #001437;
+}
+
+.title-strip {
+  /* background: linear-gradient(to right, #76CDF5 0%, #008ACD 30%, #008ACD 100%); */
+  background: #edf6fd !important;
+  border-radius: 8px;
+  /*   border-bottom: solid #000f14;
+  border-top: solid #000f14; */
+  margin-bottom: 24px;
+  margin-top: -20px;
+  height: 50px;
+  /* Adjust the height if necessary */
+  text-align: center;
+  width: 120vw;
+  /* Ensures the blue strip spans the entire screen width */
+  position: relative;
+  left: 0;
+  /* Align it to the left edge */
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  left: -40.9%;
+  border-width: 1px;
+  padding-top: 10px !important;
+  padding-left: 12.5% !important;
+  max-width: 171.9% !important;
+}
+
+/* 
+.title-strip .breadcrumb .active a {
+  font-family: 'Noto Sans', Helvetica, Arial, Lucida, sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000f14;
+  line-height: 1.3em;
+  padding-left: var(--bs-gutter-x, 0.75rem);
+ }
+ */
+.title-strip .breadcrumb {
+  margin-bottom: 0;
+
+}
+
+.toolbar {
+  max-width: none;
+  /* Ensure no max-width is applied */
+  padding: 0;
+  /* Optional: reset padding */
+}
+
+.dataset-heading-icon i {
+  font-family: ETmoudles;
+  content: "\e109";
+}
+
+
+.dataset-updated-org:before {
+  font-family: ETmoudles;
+  content: "\e0ef";
+  margin-right: 2px;
+}
+
+/* Package items css */
+/* Main list item for the dataset */
+
+.ds-icon:before {
+  font-family: "ETmoudles";
+  content: "\e109";
+}
+
+
+.ds-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+.ds-icon-breadcrumb {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+}
+
+/* Use the :before pseudo-element to insert content (icons) */
+.ds-icon-breadcrumb-package:before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  vertical-align: top;
+  content: "\e109";
+  /* Unicode for the 'package' icon */
+}
+
+.ds-icon-breadcrumb-dataset::before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  content: "\e109";
+  /* Unicode for the 'dataset' icon */
+  vertical-align: top;
+}
+
+.ds-icon-breadcrumb-location:before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  vertical-align: top;
+  content: "\e0e2";
+  /* Unicode for the 'location' icon */
+}
+
+.ds-icon-breadcrumb-group:before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  vertical-align: top;
+  content: "\e0a1";
+  /* Unicode for the 'group' icon */
+}
+
+.ds-icon-breadcrumb-topic:before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  vertical-align: top;
+  content: "\e01b";
+  /* Unicode for the 'topic' icon */
+}
+
+
+.ds-icon-breadcrumb-user:before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  vertical-align: top;
+  content: "\fc";
+  /* Unicode for the 'topic' icon */
+}
+
+.ds-icon-breadcrumb-org:before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  vertical-align: top;
+  content: "\e0ef";
+  /* Unicode for the 'topic' icon */
+}
+
+.ds-icon-breadcrum-other:before {
+  font-family: "ETmoudles" !important;
+  /* Ensure the font "ETmoudles" is loaded */
+  font-size: 1.5rem;
+  vertical-align: top;
+  content: "\e0e9";
+  /* Unicode for the 'other' icon */
+}
+
+
+.ds-downloads:before {
+  font-family: "ETmoudles";
+  content: "\e05f";
+  margin-right: 3px;
+}
+
+.ds-dates:before {
+  font-family: "ETmoudles";
+  content: "\e023";
+  margin-right: 3px;
+}
+
+.ds-org:before {
+  font-family: "ETmoudles";
+  content: "\e0ef";
+  margin-right: 3px;
+}
+
+.dataset-title {
+  color: #007CE0;
+}
+
+
+.toolbar .breadcrumb .active {
+  font-size: 1.5rem;
+}
+
+#location-info {
+  margin-top: 2rem;
+}
+
+#location-info-heading {
+  margin-left: 5px;
+}
+
+/** Group info stats **/
+
+.info-stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  background-color: rgb(249 250 251);
+  padding: 1.5rem;
+  margin-bottom: 50px;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  margin-top: calc(-1* var(--bs-gutter-y));
+  margin-right: calc(-0.5* var(--bs-gutter-x));
+  margin-left: calc(-0.5* var(--bs-gutter-x));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.info-stats-item {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  color: #1d3d64;
+}
+
+
+.info-stats-item h3 {
+  margin: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.info-stats-item span {
+  margin-bottom: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 400;
+
+}
+
+/**Indicator Stats*/
+.topline .indicator-title {
+  font-family: 'Gotham-Bold', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  color: #1d3d64;
+  line-height: 20px;
+  background-color: rgb(249 250 251);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  white-space: normal;
+  overflow-wrap: break-word; 
+}
+
+
+.keyfigures {
+  background-color: aliceblue;
+  padding-top: 10px;
+  padding-left: 8px;
+}
+
+
+.info-stats-item:hover {
+  background-color: aliceblue;
+}
+
+
+.dataset-item-container {
+  padding: 5px;
+}
+
+.dataset-item-container {
+  background-color: rgb(249 250 251);
+  border: #000f14;
+  border: 50%;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.dataset-resources-item {
+  margin-top: 0 !important;
+}
+
+.notes.embedded-content {
+  margin-bottom: 30px;
+  font-size: 18px;
+  width: 80%;
+  display: flex;
+}
+
+/* .notes.embedded-content:before {
+  font-family: "EtMoudles";
+  content: "\e060";
+  margin-right: 1rem;
+}
+ */
+.resources h2 {
+  border-bottom: #1d3d64;
+   border-style: solid;
+  margin-bottom: 1rem;
+  width: 50%;
+}
+
+/* .package-description:before{
+  font-family: "EtMoudles";
+  content: "";
+  margin-right: 1rem;
+} */
