@@ -33,18 +33,23 @@ Example:
 
 {% endblock %}
 
-<!-- Load AmCharts Core Library -->
-<script src="/core.js"></script>
+
+{% block javascript %}
+
+    <!-- Load AmCharts Core Library -->
+<script src="{{ url_for('static',filename='/js/interractivemaps/core.js') }}"></script>
 <!-- Load AmCharts Maps Library -->
-<script src="/maps.js"></script>
+<script src="{{ url_for('static',filename='/js/interractivemaps/maps.js') }}"></script>
 <!-- Load AmCharts Geodata (if applicable) -->
-<script src="/africaHigh.js"></script>
+<script src="{{ url_for('static',filename='/js/interractivemaps/africaHigh.js') }}"></script>
 <!-- Load AmCharts Themes Library (Make sure this is included) -->
-<script src="/animated.js"></script>
-<script type="text/javascript" src="/app.min.js" id="interactive-geo-maps_map_service-js"></script>
+<script src="{{ url_for('static',filename='/js/interractivemaps/animated.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static',filename='/js/interractivemaps/app.min.js') }}" id="interactive-geo-maps_map_service-js"></script>
+
+{% endblock %}
 
 <script type="text/javascript" id="interactive-geo-maps_map_service-js-extra">
-
 
     // Create a function to toggle content visibility
     function toggleContent(regionName) {
