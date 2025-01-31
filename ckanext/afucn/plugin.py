@@ -1,12 +1,14 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
+from ckanext.afucn.subresource import create_subresource
 
 
 class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IResourceController, inherit=True)
     
     # IConfigurer
 
@@ -55,3 +57,9 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         facets_dict['license_id'] = plugins.toolkit._('License')
         
         return facets_dict
+    
+    # IResourceController
+
+    def after_resource_create(self, context, resource_dict):
+        create_subresource(resource_dict)
+        return
