@@ -61,5 +61,5 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     # IResourceController
 
     def after_resource_create(self, context, resource_dict):
-        create_subresource(resource_dict)
+        create_subresource(context, resource_dict)
         return
