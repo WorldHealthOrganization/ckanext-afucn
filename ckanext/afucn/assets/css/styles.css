@@ -2014,7 +2014,7 @@ body .et-script-temporary-measurement {
 .et_pb_bottom_inside_divider,
 .et_pb_top_inside_divider {
   display: block;
-  background-repeat-y: no-repeat;
+/*   background-repeat-y: no-repeat; */
   height: 100%;
   position: absolute;
   pointer-events: none;
@@ -3207,7 +3207,7 @@ button.et_pb_menu__icon__with_count:after {
   }
 
   .et_dropdown_animation_expand.et_pb_menu ul li:hover>ul {
-    -webkit-transform-origin: 0 0;
+/*     -webkit-transform-origin: 0 0; */
     -webkit-animation: Grow .4s ease-in-out;
     animation: Grow .4s ease-in-out;
     -webkit-backface-visibility: visible !important;
@@ -3652,7 +3652,7 @@ button.et_pb_menu__icon__with_count:after {
   box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
   -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
-  -webkit-transform: translateZ(0);
+/*   -webkit-transform: translateZ(0); */
   text-align: left
 }
 
@@ -5296,17 +5296,18 @@ h6 {
   font-size: 14px
 }
 
-input {
-  -webkit-appearance: none
+/* input {
+/*   -webkit-appearance: none 
 }
 
 input[type=checkbox] {
-  -webkit-appearance: checkbox
+/*   -webkit-appearance: checkbox
 }
 
 input[type=radio] {
-  -webkit-appearance: radio
+/*   -webkit-appearance: radio
 }
+ */
 
 input.text,
 input.title,
@@ -5868,7 +5869,6 @@ body #main-content .et_builder_inner_content>p {
 .mobile_menu_bar:before,
 a.et_pb_more_button:after {
   font-family:  "ETmoudles" ;
-  speak: none;
   font-style: normal;
   font-weight: 400;
   -webkit-font-feature-settings: normal;
@@ -5892,7 +5892,7 @@ a.et_pb_more_button:after {
 
 .et-pb-icon {
   font-family:  "ETmoudles" ;
-  speak: none;
+/*   speak: none; */
   font-weight: 400;
   -webkit-font-feature-settings: normal;
   font-feature-settings: normal;
