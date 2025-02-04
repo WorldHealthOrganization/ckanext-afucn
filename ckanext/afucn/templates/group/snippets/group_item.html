@@ -22,8 +22,8 @@ position - The index of the group in the list (passed from group_list.html).
       <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
         class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
       {% else %}
-            <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/blank.jpg') }}"
-        height="15" width="20" src="" />
+      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/blank.jpg') }}" height="15" width="20"
+        src="" />
       <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
         class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
       {% endif %}
