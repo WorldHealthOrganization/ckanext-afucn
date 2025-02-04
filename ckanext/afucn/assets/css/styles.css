@@ -1,16 +1,16 @@
-@font-face{
+/* @font-face{
   font-family: "ETmoudles";
-  src: url("./ETModule/9d25ea5c587d0f9d470aa9a3634735ea.eot");
-  src: url("./ETModule/9d25ea5c587d0f9d470aa9a3634735ea.eot?#iefix")format("embedded-opentype"),
-      url("./ETModule/9d25ea5c587d0f9d470aa9a3634735ea.woff")format("woff"),
-      url("./ETModule/9d25ea5c587d0f9d470aa9a3634735ea.woff2")format("woff2"),
-      url("./ETModule/9d25ea5c587d0f9d470aa9a3634735ea.ttf")format("truetype"),
-      url("./ETModule/9d25ea5c587d0f9d470aa9a3634735ea.svg#ETmoudles")format("svg");
+  src: url("../fonts/9d25ea5c587d0f9d470aa9a3634735ea.eot");
+  src: url("../fonts/9d25ea5c587d0f9d470aa9a3634735ea.eot?#iefix")format("embedded-opentype"),
+      url("../fonts/9d25ea5c587d0f9d470aa9a3634735ea.woff")format("woff"),
+      url("../fonts/9d25ea5c587d0f9d470aa9a3634735ea.woff2")format("woff2"),
+      url("../fonts/9d25ea5c587d0f9d470aa9a3634735ea.ttf")format("truetype"),
+      url("../fonts/9d25ea5c587d0f9d470aa9a3634735ea.svg#ETmoudles")format("svg");
   font-weight:normal;
   font-style:normal;
   font-display:swap;
 }
-
+ */
 @media (min-width:981px) {
 
   .et_pb_gutters3 .et_pb_column,

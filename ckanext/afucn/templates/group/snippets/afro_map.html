@@ -127,65 +127,6 @@ Example:
         tooltip.style.position = "fixed";
         tooltip.style.left = x + 'px';  // X position with some offset
         tooltip.style.top = y + 'px';   // Y position with some offset
-
-        // Fetch group information from CKAN when hovering over a region
-/*         if (regionData) {
-            var locationInfoContent = document.getElementById("location-info-content");
-            const infoHeader = document.getElementById('location-info-heading');
-            infoHeader.innerHTML =  countryName;
-            infoHeader.style.margin
-            // Retrieve the group information for the region (use the region name as group ID)
-            getCkanGroupInfo(regionData.name.toLowerCase().replace(/ /g, "-"))
-                .then(groupData => {
-                    // Inject CKAN group data into the location-info-content div
-                    if (groupData) {
-                        toggleContent(countryName);
-                        const groupDict = {
-                            name: groupData.title || 'Unknown Country',
-                            countrycode: groupData.id || 'N/A',
-                            description: groupData.description || 'No description available'
-                        };
-
-                        // Fields to hide
-                        const hiddenFields = ['name', 'countrycode', 'latitude', 'longitude', 'locationtype', 'parent_location'];
-
-                        // Loop through the groupDict and dynamically generate the content
-                        const container = document.getElementById('info-container-items');
-
-                        Object.keys(groupDict).forEach(field => {
-                            if (!hiddenFields.includes(field)) {
-                                const infoItem = document.createElement('div');
-                                infoItem.classList.add('info-item');
-                                infoItem.id = `info-item-${field}`;
-
-                                const itemName = document.createElement('div');
-                                itemName.classList.add('info-item-name');
-                                itemName.innerHTML = `<strong>${field.charAt(0).toUpperCase() + field.slice(1)}:</strong>`;
-
-                                const itemValue = document.createElement('div');
-                                itemValue.classList.add('info-item-value');
-                                itemValue.innerHTML = `<span>${groupDict[field] || "&nbsp;"}</span>`;
-
-                                infoItem.appendChild(itemName);
-                                infoItem.appendChild(itemValue);
-
-                                container.appendChild(infoItem);
-                            }
-                        });
-
-                        } else {
-                            locationInfoContent.innerHTML = `
-                            <h3>${countryName}</h3>
-                            <img src="${groupData.url || 'default_flag_url'}" alt="Flag" style="width: 40px; height: 30px; margin-bottom: 10px;">
-                            <p>${groupData.description}</p>
-                        `;
-                            locationInfoContent.innerHTML = "<p>No data available for this region.</p>";
-                        }
-                })
-                .catch(() => {
-                    locationInfoContent.innerHTML = "<p>Error fetching group data.</p>";
-                });
-        } */
     });
 
     // Reset color and hide tooltip when mouse leaves

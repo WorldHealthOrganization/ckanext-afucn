@@ -16,10 +16,18 @@ position - The index of the group in the list (passed from group_list.html).
       {% if group.url %}
       <img src="{{ group.url }}" alt="{{ group.display_name }}" height="15" width="20">
       {% else %}
-      <img id="country-flag-{{ position }}"  src="{{ h.url_for_static('/img/flags/' + group.countrycode + '.jpg') }}"  height="15" width="20" src="" />
+      {% if group.countrycode %}
+      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/' + group.countrycode + '.jpg') }}"
+        height="15" width="20" src="" />
       <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
         class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
-<!--       <script>
+      {% else %}
+            <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/blank.jpg') }}"
+        height="15" width="20" src="" />
+      <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
+        class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
+      {% endif %}
+      <!--       <script>
         const countries = [{ "title": "Algeria", "name": "dza", "countrycode": "DZA" }, { "title": "Angola", "name": "ago", "countrycode": "AGO" }, { "title": "Benin", "name": "ben", "countrycode": "BEN" }, { "title": "Botswana", "name": "bwa", "countrycode": "BWA" }, { "title": "Burkina Faso", "name": "bfa", "countrycode": "BFA" }, { "title": "Burundi", "name": "bdi", "countrycode": "BDI" }, { "title": "Cabo Verde", "name": "cpv", "countrycode": "CPV" }, { "title": "Cameroon", "name": "cmr", "countrycode": "CMR" }, { "title": "Central African Republic", "name": "caf", "countrycode": "CAF" }, { "title": "Chad", "name": "tcd", "countrycode": "TCD" }, { "title": "Comoros", "name": "com", "countrycode": "COM" }, { "title": "Congo", "name": "cog", "countrycode": "COG" }, { "title": "Cote d'Ivoire", "name": "civ", "countrycode": "CIV" }, { "title": "Democratic Republic of the Congo", "name": "cod", "countrycode": "COD" }, { "title": "Equatorial Guinea", "name": "gnq", "countrycode": "GNQ" }, { "title": "Eritrea", "name": "eri", "countrycode": "ERI" }, { "title": "Eswatini", "name": "swz", "countrycode": "SWZ" }, { "title": "Ethiopia", "name": "eth", "countrycode": "ETH" }, { "title": "Gabon", "name": "gab", "countrycode": "GAB" }, { "title": "Gambia", "name": "gmb", "countrycode": "GMB" }, { "title": "Ghana", "name": "gha", "countrycode": "GHA" }, { "title": "Guinea", "name": "gin", "countrycode": "GIN" }, { "title": "Guinea-Bissau", "name": "gnb", "countrycode": "GNB" }, { "title": "Kenya", "name": "ken", "countrycode": "KEN" }, { "title": "Lesotho", "name": "lso", "countrycode": "LSO" }, { "title": "Liberia", "name": "lbr", "countrycode": "LBR" }, { "title": "Madagascar", "name": "mdg", "countrycode": "MDG" }, { "title": "Malawi", "name": "mwi", "countrycode": "MWI" }, { "title": "Mali", "name": "mli", "countrycode": "MLI" }, { "title": "Mauritania", "name": "mrt", "countrycode": "MRT" }, { "title": "Mauritius", "name": "mus", "countrycode": "MUS" }, { "title": "Mozambique", "name": "moz", "countrycode": "MOZ" }, { "title": "Namibia", "name": "nam", "countrycode": "NAM" }, { "title": "Niger", "name": "ner", "countrycode": "NER" }, { "title": "Nigeria", "name": "nga", "countrycode": "NGA" }, { "title": "Rwanda", "name": "rwa", "countrycode": "RWA" }, { "title": "Sao Tome and Principe", "name": "stp", "countrycode": "STP" }, { "title": "Senegal", "name": "sen", "countrycode": "SEN" }, { "title": "Seychelles", "name": "syc", "countrycode": "SYC" }, { "title": "Sierra Leone", "name": "sle", "countrycode": "SLE" }, { "title": "South Africa", "name": "zaf", "countrycode": "ZAF" }, { "title": "South Sudan", "name": "ssd", "countrycode": "SSD" }, { "title": "Togo", "name": "tgo", "countrycode": "TGO" }, { "title": "Uganda", "name": "uga", "countrycode": "UGA" }, { "title": "United Republic of Tanzania", "name": "tza", "countrycode": "TZA" }, { "title": "Zambia", "name": "zmb", "countrycode": "ZMB" }, { "title": "Zimbabwe", "name": "zwe", "countrycode": "ZWE" }];
 
         // Function to find country data by title or name
@@ -63,7 +71,7 @@ position - The index of the group in the list (passed from group_list.html).
           });
         }
       </script> -->
-  <!--   <img src="{{ h.url_for_static('/flags/' + group.countrycode + '.jpg') }}" alt="{{ group.name }}"
+      <!--   <img src="{{ h.url_for_static('/flags/' + group.countrycode + '.jpg') }}" alt="{{ group.name }}"
     class="media-image img-fluid"> -->
       {% endif %}
     </div>

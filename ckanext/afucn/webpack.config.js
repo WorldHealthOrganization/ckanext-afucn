@@ -15,47 +15,27 @@ module.exports = {
   },
   module: {
     rules: [
-      // CSS files
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader', // Parses CSS files
+        ],
       },
-      // Sass files
       {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader', // Compiles Sass to CSS
+          'sass-loader', // Compiles SCSS to CSS
         ],
       },
-      // JavaScript files (transpiling if needed)
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',  // Use Babel to transpile JS if necessary
-      },
-      // Images (file handling and optimization via image-webpack-loader)
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[hash].[ext]',
-              outputPath: 'img/', // Output images to public/img/
-            },
-          },
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: { progressive: true, quality: 70 }, // Optimize JPEG images
-              optipng: { optimizationLevel: 5 }, // Optimize PNG images
-              pngquant: { quality: [0.65, 0.90], speed: 4 }, // PNG optimization
-              gifsicle: { interlaced: false }, // Optimize GIFs
-            },
-          },
-        ],
+        test: /\.(woff|woff2|eot|ttf|otf|svg)$/, // Font files
+        type: 'asset/css/',
+        generator: {
+          filename: 'fonts/[name].[hash][ext]', // Output to fonts folder
+        },
       },
     ],
   },

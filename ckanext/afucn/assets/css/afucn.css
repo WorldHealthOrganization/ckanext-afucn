@@ -1,4 +1,4 @@
-@import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles);
+/* @import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles); */
 
 :root {
 
@@ -299,7 +299,7 @@ caption {
   background-color: transparent;
 }
 
-. .btn-link:disabled,
+.btn-link:disabled,
 .btn-link.disabled {
   color: #3c4245;
 }
