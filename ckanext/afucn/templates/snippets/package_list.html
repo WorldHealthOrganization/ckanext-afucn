@@ -14,6 +14,15 @@ Example:
 {% block package_list %}
   {% if packages %}
     <ul class="{{ list_class or 'dataset-list list-unstyled' }}">
+      <li class="location-media-item-header">
+        <div class="row">
+       <!--    <div class="col-md-1 dataset-text-center"><strong>View</strong></div> -->
+          <div class="col-md-3 dataset-text-center"><strong>Title</strong></div>
+          <div class="col-md-2 dataset-text-center"><strong>Resources</strong></div>
+          <div class="col-md-3 dataset-text-center"><strong>Last updated</strong></div>
+          <div class="col-md-3 dataset-text-center"><strong>File Types</strong></div>
+        </div>
+      </li>   
     	{% block package_list_inner %}
 	      {% for package in packages %}
 	        {% snippet 'snippets/package_item.html', package=package, item_class=item_class, hide_resources=hide_resources %}

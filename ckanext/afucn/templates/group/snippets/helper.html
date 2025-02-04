@@ -1,0 +1,72 @@
+{#
+Displays a sidebard module with information about group.
+
+group_type - The type of group.
+
+Example:
+
+{% snippet "group/snippets/helper.html", group_type=group_type %}
+
+#}
+
+<div class="module module-narrow module-shallow" id="location-help">
+  <h2 class="module-heading">
+    <i class="fa fa-info-circle"></i>
+    {{ _('What are Locations?') }}
+  </h2>
+  <div class="module-content" id="location-help-content">
+    <p>
+      {% trans %}
+      Locations help organize health-related datasets by the places they relate to, such as countries, provinces,
+      regions, or localities. By categorizing health data based on geographic areas, you can make it easier for users to
+      find datasets relevant to specific locations, which is vital for improving public health outcomes.
+      {% endtrans %}
+    </p>
+    <p>
+      {% trans %}
+      For example:
+      {% endtrans %}
+    </p>
+    <ul>
+      <li>
+        <p>{% trans %}
+          <br/>
+          <strong>National health data</strong>: Datasets related to the health of an entire country, such as national
+          disease statistics, health expenditure, or overall life expectancy trends.
+          {% endtrans %}
+        </p>
+
+      </li>
+      <li>
+        <p>{% trans %}
+          <br/>
+          <strong>Regional health initiatives</strong>: Datasets that focus on the health challenges of specific
+          regions, like access to healthcare, regional vaccination rates, or public health policies.
+          {% endtrans %}
+        </p>
+
+      </li>
+      <li>
+        <p> {% trans %}
+          <br/>
+          <strong>Locality-specific health datasets</strong>: Datasets relevant to urban and rural localities, such as
+          air quality measurements, disease outbreaks in towns or villages, or local healthcare services availability.
+          {% endtrans %}
+        </p>
+
+      </li>
+    </ul>
+  </div>
+</div>
+<div style="display: none;">
+ <div class="module module-narrow module-shallow" id="location-info">
+  <h2 class="module-heading" >
+    <p class="ds-icon-breadcrumb-location">
+      <span id="location-info-heading"></span>
+  </h2>
+  <div class="module-content" id="location-info-content"> 
+    <div class="info-container-items" id="info-container-items">
+  </div>
+  </div>
+</div> 
+</div>

@@ -1,0 +1,22 @@
+{# Check the current route to set the icon #}
+<li class="breadcrumb-item">
+    <a href="{{ h.url_for('home.index') }}">
+        {% if 'package' in request.path %}
+        <p class="ds-icon-breadcrumb-package">
+            {% elif 'group' in request.path %}
+            <p class="ds-icon-breadcrumb-group">
+                {% elif 'user' in request.path %}
+            <p class="ds-icon-breadcrumb-user">
+                {% elif 'dataset' in request.path %}
+            <p class="ds-icon-breadcrumb-dataset">
+                {% elif 'location' in request.path %}
+            <p class="ds-icon-breadcrumb-location">
+                {% elif 'topic' in request.path %}
+            <p class="ds-icon-breadcrumb-topic">
+                {% elif 'organization' in request.path %}
+            <p class="ds-icon-breadcrumb-org">
+                {% else %}
+                <i class="fa fa-question-circle"></i>
+                {% endif %}
+    </a>
+</li>

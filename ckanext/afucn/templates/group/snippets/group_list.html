@@ -1,0 +1,31 @@
+{#
+Display a grid of group items with headers.
+
+groups - A list of groups.
+
+Example:
+
+{% snippet "group/snippets/group_list.html" %}
+#}
+
+
+{% block group_list %}
+
+<ul class="location-media-grid" data-module="media-grid">
+  <li class="location-media-item-header">
+    <div class="row">
+      <div class="col-md-1 location-text-center"><strong><i class="fa fa-flag" aria-hidden="true"></i></strong></div>
+      <div class="col-md-3 location-text-center"><strong>Country</strong></div>
+      <div class="col-md-3 location-text-center"><strong>Total Number of Datasets</strong></div>
+      <div class="col-md-3 location-text-center"><strong>Total Number of Projects</strong></div>
+      <div class="col-md-1 location-text-center"><strong>Preview</strong></div>
+    </div>
+  </li>
+
+  {% block group_list_inner %}
+  {% for group in groups %}
+  {% snippet "group/snippets/group_item.html", group=group, position=loop.index %}
+  {% endfor %}
+  {% endblock %}
+</ul>
+{% endblock %}

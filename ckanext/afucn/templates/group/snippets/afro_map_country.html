@@ -1,0 +1,108 @@
+{#
+Displays a map.
+
+
+Example:
+
+{% snippet 'group/snippets/afro_map_country.html'%}
+
+#}
+
+{% if group_dict is not defined %}
+{% set group_dict = c.group_dict %}
+{% endif %}
+
+{% block primary_content_inner %}
+<!-- Container for the map -->
+<div class="map_wrapper-country">
+    <div class="map_box">
+        <div class="map_aspect_ratio">
+            <div class="map_container">
+                <div class="map_render">
+
+                    <div style="position: relative;">
+                        <!-- Map container -->
+                        <div id="mapdiv" style="width: 100%; height: 300px;"></div>
+                    </div>
+
+                    <!-- Tooltip that will show the country name on hover -->
+                    <div id="map-tooltip"
+                        style="position: absolute; background: #1d3d64; color: white; padding: 5px; border-radius: 5px; display: none;">
+                    </div>
+
+                    <!-- Hidden input field to store the group data (field value) -->
+                    <input type="hidden" id="group-field-value" value="{{ group_dict.title or ('&nbsp;'|safe) }}">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<!-- Load AmCharts Core Library -->
+<script src="{{ url_for('static',filename='/js/interractivemaps/core.js') }}"></script>
+<!-- Load AmCharts Maps Library -->
+<script src="{{ url_for('static',filename='/js/interractivemaps/maps.js') }}"></script>
+<!-- Load AmCharts Geodata (if applicable) -->
+<script src="{{ url_for('static',filename='/js/interractivemaps/africaHigh.js') }}"></script>
+<!-- Load AmCharts Themes Library (Make sure this is included) -->
+<script src="{{ url_for('static',filename='/js/interractivemaps/animated.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static',filename='/js/interractivemaps/app.min.js') }}"
+    id="interactive-geo-maps_map_service-js"></script>
+
+{% endblock %}
+
+<script type="text/javascript" id="interactive-geo-maps_map_service-js-extra">
+
+    // Extract the value from the hidden input field
+    var groupFieldValue = document.getElementById('group-field-value').value;
+
+    // Log the value to the console (or use it as needed)
+    // alert(groupFieldValue);
+    console.log('Extracted value from the hidden field:', groupFieldValue);
+
+    var iMapsData = { options: { animations: "1", lazyLoad: "1", async: "", hold: "", locale: !1, lang: !1 }, data: [{ map: "region/world/africaHigh", mapURL: "https://cdn.amcharts.com/lib/4/geodata/region/world/africaHigh.js", usaWarning: "", projection: "Miller", albersUsaWarning: "", description: "", visual: { backgroundColor: "transparent", borderColor: "#f9f9f9", borderWidth: "1", paddingTop: "39", paddingTopMobile: "160", maxWidth: "2000", fontFamily: "inherit" }, goPro_visual: "", regions_info: "", regions: [{ name: "Angola", id: "AO", tooltipContent: "Angola", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Burkina Faso", id: "BF", tooltipContent: "Burkina Faso", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Burundi", id: "BI", tooltipContent: "Burundi", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Benin", id: "BJ", tooltipContent: "Benin", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Botswana", id: "BW", tooltipContent: "Botswana", content: "", useDefaults: "1", source: "manual_entry" }, { name: "democratic republic of the congo", id: "CD", tooltipContent: "democratic republic of the congo", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Central African Republic", id: "CF", tooltipContent: "Central African Republic", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Republic of Congo", id: "CG", tooltipContent: "Republic of Congo", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Ivory Coast", id: "CI", tooltipContent: "Côte d'Ivoire", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Cameroon", id: "CM", tooltipContent: "Cameroon", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Algeria", id: "DZ", tooltipContent: "Algeria", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Eritrea", id: "ER", tooltipContent: "Eritrea", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Gabon", id: "GA", tooltipContent: "Gabon", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Guinea", id: "GN", tooltipContent: "Guinea", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Ghana", id: "GH", tooltipContent: "Ghana", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Equatorial Guinea", id: "GQ", tooltipContent: "Equatorial Guinea", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Guinea-Bissau", id: "GW", tooltipContent: "Guinea-Bissau", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Kenya", id: "KE", tooltipContent: "Kenya", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Comoros", id: "KM", tooltipContent: "Comoros", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Liberia", id: "LR", tooltipContent: "Liberia", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Lesotho", id: "LS", tooltipContent: "Lesotho", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Madagascar", id: "MG", tooltipContent: "Madagascar", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Mali", id: "ML", tooltipContent: "Mali", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Mauritania", id: "MR", tooltipContent: "Mauritania", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Mauritius", id: "MU", tooltipContent: "Mauritius", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Malawi", id: "MW", tooltipContent: "Malawi", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Mozambique", id: "MZ", tooltipContent: "Mozambique", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Namibia", id: "NA", tooltipContent: "Namibia", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Niger", id: "NE", tooltipContent: "Niger", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Nigeria", id: "NG", tooltipContent: "Nigeria", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Seychelles", id: "SC", tooltipContent: "Seychelles", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Sierra Leone", id: "SL", tooltipContent: "Sierra Leone", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Senegal", id: "SN", tooltipContent: "Senegal", content: "", useDefaults: "1", source: "manual_entry" }, { name: "South Sudan", id: "SS", tooltipContent: "South Sudan", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Sao Tome and Principe", id: "ST", tooltipContent: "Sao Tome and Principe", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Eswatini", id: "SZ", tooltipContent: "Eswatini", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Chad", id: "TD", tooltipContent: "Chad", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Togo", id: "TG", tooltipContent: "Togo", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Uganda", id: "UG", tooltipContent: "Uganda", content: "", useDefaults: "1", source: "manual_entry" }, { name: "United Republic of Tanzania", id: "TZ", tooltipContent: "United Republic of Tanzania", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Zambia", id: "ZM", tooltipContent: "Zambia", content: "", useDefaults: "1", source: "manual_entry" }, { name: "Zimbabwe", id: "ZW", tooltipContent: "Zimbabwe", content: "", useDefaults: "1", source: "manual_entry" }, { name: "South Africa", id: "ZA", tooltipContent: "South Africa", content: "", useDefaults: "1", source: "manual_entry" }], regionDefaults: { fill: "#398cc4", hover: "#1d3d64", inactiveColor: "#e0e0e0", action: "open_url_new", customAction: "" }, onlyIncludeActive: "0", include: "", exclude: "AQ", roundMarkers_info: "", roundMarkers: [], markerDefaults: { radius: "10", fill: "#99d8c9", hover: "#2ca25f", action: "none" }, premium_info: "", id: 4793, container: "map_4793", title: "Afro WHO World Map-2", urls: { "region/world/africaHigh": "https://cdn.amcharts.com/lib/4/geodata/region/world/africaHigh.js" }, performance: { animations: "1", lazyLoad: "1" }, zoomMaster: "1" }], async: [], version: "1.6.9" };
+    //offset along x and y in px
+    var offset = {
+        x: 20,
+        y: -150
+    };
+
+    const countryData = iMapsData.data[0].regions.find(region => region.name === groupFieldValue);
+
+    // Initialize the map
+    var chart = am4core.create("mapdiv", am4maps.MapChart);
+    chart.geodata = am4geodata_region_world_africaHigh;
+    chart.projection = new am4maps.projections.Miller();
+
+    // Create Polygon Series to render regions (countries)
+    var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+    polygonSeries.useGeodata = true;
+
+    // Find the selected country based on the groupFieldValue
+    const selectedRegion = iMapsData.data[0].regions.find(region => region.name === groupFieldValue);
+    console.log('Selected Region:', selectedRegion);
+
+    // Apply region color and zoom directly for the selected country (no need to loop through all polygons)
+    polygonSeries.mapPolygons.template.events.on("ready", function () {
+        if (selectedRegion) {
+            // Get the polygon by the region's ID
+            var countryPolygon = polygonSeries.getPolygonById(selectedRegion.id);
+
+            if (countryPolygon) {
+                // Set the fill color for the selected region
+                countryPolygon.fill = am4core.color("#1d3d64");
+
+                // Pre-zoom to the selected country
+                chart.zoomToMapObject(countryPolygon);
+            }
+        }
+    });
+
+</script>

@@ -23,12 +23,15 @@
     "mini-css-extract-plugin": "^2.9.2",
     "sass": "^1.83.0",
     "sass-loader": "^16.0.4",
+    "style-loader": "^4.0.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.2.0"
   },
   "dependencies": {
+    "clean-webpack-plugin": "^4.0.0",
     "dotenv": "^16.4.7",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "image-minimizer-webpack-plugin": "^4.1.3"
   }
 }
