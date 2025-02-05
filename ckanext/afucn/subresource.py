@@ -1,5 +1,4 @@
 import ckan.plugins.toolkit as tk
-from ckan.common import g
 from ckan.common import config
 import os
 import logging
@@ -17,7 +16,18 @@ except:
 
 def create_subresource(context, resource_dict):
 
-    if resource_dict['format'] == 'CSV':
+    package_data = {
+        'id': resource_dict['package_id'],
+    }
+    
+    resources_list = tk.get_action("package_show")(context, package_data)['resources']
+    
+    names_list = []
+    
+    for i in resources_list:
+        names_list.append(i['name'])
+
+    if 'test.jpg' not in names_list:
     
         data_dict = {
             'package_id': resource_dict['package_id'],
@@ -36,7 +46,7 @@ def create_subresource(context, resource_dict):
 
     else:
         print("======================================================================")
-        print(g.user)
+        print('subresource not created')
         print("======================================================================")
         return
 
