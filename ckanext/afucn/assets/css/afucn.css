@@ -1,4 +1,4 @@
-/* @import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles); */
+@import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles); 
 
 :root {
 
@@ -319,7 +319,7 @@ caption {
   float: left;
   padding-right: 0.5rem;
   color: #3c4245;
-  content: var(--bs-breadcrumb-divider, ">");
+  content: var(--bs-breadcrumb-divider, " : ");
   font-weight: bold;
   /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
@@ -470,7 +470,7 @@ table.diff {
 .toolbar .breadcrumb li:not(:first-child)::before {
 
   font-size: 1.5rem;
-  content: var(--bs-breadcrumb-divider, ">")
+  content: var(--bs-breadcrumb-divider, " : ")
     /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
 }
@@ -1219,41 +1219,6 @@ table.diff {
   color: #001437;
 }
 
-.title-strip {
-  /* background: linear-gradient(to right, #76CDF5 0%, #008ACD 30%, #008ACD 100%); */
-  background: #edf6fd !important;
-  border-radius: 8px;
-  /*   border-bottom: solid #000f14;
-  border-top: solid #000f14; */
-  margin-bottom: 24px;
-  margin-top: -20px;
-  height: 50px;
-  /* Adjust the height if necessary */
-  text-align: center;
-  width: 120vw;
-  /* Ensures the blue strip spans the entire screen width */
-  position: relative;
-  left: 0;
-  /* Align it to the left edge */
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  left: -40.9%;
-  border-width: 1px;
-  padding-top: 10px !important;
-  padding-left: 12.5% !important;
-  max-width: 171.9% !important;
-}
-
-/* 
-.title-strip .breadcrumb .active a {
-  font-family: 'Noto Sans', Helvetica, Arial, Lucida, sans-serif;
-  font-weight: 700;
-  font-size: 24px;
-  color: #000f14;
-  line-height: 1.3em;
-  padding-left: var(--bs-gutter-x, 0.75rem);
- }
- */
 .title-strip .breadcrumb {
   margin-bottom: 0;
 
@@ -1520,8 +1485,63 @@ table.diff {
   width: 50%;
 }
 
-/* .package-description:before{
-  font-family: "EtMoudles";
-  content: "";
-  margin-right: 1rem;
-} */
+.container-xl, .container-lg, .container-md, .container-sm, .container {
+  max-width: 1920px;
+  width:80%;
+}
+
+
+.title-strip {
+  background: #edf6fd !important;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  margin-top: -20px;
+  height: 50px;
+  text-align: center;
+  position: relative;
+  left: 0;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  border-width: 1px;
+  padding-top: 10px !important;
+}
+
+.title-strip-breadcrumb {
+  width:80%;
+}
+
+.title-strip .container .breadcrumb li:not(:first-child)::before {
+
+  font-size: 1.5rem;
+  content: var(--bs-breadcrumb-divider, " : ")
+    /* rtl: var(--bs-breadcrumb-divider, "/") */
+  ;
+}
+
+.title-strip .container .breadcrumb li:second-child::before {
+  float: left;
+  padding-right: 0.5rem;
+  color: #6c757d;
+  content: var(--bs-breadcrumb-divider, "")
+    /* rtl: var(--bs-breadcrumb-divider, "/") */
+  ;
+}
+
+
+/* .breadcrumb-item {
+  font-size: 1.5rem;
+  color: #001437;
+}
+ */
+
+.breadcrumb li.active a {
+  font-size:  1.5rem; /* Adjust as needed */
+  font-weight: bold; /* Optional */
+}
+
+
+/* Style the 'Locations' and country name links inside breadcrumb */
+.breadcrumb li:not(:first-child) a {
+  font-size:  1.5rem; /* Adjust as needed */
+  font-weight: bold; /* Optional */
+}
