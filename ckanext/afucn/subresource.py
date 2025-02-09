@@ -3,12 +3,10 @@ from ckan.common import config
 import os
 import logging
 from pathlib import Path
-import openpyxl
 from openpyxl import load_workbook
 import shutil
 import tempfile
-from io import BytesIO
-import requests
+
 
 log = logging.getLogger(__name__)
 
@@ -19,15 +17,11 @@ except:
                          for your uploads''')
 
 
-def get_excel_from_url(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        file_content = BytesIO(response.content)
-        workbook = load_workbook(file_content)
-        return workbook
-    else:
-        return response.text
+def get_resource_path(resource_id):
 
+    resource_path = storage_path + "/resources/" + resource_id[0:3] + "/" + resource_id[3:6] + "/" + resource_id[6:]
+    
+    return resource_path
 
 def create_subresource(context, resource_dict):
 
@@ -51,8 +45,14 @@ def create_subresource(context, resource_dict):
             'url_type': 'upload',
         }
 
-        filename = '/home/blagoja/Downloads/test_map.xlsx'
-        wb = openpyxl.load_workbook(filename)
+        resource_path = get_resource_path(resource_dict['id'])
+        resource_copy_path = resource_path + ".xlsx"
+        
+        # Copy the file to the same location with .xls extension
+        shutil.copy(resource_path, resource_copy_path)
+
+        # Load the excel file from copied resource
+        wb = load_workbook(resource_copy_path)
         ws = wb['Sheet1']
 
         for idx, row in enumerate(ws.iter_rows()):
@@ -63,13 +63,18 @@ def create_subresource(context, resource_dict):
         file_name = f.name
         f.close()
         
+        # Create the map resource from the excel file and
         x = tk.get_action("resource_create")(context, data_dict)
         upload_path = storage_path + '/resources/' + x['id'][0:3] + "/" + x['id'][3:6]
         upload_filename = x['id'][6:]
         Path(upload_path).mkdir(parents=True, exist_ok=True)
         filepath = Path(os.path.join(upload_path, upload_filename))
         shutil.copy(file_name, filepath)
-        os.remove(file_name)  
+        
+        # remove temp xls resource from resources directory 
+        os.remove(resource_copy_path)
+        # remove temp subresource file
+        os.remove(file_name) 
     
         return resource_dict
 
