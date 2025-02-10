@@ -2,6 +2,9 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
 from ckanext.afucn.subresource import create_subresource
+from ckan.common import config
+
+subresource = config.get('ckanext.afucn.subresource', False)
 
 
 class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
@@ -61,5 +64,6 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     # IResourceController
 
     def after_resource_create(self, context, resource_dict):
-        create_subresource(context, resource_dict)
+        if subresource:
+            create_subresource(context, resource_dict)
         return
