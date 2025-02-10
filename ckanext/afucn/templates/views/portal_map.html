@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Choropleth Merged Map with Intensity</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" crossorigin="">
+    <style>
+      #map { height: 500px; width: 100%; }
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      .info.legend {
+        background: white;
+        line-height: 18px;
+        color: #555;
+        padding: 6px 8px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      }
+      .info.legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+      }
+    </style>
+    <!-- Danfo.js -->
+    <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" crossorigin=""></script>
+    <script>
+      // Helper function: normalize ISO codes.
+      function normalizeIso(iso) {
+        return (iso || "")
+          .toString()
+          .trim()
+          .replace(/^\uFEFF/, '')
+          .replace(/^"+|"+$/g, '')
+          .toUpperCase();
+      }
+      
+      // Helper: Convert HSL to Hex.
+      function hslToHex(h, s, l) {
+        s /= 100;
+        l /= 100;
+        let c = (1 - Math.abs(2 * l - 1)) * s;
+        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        let m = l - c / 2;
+        let r, g, b;
+        if (h < 60) { r = c; g = x; b = 0; }
+        else if (h < 120) { r = x; g = c; b = 0; }
+        else if (h < 180) { r = 0; g = c; b = x; }
+        else if (h < 240) { r = 0; g = x; b = c; }
+        else if (h < 300) { r = x; g = 0; b = c; }
+        else { r = c; g = 0; b = x; }
+        r = Math.round((r + m) * 255);
+        g = Math.round((g + m) * 255);
+        b = Math.round((b + m) * 255);
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+      }
+      
+      // getChoroplethColor: using base color #3fb1e3 (H=198, S=75) but varying lightness.
+      // For low values, lightness = 90%; for high values, lightness = 30%.
+      // minVal and maxVal are the minimum and maximum values from the CSV.
+      function getChoroplethColor(d, minVal, maxVal) {
+        d = Number(d);
+        let t = (d - minVal) / (maxVal - minVal);
+        // Invert t so that high values are darker (lower lightness)
+        let L = 90 - 60 * t; // L varies from 90% (low) to 30% (high)
+        return hslToHex(198, 75, L);
+      }
+      
+      // Resource URLs – replace these with your actual URLs.
+      var csvUrl = "{{ resource['url'] }}";
+      var geojsonUrl = '{% url_for_static "/geojson/africa_countries.geojson" %}';
+      
+      // Initialize the Leaflet map.
+      var map = L.map('map').setView([0, 20], 3);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      
+      // Load CSV and GeoJSON concurrently.
+      Promise.all([
+        dfd.readCSV(csvUrl, { delimiter: ",", header: true, skipEmptyLines: true }),
+        fetch(geojsonUrl).then(r => r.json())
+      ])
+      .then(function([csvDF, geojsonData]) {
+        let csvArray = dfd.toJSON(csvDF, { format: 'row' });
+        if (!Array.isArray(csvArray) || csvArray.length === 0) {
+          csvArray = csvDF.values.map(function(row) {
+            let obj = {};
+            csvDF.columns.forEach(function(col, i) { obj[col] = row[i]; });
+            return obj;
+          });
+        }
+        
+        // Build a lookup table keyed by normalized iso_code.
+        let csvLookup = {};
+        csvArray.forEach(function(row) {
+          csvLookup[normalizeIso(row.iso_code)] = row;
+        });
+        
+        // Compute min and max values from the CSV.
+        let values = csvArray.map(r => Number(r.value));
+        let minVal = Math.min(...values);
+        let maxVal = Math.max(...values);
+        
+        // Merge CSV data into each GeoJSON feature.
+        geojsonData.features.forEach(function(feature) {
+          let geoIso = normalizeIso(feature.properties.iso_code);
+          if (csvLookup.hasOwnProperty(geoIso)) {
+            let r = csvLookup[geoIso];
+            feature.properties.country_name  = r.country_name;
+            feature.properties.year          = r.year;
+            feature.properties.value         = r.value;
+            feature.properties.indicator_name = r.indicator_name;
+            feature.properties.value_type    = r.value_type;
+            feature.properties.map_name_short = feature.properties.country_name_short || feature.properties.name_short;
+          }
+        });
+        
+        // Add the merged GeoJSON to the map with a choropleth style.
+        L.geoJSON(geojsonData, {
+          style: function(feature) {
+            var val = Number(feature.properties.value) || 0;
+            return {
+              fillColor: getChoroplethColor(val, minVal, maxVal),
+              color: '#2E86C1',
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 0.7
+            };
+          },
+          onEachFeature: function(feature, layer) {
+            let p = feature.properties;
+            layer.bindPopup(
+              `<strong>${p.country_name || p.map_name_short || "N/A"}</strong><br>
+              ISO: ${p.iso_code || "N/A"}<br>
+              Year: ${p.year || "N/A"}<br>
+              Value: ${p.value || "N/A"}<br>
+              Indicator: ${p.indicator_name || "N/A"}<br>
+              Value Type: ${p.value_type || "N/A"}`
+            );
+          }
+        }).addTo(map);
+        
+        // Add a legend control.
+        var legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function (map) {
+          var div = L.DomUtil.create('div', 'info legend');
+          // Create 4 ticks from min to max.
+          var grades = [minVal, minVal + (maxVal - minVal) / 3, minVal + 2*(maxVal - minVal) / 3, maxVal];
+          for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+              '<i style="background:' + getChoroplethColor(grades[i] + 1, minVal, maxVal) + '"></i> ' +
+              Math.round(grades[i]) + (grades[i + 1] ? '&ndash;' + Math.round(grades[i + 1]) + '<br>' : '+');
+          }
+          return div;
+        };
+        legend.addTo(map);
+      })
+      .catch(console.error);
+    </script>
+  </body>
+</html>

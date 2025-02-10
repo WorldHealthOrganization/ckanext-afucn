@@ -7,6 +7,8 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IResourceView, inherit=True)
+
     
     # IConfigurer
 
@@ -55,3 +57,40 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         facets_dict['license_id'] = plugins.toolkit._('License')
         
         return facets_dict
+
+    # IResourceView
+    def info(self):
+        return {
+            'name': 'portal_map',
+            'title': 'Portal Map',
+            'icon': 'chart-bar',
+            'iframed': False,
+            'default_title': 'Portal Map',
+            'always_available': True,
+            'preview_enabled': True,
+            'full_page_edit': False,
+        }
+    
+    def can_view(self, data_dict):
+        """
+        Determine if this view is applicable for the given resource.
+        We want to enable this view for CSV and Excel files.
+        """
+        resource = data_dict['resource']
+        format = resource.get('format', '').lower()
+        return format in ['csv', 'xls', 'xlsx']
+
+    def view_template(self, context, data_dict):
+        return 'views/portal_map.html'
+
+    def view_config(self, context, data_dict):
+        """
+        Optionally pass additional configuration variables to your template.
+        """
+        return {}
+
+    def order(self):
+        """
+        Determines the display order if multiple resource views are available.
+        """
+        return 1
