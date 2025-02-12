@@ -1,0 +1,262 @@
+<!-- CSS for the container, dropdowns, and chart -->
+<style>
+  #portal_map {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  #portal_map .control-panel {
+    margin-bottom: 10px;
+  }
+  #portal_map .control-panel label {
+    font-size: 14px;
+    margin-right: 5px;
+  }
+  #portal_map .control-panel select {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  #portal_map #map {
+    width: 100%;
+    height: 500px;
+  }
+</style>
+
+<!-- Required libraries -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.min.js"></script>
+
+<!-- Container for the chart view -->
+<div id="portal_map">
+  <div class="control-panel">
+    <label for="yearSelect">Year</label>
+    <select id="yearSelect"></select>
+    <label for="indicatorSelect">Indicator</label>
+    <select id="indicatorSelect"></select>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  // ---------------------------
+  // Helper Functions
+  // ---------------------------
+  // Normalize ISO codes.
+  function normalizeIso(iso) {
+    return (iso || "")
+      .toString()
+      .trim()
+      .replace(/^\uFEFF/, '')
+      .replace(/^"+|"+$/g, '')
+      .toUpperCase();
+  }
+
+  // ---------------------------
+  // Global Variables
+  // ---------------------------
+  let geoJsonData = null;  // GeoJSON (Africa boundaries)
+  let csvData = null;      // CSV data as an array of objects
+  let chart = null;        // ECharts instance
+
+  // ---------------------------
+  // Data Loading & Merging
+  // ---------------------------
+  function loadDataAndInit() {
+    Promise.all([
+      dfd.readCSV("{{ resource['url'] }}", { delimiter: ",", header: true, skipEmptyLines: true }),
+      fetch("{% url_for_static '/geojson/africa_countries.geojson' %}").then(r => r.json())
+    ])
+    .then(([csvDF, geoJson]) => {
+      csvData = dfd.toJSON(csvDF, { format: "row" });
+      if (!Array.isArray(csvData) || csvData.length === 0) {
+        csvData = csvDF.values.map(row => {
+          let obj = {};
+          csvDF.columns.forEach((col, i) => { obj[col] = row[i]; });
+          return obj;
+        });
+      }
+      geoJsonData = geoJson;
+
+      // Populate dropdown filters dynamically.
+      populateDropdowns();
+
+      // Build a lookup table from CSV keyed by normalized iso_code.
+      const csvLookup = {};
+      csvData.forEach(row => {
+        csvLookup[normalizeIso(row.iso_code)] = row;
+      });
+
+      // Merge CSV data into each GeoJSON feature.
+      geoJsonData.features.forEach(feature => {
+        let geoIso = normalizeIso(feature.properties.iso_code);
+        if (csvLookup.hasOwnProperty(geoIso)) {
+          let r = csvLookup[geoIso];
+          feature.properties.country_name = r.country_name;
+          feature.properties.year = r.year;
+          feature.properties.value = r.value;
+          feature.properties.indicator = r.indicator;
+          feature.properties.value_type = r.value_type;
+        } else {
+          feature.properties.value = 0;
+        }
+      });
+
+      // Use country_name_short from GeoJSON for display.
+      geoJsonData.features.forEach(feature => {
+        feature.properties.name = feature.properties.country_name_short || "N/A";
+      });
+      echarts.registerMap("africa", geoJsonData);
+
+      // Initialize ECharts with the "walden" theme.
+      chart = echarts.init(document.getElementById("map"), "walden");
+
+      updateChart();
+    })
+    .catch(err => console.error("Error loading data:", err));
+  }
+
+  // ---------------------------
+  // Dropdown Population
+  // ---------------------------
+  function populateDropdowns() {
+    const years = Array.from(new Set(csvData.map(r => r.year.toString().trim()))).sort();
+    const indicators = Array.from(new Set(csvData.map(r => r.indicator.toString().trim()))).sort();
+
+    const yearSelect = $("#yearSelect");
+    yearSelect.empty();
+    years.forEach(year => {
+      yearSelect.append($("<option>").attr("value", year).text(year));
+    });
+    yearSelect.val(years[0]);
+
+    const indicatorSelect = $("#indicatorSelect");
+    indicatorSelect.empty();
+    indicators.forEach(ind => {
+      indicatorSelect.append($("<option>").attr("value", ind).text(ind));
+    });
+    indicatorSelect.val(indicators[0]);
+
+    $("#yearSelect, #indicatorSelect").on("change", function() {
+      updateChart();
+    });
+  }
+
+  // ---------------------------
+  // Update ECharts Horizontal Bar Chart (xAxis as value, yAxis as category, descending order)
+  // ---------------------------
+  function updateChart() {
+    if (!csvData || !geoJsonData) return;
+
+    const selectedYear = $("#yearSelect").val().trim();
+    const selectedIndicator = $("#indicatorSelect").val().trim();
+
+    // Filter CSV data based on selected filters.
+    const filtered = csvData.filter(r =>
+      r.year.toString().trim() === selectedYear &&
+      r.indicator.toString().trim() === selectedIndicator
+    );
+
+    // Aggregate values by iso_code.
+    const aggregator = {};
+    filtered.forEach(row => {
+      const iso = normalizeIso(row.iso_code);
+      let val = parseFloat(row.value);
+      if (Number.isNaN(val)) return;
+      if (!aggregator[iso]) aggregator[iso] = { sum: 0, count: 0 };
+      aggregator[iso].sum += val;
+      aggregator[iso].count++;
+    });
+
+    // Build an array of objects (one per country) with aggregated value.
+    const combined = geoJsonData.features.map(feature => {
+      const iso = normalizeIso(feature.properties.iso_code);
+      const countryName = feature.properties.country_name_short || "N/A";
+      let data = aggregator[iso];
+      const value = data ? (data.sum / data.count) : 0;
+      return { countryName, value };
+    });
+
+    // Sort in descending order so the highest values appear at the top.
+    combined.sort((a, b) => b.value - a.value);
+
+    // Since ECharts by default draws the first category at the bottom, we use yAxis.inverse.
+    const yLabels = combined.map(item => item.countryName);
+    const barData = combined.map(item => Math.round(item.value * 100) / 100);
+
+    // Compute maximum value for scaling.
+    const dataValues = barData.filter(v => v > 0);
+    const dataMax = dataValues.length > 0 ? Math.max(...dataValues) : 0;
+
+    // Calculate end percentage so that only the first 10 bars are visible.
+    const totalBars = yLabels.length;
+    const endPercent = totalBars > 0 ? (10 / totalBars) * 100 : 100;
+
+    const option = {
+      backgroundColor: '#F5F5F5',
+      title: {
+        text: selectedIndicator,
+        subtext: `Year: ${selectedYear}`,
+        left: '5%',
+        top: '3%',
+        textStyle: { fontSize: 16, fontWeight: 'normal' },
+        subtextStyle: { fontSize: 14 }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        formatter: params => {
+          const p = params[0];
+          return `${p.name}<br/>Value: ${p.value ? p.value.toLocaleString() : 0}`;
+        },
+        backgroundColor: 'rgba(255,255,255,0.9)',
+        borderColor: '#ccc',
+        borderWidth: 1,
+        textStyle: { color: '#333' }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+      },
+      yAxis: {
+        type: 'category',
+        data: yLabels,
+        inverse: true,  // Inverse the axis so that the highest value appears at the top.
+        axisLabel: { interval: 0 }
+      },
+      dataZoom: [{
+        type: 'slider',
+        yAxisIndex: 0,
+        start: 0,
+        end: endPercent,
+        top: 0   // Position the dataZoom slider at the top.
+      }],
+      series: [{
+        name: selectedIndicator,
+        type: 'bar',
+        data: barData,
+        itemStyle: {
+          color: "#3fb1e3"
+        }
+      }]
+    };
+
+    chart.setOption(option, true);
+  }
+
+  // ---------------------------
+  // Initialization
+  // ---------------------------
+  $(document).ready(function() {
+    loadDataAndInit();
+  });
+</script>
