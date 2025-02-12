@@ -2,95 +2,121 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
 
-
+# --------------------------------------------------------------------
+# Original Plugin Class
+# --------------------------------------------------------------------
 class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.ITranslation)
-    plugins.implements(plugins.IResourceView, inherit=True)
 
-    
     # IConfigurer
-
     def update_config(self, config_):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "afucn")
 
     # IFacets
-
     def dataset_facets(self, facets_dict, package_type):
-        '''Add new search facet (filter) for datasets.
-        This must be a field in the dataset (or organization or
-        group if you're modifying those search facets, just change the function).
-        '''
-        # This keeps the existing facet order.
-        facets_dict['country'] = plugins.toolkit._('Country')
-        facets_dict['organization'] = plugins.toolkit._('Organization')
-        facets_dict['groups'] = plugins.toolkit._('Groups')
-        facets_dict['tags'] = plugins.toolkit._('tags')
-        facets_dict['res_format'] = plugins.toolkit._('Format')
-        facets_dict['license_id'] = plugins.toolkit._('License')
-
+        facets_dict['country'] = toolkit._('Country')
+        facets_dict['organization'] = toolkit._('Organization')
+        facets_dict['groups'] = toolkit._('Groups')
+        facets_dict['tags'] = toolkit._('tags')
+        facets_dict['res_format'] = toolkit._('Format')
+        facets_dict['license_id'] = toolkit._('License')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
-
-        # This keeps the existing facet order.
-        facets_dict['country'] = plugins.toolkit._('Country')
-        facets_dict['organization'] = plugins.toolkit._('Organization')
-        facets_dict['groups'] = plugins.toolkit._('Groups')
-        facets_dict['tags'] = plugins.toolkit._('tags')
-        facets_dict['res_format'] = plugins.toolkit._('Format')
-        facets_dict['license_id'] = plugins.toolkit._('License')
-        
+        facets_dict['country'] = toolkit._('Country')
+        facets_dict['organization'] = toolkit._('Organization')
+        facets_dict['groups'] = toolkit._('Groups')
+        facets_dict['tags'] = toolkit._('tags')
+        facets_dict['res_format'] = toolkit._('Format')
+        facets_dict['license_id'] = toolkit._('License')
         return facets_dict
-    
+
     def organization_facets(self, facets_dict, organization_type, package_type):
-
-        # This keeps the existing facet order.
-        facets_dict['country'] = plugins.toolkit._('Country')
-        facets_dict['organization'] = plugins.toolkit._('Organization')
-        facets_dict['groups'] = plugins.toolkit._('Groups')
-        facets_dict['tags'] = plugins.toolkit._('tags')
-        facets_dict['res_format'] = plugins.toolkit._('Format')
-        facets_dict['license_id'] = plugins.toolkit._('License')
-        
+        facets_dict['country'] = toolkit._('Country')
+        facets_dict['organization'] = toolkit._('Organization')
+        facets_dict['groups'] = toolkit._('Groups')
+        facets_dict['tags'] = toolkit._('tags')
+        facets_dict['res_format'] = toolkit._('Format')
+        facets_dict['license_id'] = toolkit._('License')
         return facets_dict
 
-    # IResourceView
+# --------------------------------------------------------------------
+# New Resource View: Portal Map
+# --------------------------------------------------------------------
+class PortalMapView(plugins.SingletonPlugin, DefaultTranslation):
+    plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IResourceView, inherit=True)
+
+    def update_config(self, config_):
+        toolkit.add_template_directory(config_, "templates")
+        toolkit.add_public_directory(config_, "public")
+        toolkit.add_resource("assets", "afucn")
+
     def info(self):
         return {
             'name': 'portal_map',
             'title': 'Portal Map',
-            'icon': 'chart-bar',
+            'icon': 'map',
             'iframed': False,
             'default_title': 'Portal Map',
             'always_available': True,
             'preview_enabled': True,
             'full_page_edit': False,
         }
-    
+
     def can_view(self, data_dict):
-        """
-        Determine if this view is applicable for the given resource.
-        We want to enable this view for CSV and Excel files.
-        """
-        resource = data_dict['resource']
-        format = resource.get('format', '').lower()
-        return format in ['csv', 'xls', 'xlsx']
+        resource = data_dict.get('resource')
+        fmt = resource.get('format', '').lower()
+        return fmt in ['csv', 'xls', 'xlsx']
 
     def view_template(self, context, data_dict):
         return 'views/portal_map.html'
 
     def view_config(self, context, data_dict):
-        """
-        Optionally pass additional configuration variables to your template.
-        """
         return {}
 
     def order(self):
-        """
-        Determines the display order if multiple resource views are available.
-        """
-        return 1
+        return 2
+
+
+# --------------------------------------------------------------------
+# New Resource View: Portal Chart
+# --------------------------------------------------------------------
+class PortalChartView(plugins.SingletonPlugin, DefaultTranslation):
+    plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IResourceView, inherit=True)
+
+    def update_config(self, config_):
+        toolkit.add_template_directory(config_, "templates")
+        toolkit.add_public_directory(config_, "public")
+        toolkit.add_resource("assets", "afucn")
+
+    def info(self):
+        return {
+            'name': 'portal_chart',
+            'title': 'Portal Chart',
+            'icon': 'chart-pie',
+            'iframed': False,
+            'default_title': 'Portal Chart',
+            'always_available': True,
+            'preview_enabled': True,
+            'full_page_edit': False,
+        }
+
+    def can_view(self, data_dict):
+        resource = data_dict.get('resource')
+        fmt = resource.get('format', '').lower()
+        return fmt in ['csv', 'xls', 'xlsx']
+
+    def view_template(self, context, data_dict):
+        return 'views/portal_chart.html'
+
+    def view_config(self, context, data_dict):
+        return {}
+
+    def order(self):
+        return 3

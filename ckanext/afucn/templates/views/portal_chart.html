@@ -1,4 +1,4 @@
-<!-- CSS for the container, dropdowns, and map -->
+<!-- CSS for the container, dropdowns, and chart -->
 <style>
   #portal_map {
     font-family: Arial, sans-serif;
@@ -30,7 +30,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.min.js"></script>
 
-<!-- Container for the view -->
+<!-- Container for the chart view -->
 <div id="portal_map">
   <div class="control-panel">
     <label for="yearSelect">Year</label>
@@ -42,7 +42,10 @@
 </div>
 
 <script>
-  // Helper: Normalize ISO codes.
+  // ---------------------------
+  // Helper Functions
+  // ---------------------------
+  // Normalize ISO codes.
   function normalizeIso(iso) {
     return (iso || "")
       .toString()
@@ -81,13 +84,13 @@
       // Populate dropdown filters dynamically.
       populateDropdowns();
 
-      // Build lookup table from CSV (keyed by normalized iso_code).
+      // Build a lookup table from CSV keyed by normalized iso_code.
       const csvLookup = {};
       csvData.forEach(row => {
         csvLookup[normalizeIso(row.iso_code)] = row;
       });
 
-      // Merge CSV data into GeoJSON features.
+      // Merge CSV data into each GeoJSON feature.
       geoJsonData.features.forEach(feature => {
         let geoIso = normalizeIso(feature.properties.iso_code);
         if (csvLookup.hasOwnProperty(geoIso)) {
@@ -102,21 +105,16 @@
         }
       });
 
-      // Compute global min and max from CSV.
-      const values = csvData.map(r => Number(r.value)).filter(v => !isNaN(v));
-      const globalMin = Math.min(...values);
-      const globalMax = Math.max(...values);
-
       // Use country_name_short from GeoJSON for display.
       geoJsonData.features.forEach(feature => {
         feature.properties.name = feature.properties.country_name_short || "N/A";
       });
       echarts.registerMap("africa", geoJsonData);
 
-      // Initialize ECharts with the 'walden' theme.
+      // Initialize ECharts with the "walden" theme.
       chart = echarts.init(document.getElementById("map"), "walden");
 
-      updateMap(globalMin, globalMax);
+      updateChart();
     })
     .catch(err => console.error("Error loading data:", err));
   }
@@ -142,19 +140,15 @@
     });
     indicatorSelect.val(indicators[0]);
 
-    // Bind change events to update the map.
     $("#yearSelect, #indicatorSelect").on("change", function() {
-      const vals = csvData.map(r => Number(r.value)).filter(v => !isNaN(v));
-      const globalMin = Math.min(...vals);
-      const globalMax = Math.max(...vals);
-      updateMap(globalMin, globalMax);
+      updateChart();
     });
   }
 
   // ---------------------------
-  // Update ECharts Map
+  // Update ECharts Horizontal Bar Chart (xAxis as value, yAxis as category, descending order)
   // ---------------------------
-  function updateMap(minVal, maxVal) {
+  function updateChart() {
     if (!csvData || !geoJsonData) return;
 
     const selectedYear = $("#yearSelect").val().trim();
@@ -177,18 +171,29 @@
       aggregator[iso].count++;
     });
 
-    // Build the ECharts data array.
-    const echartsData = geoJsonData.features.map(feature => {
+    // Build an array of objects (one per country) with aggregated value.
+    const combined = geoJsonData.features.map(feature => {
       const iso = normalizeIso(feature.properties.iso_code);
       const countryName = feature.properties.country_name_short || "N/A";
       let data = aggregator[iso];
       const value = data ? (data.sum / data.count) : 0;
-      return { name: countryName, value: Math.round(value * 100) / 100 };
+      return { countryName, value };
     });
 
-    // Compute maximum for visualMap scaling.
-    const dataValues = echartsData.map(item => item.value).filter(v => v > 0);
-    const dataMax = dataValues.length > 0 ? Math.max(...dataValues) : maxVal;
+    // Sort in descending order so the highest values appear at the top.
+    combined.sort((a, b) => b.value - a.value);
+
+    // Since ECharts by default draws the first category at the bottom, we use yAxis.inverse.
+    const yLabels = combined.map(item => item.countryName);
+    const barData = combined.map(item => Math.round(item.value * 100) / 100);
+
+    // Compute maximum value for scaling.
+    const dataValues = barData.filter(v => v > 0);
+    const dataMax = dataValues.length > 0 ? Math.max(...dataValues) : 0;
+
+    // Calculate end percentage so that only the first 10 bars are visible.
+    const totalBars = yLabels.length;
+    const endPercent = totalBars > 0 ? (10 / totalBars) * 100 : 100;
 
     const option = {
       backgroundColor: '#F5F5F5',
@@ -201,43 +206,47 @@
         subtextStyle: { fontSize: 14 }
       },
       tooltip: {
-        trigger: "item",
-        formatter: params => `${params.name}<br/>Value: ${params.value ? params.value.toLocaleString() : 0}`,
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        formatter: params => {
+          const p = params[0];
+          return `${p.name}<br/>Value: ${p.value ? p.value.toLocaleString() : 0}`;
+        },
         backgroundColor: 'rgba(255,255,255,0.9)',
         borderColor: '#ccc',
         borderWidth: 1,
         textStyle: { color: '#333' }
       },
-      visualMap: {
-        min: minVal,
-        max: dataMax,
-        left: "5%",
-        bottom: "5%",
-        text: ["High", "Low"],
-        inRange: {
-          color: ["#2a99c9", "#afe8ff"]
-        },
-        calculable: true,
-        hoverLink: true
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
       },
-      geo: {
-        map: "africa",
-        projection: {
-          project: (point) => [point[0] / 180 * Math.PI, -Math.log(Math.tan((Math.PI / 2 + point[1] / 180 * Math.PI) / 2))],
-          unproject: (point) => [point[0] * 180 / Math.PI, 2 * 180 / Math.PI * Math.atan(Math.exp(point[1])) - 90]
-        },
-        roam: { zoom: false, move: true },
-        label: { emphasis: { show: true, color: '#333' } },
-        itemStyle: { borderColor: '#fff', borderWidth: 0.8, areaColor: '#f0f0f0' },
-        emphasis: {
-          itemStyle: { areaColor: '#93c3df', borderWidth: 1.5 }
-        }
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
       },
+      yAxis: {
+        type: 'category',
+        data: yLabels,
+        inverse: true,  // Inverse the axis so that the highest value appears at the top.
+        axisLabel: { interval: 0 }
+      },
+      dataZoom: [{
+        type: 'slider',
+        yAxisIndex: 0,
+        start: 0,
+        end: endPercent,
+        top: 0   // Position the dataZoom slider at the top.
+      }],
       series: [{
         name: selectedIndicator,
-        type: "map",
-        geoIndex: 0,
-        data: echartsData
+        type: 'bar',
+        data: barData,
+        itemStyle: {
+          color: "#3fb1e3"
+        }
       }]
     };
 
