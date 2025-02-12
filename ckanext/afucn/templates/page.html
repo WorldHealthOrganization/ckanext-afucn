@@ -57,7 +57,21 @@ file.
       {% endblock %}
 
       {% block secondary %}
-      <aside class="secondary col-md-3">
+
+      <script type="text/javascript" id="collapsibleAside-toggle">
+        function toggleAside() {
+          const aside = document.getElementById("collapsibleAside");
+
+          // Toggle collapsed state
+          if (aside.classList.contains("collapsed")) {
+            aside.classList.remove("collapsed"); // Expand
+          } else {
+            aside.classList.add("collapsed"); // Collapse
+          }
+        }
+      </script>
+      <!-- Sidebar -->
+      <aside id="collapsibleAside" class="secondary col-md-3">
         {#
         The secondary_content block can be used to add content to the
         sidebar of the page. This is the main block that is likely to be

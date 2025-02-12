@@ -53,7 +53,7 @@
 </div>
 {% endblock %}
 <header class="portal-header">
-   <div class="portal-header">
+  <div class="portal-header">
     <div
       class=" et_pb_section et_pb_section_0_tb_header et_pb_sticky_module et_pb_with_background et_section_regular et_pb_section--with-menu">
       <div
@@ -139,18 +139,6 @@
                     </ul>
                   </div>
                 </div>
-                <!--               {% block header_site_search_1 %}
-              <form class="d-flex site-search" action="{% url_for dataset_type ~ '.search' %}" method="get">
-                <label class="d-none" for="field-sitewide-search">{% block header_site_search_label_1 %}{{
-                  h.humanize_entity_type('package', dataset_type, 'search_placeholder') or _('Search Datasets...') }}{%
-                  endblock %}</label>
-                <input id="field-sitewide-search" class="form-control me-2 main-menu-search" type="text" name="q"
-                  placeholder="{{ _('Search') }}"
-                  aria-label="{{ h.humanize_entity_type('package', dataset_type, 'search_placeholder') or _('Search datasets...') }}" />
-                <button class="btn search" type="submit" aria-label="{{ _('Submit') }}"><i
-                    class="fa fa-search"></i></button>
-              </form>
-              {% endblock %} -->
               </div>
               <div class="et_pb_menu__search-container et_pb_menu__search-container--disabled">
                 <div class="et_pb_menu__search">
@@ -278,3 +266,41 @@
 
 </div>
 {% endblock %}
+
+<script type="text/javascript">
+
+  jQuery(document).ready(function ($) {
+    var $menuBar = $('.mobile_menu_bar'); // Menu toggle button
+    var $mobileMenu = $('.et_mobile_menu'); // The mobile menu container
+    var $menuLinks = $mobileMenu.find('a'); // Links inside the menu
+
+    // Toggle menu on button click
+    $menuBar.on('click', function () {
+      $mobileMenu.toggleClass('opened'); // Toggle class to show/hide
+      $(this).toggleClass('active'); // Change button state
+    });
+
+    // Close menu when clicking outside
+    $(document).on('click', function (event) {
+      if (!$menuBar.is(event.target) && !$mobileMenu.is(event.target) && $mobileMenu.has(event.target).length === 0) {
+        $mobileMenu.removeClass('opened');
+        $menuBar.removeClass('active');
+      }
+    });
+
+    // Allow navigation within menu
+    $menuLinks.on('click', function () {
+      $mobileMenu.removeClass('opened'); // Close menu after clicking a link
+      $menuBar.removeClass('active');
+    });
+
+    // Close menu on "Escape" key press
+    $(document).on('keydown', function (event) {
+      if (event.key === "Escape" && $mobileMenu.hasClass('opened')) {
+        $mobileMenu.removeClass('opened');
+        $menuBar.removeClass('active');
+      }
+    });
+  });
+
+</script>

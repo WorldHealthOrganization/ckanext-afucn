@@ -1,5 +1,3 @@
-@import url(https://db.onlinewebfonts.com/c/9d25ea5c587d0f9d470aa9a3634735ea?family=ETmoudles); 
-
 :root {
 
   --bs-gray: #3c4245;
@@ -319,7 +317,7 @@ caption {
   float: left;
   padding-right: 0.5rem;
   color: #3c4245;
-  content: var(--bs-breadcrumb-divider, " : ");
+  content: var(--bs-breadcrumb-divider, " > ");
   font-weight: bold;
   /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
@@ -468,9 +466,8 @@ table.diff {
 }
 
 .toolbar .breadcrumb li:not(:first-child)::before {
-
-  font-size: 1.5rem;
-  content: var(--bs-breadcrumb-divider, " : ")
+  color: #0F2D5B;
+  content: var(--bs-breadcrumb-divider, " > ")
     /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
 }
@@ -478,7 +475,7 @@ table.diff {
 .toolbar .breadcrumb li:second-child::before {
   float: left;
   padding-right: 0.5rem;
-  color: #6c757d;
+  color: #0F2D5B;
   content: var(--bs-breadcrumb-divider, ">")
     /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
@@ -1221,7 +1218,6 @@ table.diff {
 
 .title-strip .breadcrumb {
   margin-bottom: 0;
-
 }
 
 .toolbar {
@@ -1253,7 +1249,6 @@ table.diff {
 
 
 .ds-icon {
-  font-size: 3rem;
   width: 3rem;
   height: 3rem;
 }
@@ -1261,14 +1256,12 @@ table.diff {
 .ds-icon-breadcrumb {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
 }
 
 /* Use the :before pseudo-element to insert content (icons) */
 .ds-icon-breadcrumb-package:before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   vertical-align: top;
   content: "\e109";
   /* Unicode for the 'package' icon */
@@ -1277,7 +1270,6 @@ table.diff {
 .ds-icon-breadcrumb-dataset::before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   content: "\e109";
   /* Unicode for the 'dataset' icon */
   vertical-align: top;
@@ -1286,16 +1278,14 @@ table.diff {
 .ds-icon-breadcrumb-location:before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   vertical-align: top;
-  content: "\e0e2";
+  content: "\e01d";
   /* Unicode for the 'location' icon */
 }
 
 .ds-icon-breadcrumb-group:before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   vertical-align: top;
   content: "\e0a1";
   /* Unicode for the 'group' icon */
@@ -1304,7 +1294,6 @@ table.diff {
 .ds-icon-breadcrumb-topic:before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   vertical-align: top;
   content: "\e01b";
   /* Unicode for the 'topic' icon */
@@ -1314,7 +1303,6 @@ table.diff {
 .ds-icon-breadcrumb-user:before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   vertical-align: top;
   content: "\fc";
   /* Unicode for the 'topic' icon */
@@ -1323,7 +1311,6 @@ table.diff {
 .ds-icon-breadcrumb-org:before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   vertical-align: top;
   content: "\e0ef";
   /* Unicode for the 'topic' icon */
@@ -1332,7 +1319,6 @@ table.diff {
 .ds-icon-breadcrum-other:before {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
-  font-size: 1.5rem;
   vertical-align: top;
   content: "\e0e9";
   /* Unicode for the 'other' icon */
@@ -1485,9 +1471,13 @@ table.diff {
   width: 50%;
 }
 
-.container-xl, .container-lg, .container-md, .container-sm, .container {
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm,
+.container {
   max-width: 1920px;
-  width:80%;
+  width: 80%;
 }
 
 
@@ -1507,21 +1497,32 @@ table.diff {
 }
 
 .title-strip-breadcrumb {
-  width:80%;
+  width: 80%;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  margin-bottom: 1rem;
+  list-style: none;
+  font-weight: bold;
 }
 
 .title-strip .container .breadcrumb li:not(:first-child)::before {
 
-  font-size: 1.5rem;
-  content: var(--bs-breadcrumb-divider, " : ")
-    /* rtl: var(--bs-breadcrumb-divider, "/") */
+  content: var(--bs-breadcrumb-divider, ">");
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
 }
 
 .title-strip .container .breadcrumb li:second-child::before {
   float: left;
   padding-right: 0.5rem;
-  color: #6c757d;
+  padding-left: 0.5rem;
+  color: #0F2D5B;
   content: var(--bs-breadcrumb-divider, "")
     /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
@@ -1535,13 +1536,69 @@ table.diff {
  */
 
 .breadcrumb li.active a {
-  font-size:  1.5rem; /* Adjust as needed */
-  font-weight: bold; /* Optional */
+  font-weight: bold;
+  /* Optional */
 }
 
 
 /* Style the 'Locations' and country name links inside breadcrumb */
 .breadcrumb li:not(:first-child) a {
-  font-size:  1.5rem; /* Adjust as needed */
-  font-weight: bold; /* Optional */
+  font-weight: bold;
+  /* Optional */
+}
+
+.breadcrumb li a {
+  color: #0F2D5B;
+}
+
+
+/* media queries for menu */
+/* Large screens (1405px upwards) */
+@media only screen and (min-width: 1405px) {
+  /* your css goes here */
+}
+
+/* Laptops and desktops (1100-1405px) */
+@media only screen and (min-width: 1100px) and (max-width: 1405px) {
+  /* your css goes here */
+}
+
+/* Tablets in landscape mode (981-1100px) */
+@media only screen and (min-width: 981px) and (max-width: 1100px) {
+  /* your css goes here */
+}
+
+/* Tablets in portrait mode (768-980px) */
+@media only screen and (min-width: 768px) and (max-width: 980px) {
+  /* your css goes here */
+}
+
+/* Smartphones in landscape mode (480-768px) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  /* your css goes here */
+}
+
+/* Smartphones in portrait mode (0-479px) */
+@media only screen and (max-width: 479px) {
+  /* your css goes here */
+}
+
+.et_mobile_menu {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.et_mobile_menu.opened {
+  display: block;
+}
+
+.mobile_menu_bar.active {
+  background-color: #333;
+  color: white;
 }

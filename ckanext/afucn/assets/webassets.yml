@@ -5,6 +5,7 @@ afucn-js:
     - js/afucn.js
     - js/afucn.bundle.js
     - js/afucn.divi.js
+    
   extra:
     preload:
       - base/main

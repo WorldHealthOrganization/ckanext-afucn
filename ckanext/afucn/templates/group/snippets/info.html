@@ -210,34 +210,3 @@
   </section>
 </div>
 {% endblock %}
-
-<!-- <script type="text/javascript" id="worldbank-data">
-
-  async function fetchData() {
-
-  const countryCode = document.getElementById('group-field-value').value;
-  const url = `https://api.worldbank.org/v2/en/country/${countryCode}/indicator/SP.POP.TOTL;EN.POP.DNST;NY.GDP.PCAP.PP.CD;AG.LND.TOTL.K2?source=2&format=json`;
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    // Filter out the data for the specific country
-    const countryData = data[1].find(item => item.country.id === countryCode);
-
-    if (countryData) {
-      // Dynamically update the HTML with the fetched data
-      document.querySelector('.indicator-title').textContent = countryData.indicator.value;
-      document.querySelector('.indicator-value span').textContent = countryData.value;
-    } else {
-      console.log('No data available for this country');
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
-
-// Example: Fetch data for a specific country (e.g., USA)
-fetchData();
-
-</script> -->
