@@ -1,6 +1,10 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
+from ckanext.afucn.subresource import create_subresource
+from ckan.common import config
+
+subresource = config.get('ckanext.afucn.subresource', False)
 
 # --------------------------------------------------------------------
 # Original Plugin Class
@@ -9,6 +13,9 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IResourceController, inherit=True)
+    
+    # IConfigurer
 
     # IConfigurer
     def update_config(self, config_):
@@ -43,6 +50,12 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         facets_dict['res_format'] = toolkit._('Format')
         facets_dict['license_id'] = toolkit._('License')
         return facets_dict
+    
+    # IResourceController
+    def after_resource_create(self, context, resource_dict):
+        if subresource:
+            create_subresource(context, resource_dict)
+        return
 
 # --------------------------------------------------------------------
 # New Resource View: Portal Map
@@ -120,3 +133,5 @@ class PortalChartView(plugins.SingletonPlugin, DefaultTranslation):
 
     def order(self):
         return 3
+    
+    
