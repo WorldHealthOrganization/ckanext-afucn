@@ -2,38 +2,23 @@
 
 # ckanext-afucn
 
-**TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
+Main CKAN theme for the open data portal of the  World Health Organization Afro region 
 
 
 ## Requirements
 
-**TODO:** For example, you might want to mention here which versions of CKAN this
-extension works with.
-
-If your extension works across different versions you can add the following table:
 
 Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
 | --------------- | ------------- |
-| 2.6 and earlier | not tested    |
-| 2.7             | not tested    |
 | 2.8             | not tested    |
 | 2.9             | not tested    |
-
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
+| 2.10            | Yes           |
+| 2.11            | not tested    |
 
 
 ## Installation
-
-**TODO:** Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
 
 To install ckanext-afucn:
 
@@ -59,13 +44,11 @@ To install ckanext-afucn:
 
 ## Config settings
 
-None at present
+Automatic creation of map subresource after tabular resource creation:
 
-**TODO:** Document any optional config settings here. For example:
-
-	# The minimum number of hours to wait before re-checking a resource
-	# (optional, default: 24).
-	ckanext.afucn.some_setting = some_default_value
+	# Create the subresource setting
+	# Default is False
+	ckanext.afucn.subresource = True/False
 
 
 ## Developer installation
