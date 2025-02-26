@@ -31,10 +31,10 @@ dataset_fields:
   form_snippet: markdown.html
   form_placeholder: Please give a useful introduction to the dataset which will be shown straight after the title.
 
-# - field_name: country
-#   # required: true
-#   preset: country
-#   display_group: Overview
+- field_name: country
+  # required: true
+  preset: country
+  display_group: Overview
 
 # - field_name: programme
 #   # required: true

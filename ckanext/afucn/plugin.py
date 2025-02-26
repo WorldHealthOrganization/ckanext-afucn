@@ -16,7 +16,8 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IResourceController, inherit=True)
-    
+    plugins.implements(plugins.IPackageController, inherit=True)
+
     # IConfigurer
 
     # IConfigurer
@@ -54,11 +55,14 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return facets_dict
     
     # IResourceController
+    
     def after_resource_create(self, context, resource_dict):
         if subresource:
             create_subresource(context, resource_dict)
         return
     
+    # IPackageController
+
     def before_dataset_index(self, data_dict: Dict) -> Dict:
         """Load custom multivalued fields as objects before solr indexing.
 
@@ -72,6 +76,7 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
             data_dict['programme'] = json.loads(data_dict['programme'])
         if isinstance(data_dict.get('country'), str):
             data_dict['country'] = json.loads(data_dict['country'])
+
         return data_dict
 
 # --------------------------------------------------------------------

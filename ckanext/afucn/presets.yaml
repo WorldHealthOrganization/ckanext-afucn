@@ -5,9 +5,8 @@ presets:
   - preset_name: country
     values:
       form_snippet: multiple_select.html
-      display_snippet: multiple_inline.html
-      separator: ', '
-      validators: scheming_required scheming_multiple_choice
+      display_snippet: multiple_choice.html
+      validators: scheming_multiple_choice
       output_validators: scheming_multiple_choice_output
       label: Countries
       select_size: '5'
@@ -108,12 +107,9 @@ presets:
           label: Zambia
         - value: ZW
           label: Zimbabwe
+  
   - preset_name: programme
     values:
-      form_snippet: multiple_select.html
-      display_snippet: multiple_inline.html
-      validators: scheming_required scheming_multiple_choice
-      output_validators: scheming_multiple_choice_output
       label: Programmes
       select_size: '5'
       separator: '; '
@@ -150,10 +146,10 @@ presets:
           label: Non-communicable Diseases (NCD)
         - value: other
           label: Other
+  
   - preset_name: sustainable_development_goals
     values:
       form_snippet: multiple_select.html
-      display_snippet: multiple_inline.html
       validators: scheming_required scheming_multiple_choice
       output_validators: scheming_multiple_choice_output
       label: Programmes
@@ -194,18 +190,3 @@ presets:
           label: '(16) Peace, Justice & Strong Institutions'
         - value: 17_partnership
           label: (17) Partnership For The Goals
-  - preset_name: yes_no
-    values:
-      form_snippet: select.html
-      display_snippet: select.html
-      validators: scheming_required scheming_choices
-      choices:
-        - value: 'Yes'
-          label: 'Yes'
-        - value: 'No'
-          label: 'No'
-  - preset_name: language
-    values:
-      form_snippet: language.html
-      display_snippet: language.html
-      validators: scheming_required language_validator
