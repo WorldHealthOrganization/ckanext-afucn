@@ -31,12 +31,12 @@ dataset_fields:
   form_snippet: markdown.html
   form_placeholder: Please give a useful introduction to the dataset which will be shown straight after the title.
 
-- field_name: country
+- field_name: Countries
   # required: true
   preset: country
   display_group: Overview
 
-- field_name: programme
+- field_name: Programmes
   # required: true
   preset: programme
   display_group: Overview
@@ -51,7 +51,6 @@ dataset_fields:
 - field_name: maintainer
   label: Maintainer
   # required: true
-  user_field: fullname
   display_group: Overview
 
 - field_name: maintainer_email
@@ -152,6 +151,7 @@ dataset_fields:
   
 - field_name: sustainable_development_goals
   label: Sustainable Development Goals
+  preset: sustainable_development_goals
   help_text: Multi-select referencing one or more SDGs
   display_group: About the Data
 
@@ -161,12 +161,13 @@ dataset_fields:
   
   field_name: indicator_definition
   label: Indicator Definition
+  form_snippet: markdown.html
   form_placeholder: e.g. Births per 1000 women aged 15–19
   display_group: Indicator Details
   help_text: The formal definition or meaning of this indicator.
 
 - field_name: global_strategy
-  label: ckanext-afucn/ckanext/afucn/schemas/ckan_dataset.yaml ckanext-afucn/ckanext/afucn/schemas/indicator.yaml
+  label: Global strategy
   help_text: e.g. Population at risk
   display_group: About the Data
 
@@ -202,11 +203,6 @@ dataset_fields:
   form_placeholder: e.g. immunization, vaccine
   display_group: Indicator Details
 
-- field_name: subject_of_measure
-  label: Subject Of Measure
-  form_placeholder: e.g. immunization, vaccine
-  display_group: Indicator Details
-
 - field_name: subject_of_measure_sentiment
   label: Subject Of Measure Sentiment
   form_placeholder: e.g. Negative, Neutral
@@ -219,11 +215,12 @@ dataset_fields:
 
 - field_name: confidence_intervals
   label: Confidence Intervals
+  preset: select
   choices:
-  - value: yes
-    label: Yes
-  - value: no
-    label: No
+  - value: 'yes'
+    label: 'Yes'
+  - value: 'no'
+    label: 'No'
   help_text: Whether confidence intervals are included in the indicator data
   display_group: Indicator Details
 

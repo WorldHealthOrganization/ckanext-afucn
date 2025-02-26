@@ -55,7 +55,7 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return facets_dict
     
     # IResourceController
-    
+
     def after_resource_create(self, context, resource_dict):
         if subresource:
             create_subresource(context, resource_dict)
@@ -76,6 +76,8 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
             data_dict['programme'] = json.loads(data_dict['programme'])
         if isinstance(data_dict.get('country'), str):
             data_dict['country'] = json.loads(data_dict['country'])
+        if isinstance(data_dict.get('sustainable_development_goals'), str):
+            data_dict['sustainable_development_goals'] = json.loads(data_dict['sustainable_development_goals'])
 
         return data_dict
 
