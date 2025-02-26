@@ -1,0 +1,211 @@
+scheming_presets_version: 1
+about: These are Scheming presets specific to WHO AFRO
+about_url: 'http://github.com/ckan/ckanext-scheming#preset'
+presets:
+  - preset_name: country
+    values:
+      form_snippet: multiple_select.html
+      display_snippet: multiple_inline.html
+      separator: ', '
+      validators: scheming_required scheming_multiple_choice
+      output_validators: scheming_multiple_choice_output
+      label: Countries
+      select_size: '5'
+      choices:
+        - value: AFRO
+          label: WHO African Region
+        - value: AO
+          label: Angola
+        - value: BF
+          label: Burkina Faso
+        - value: BI
+          label: Burundi
+        - value: BJ
+          label: Benin
+        - value: BW
+          label: Botswana
+        - value: CD
+          label: Democratic Republic of the Congo
+        - value: CF
+          label: Central African Republic
+        - value: CG
+          label: Congo
+        - value: CI
+          label: Côte d'Ivoire
+        - value: CM
+          label: Cameroon
+        - value: CV
+          label: Cabo Verde
+        - value: DZ
+          label: Algeria
+        - value: ER
+          label: Eritrea
+        - value: ET
+          label: Ethiopia
+        - value: GA
+          label: Gabon
+        - value: GH
+          label: Ghana
+        - value: GN
+          label: Guinea
+        - value: GM
+          label: Gambia
+        - value: GQ
+          label: Equatorial Guinea
+        - value: GW
+          label: Guinea-Bissau
+        - value: KE
+          label: Kenya
+        - value: KM
+          label: Comoros
+        - value: LR
+          label: Liberia
+        - value: LS
+          label: Lesotho
+        - value: MG
+          label: Madagascar
+        - value: ML
+          label: Mali
+        - value: MR
+          label: Mauritania
+        - value: MU
+          label: Mauritius
+        - value: MW
+          label: Malawi
+        - value: MZ
+          label: Mozambique
+        - value: NA
+          label: Namibia
+        - value: NE
+          label: Niger
+        - value: NG
+          label: Nigeria
+        - value: RW
+          label: Rwanda
+        - value: SC
+          label: Seychelles
+        - value: SL
+          label: Sierra Leone
+        - value: SN
+          label: Senegal
+        - value: SS
+          label: South Sudan
+        - value: ST
+          label: Sao Tome and Principe
+        - value: SZ
+          label: Eswatini
+        - value: TD
+          label: Chad
+        - value: TG
+          label: Togo
+        - value: TZ
+          label: United Republic of Tanzania
+        - value: UG
+          label: Uganda
+        - value: ZA
+          label: South Africa
+        - value: ZM
+          label: Zambia
+        - value: ZW
+          label: Zimbabwe
+  - preset_name: programme
+    values:
+      form_snippet: multiple_select.html
+      display_snippet: multiple_inline.html
+      validators: scheming_required scheming_multiple_choice
+      output_validators: scheming_multiple_choice_output
+      label: Programmes
+      select_size: '5'
+      separator: '; '
+      choices:
+        - value: hiv
+          label: HIV
+        - value: srh
+          label: SRH
+        - value: malaria
+          label: Malaria
+        - value: tb
+          label: Tuberculosis
+        - value: ucn
+          label: Universal Health Coverage
+        - value: amr
+          label: Anti-Microbial Resistance
+        - value: vpd
+          label: Vaccine Preventable Diseases
+        - value: onehealth
+          label: OneHealth
+        - value: idsr
+          label: Integrated Disease Surveillance and Reporting
+        - value: climate
+          label: 'Climate Change, Health and Environment'
+        - value: blood-pressure
+          label: Blood Pressure
+        - value: tobacco
+          label: Tobacco
+        - value: wash
+          label: 'Water, Sanitation and Hygiene (WASH)'
+        - value: vid
+          label: 'Violence, Injuries and Disabilities (VID)'
+        - value: ncd
+          label: Non-communicable Diseases (NCD)
+        - value: other
+          label: Other
+  - preset_name: sustainable_development_goals
+    values:
+      form_snippet: multiple_select.html
+      display_snippet: multiple_inline.html
+      validators: scheming_required scheming_multiple_choice
+      output_validators: scheming_multiple_choice_output
+      label: Programmes
+      select_size: '5'
+      separator: '; '
+      choices:
+        - value: 1_poverty
+          label: (1) No Poverty
+        - value: 2_hunger
+          label: (2) Zero Hunger
+        - value: 3_health_wellbeing
+          label: (3) Good Health & Wellbeing
+        - value: 4_education
+          label: (4) Quality Education
+        - value: 5_gender_equality
+          label: (5) Gender Equality
+        - value: 6_water_sanitation
+          label: (6) Clean Water & Sanitation
+        - value: 7_vaccine_preventable_diseases
+          label: (7) Vaccine Preventable Diseases
+        - value: 8_work_economy
+          label: (8) Decent Work & Economic Growth
+        - value: 9_industry_innovation_infrastructure
+          label: (9) Industry Innovation & Infrastructure
+        - value: 10_inequality
+          label: (10) Reduced Inequalities
+        - value: 11_sustainable_cities_communities
+          label: (11) Sustainable Cities & Communities
+        - value: 12_responsible_consumption_production
+          label: (10) Responsible Consumption & Production
+        - value: 13_climate
+          label: (13) Climate Action
+        - value: 14_life_below_water
+          label: (14) Life Below water
+        - value: 15_life_on_land
+          label: (15) Life On Land
+        - value: 16_peace_justice
+          label: '(16) Peace, Justice & Strong Institutions'
+        - value: 17_partnership
+          label: (17) Partnership For The Goals
+  - preset_name: yes_no
+    values:
+      form_snippet: select.html
+      display_snippet: select.html
+      validators: scheming_required scheming_choices
+      choices:
+        - value: 'Yes'
+          label: 'Yes'
+        - value: 'No'
+          label: 'No'
+  - preset_name: language
+    values:
+      form_snippet: language.html
+      display_snippet: language.html
+      validators: scheming_required language_validator

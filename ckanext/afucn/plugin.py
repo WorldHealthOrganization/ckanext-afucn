@@ -1,5 +1,7 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+import json
+from typing import Dict
 from ckan.lib.plugins import DefaultTranslation
 from ckanext.afucn.subresource import create_subresource
 from ckan.common import config
@@ -56,6 +58,21 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         if subresource:
             create_subresource(context, resource_dict)
         return
+    
+    def before_dataset_index(self, data_dict: Dict) -> Dict:
+        """Load custom multivalued fields as objects before solr indexing.
+
+        Args:
+            data_dict (Dict): input data
+
+        Returns:
+            Dict: Normalized input data
+        """
+        if isinstance(data_dict.get('programme'), str):
+            data_dict['programme'] = json.loads(data_dict['programme'])
+        if isinstance(data_dict.get('country'), str):
+            data_dict['country'] = json.loads(data_dict['country'])
+        return data_dict
 
 # --------------------------------------------------------------------
 # New Resource View: Portal Map
