@@ -483,10 +483,11 @@ table.diff {
 
 .toolbar .breadcrumb .active {
   color: #3c4245;
+  font-size: 1rem;
 }
 
 .toolbar .breadcrumb a {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: #505050;
   font-weight: bold;
 }
@@ -498,6 +499,18 @@ table.diff {
   background: #fff;
   background-position: center bottom;
   background-size: cover;
+  margin: 0 auto;
+  width: 80%;
+}
+@media (max-width: 768px) {
+  .main {
+    width: 90%;
+  }
+}
+@media (max-width: 576px) {
+  .main {
+    width: 100%;
+  }
 }
 
 .homepage .module-search .search-form {
@@ -1348,10 +1361,6 @@ table.diff {
 }
 
 
-.toolbar .breadcrumb .active {
-  font-size: 1.5rem;
-}
-
 #location-info {
   margin-top: 2rem;
 }
@@ -1482,20 +1491,14 @@ table.diff {
 
 
 .title-strip {
-  background: #edf6fd !important;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  margin-top: -20px;
   height: 50px;
   text-align: center;
   position: relative;
-  left: 0;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  border-width: 1px;
-  padding-top: 10px !important;
 }
 
+.title-strip .container {
+  width: 100%;
+}
 .title-strip-breadcrumb {
   width: 80%;
 }
