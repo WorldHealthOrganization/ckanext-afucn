@@ -1268,6 +1268,7 @@ table.diff {
 
 .ds-icon-breadcrumb {
   font-family: "ETmoudles" !important;
+  
   /* Ensure the font "ETmoudles" is loaded */
 }
 
@@ -1277,6 +1278,8 @@ table.diff {
   /* Ensure the font "ETmoudles" is loaded */
   vertical-align: top;
   content: "\e109";
+  font-size: 1.5rem;
+  font-weight: 300;
   /* Unicode for the 'package' icon */
 }
 
@@ -1286,6 +1289,8 @@ table.diff {
   content: "\e109";
   /* Unicode for the 'dataset' icon */
   vertical-align: top;
+  font-size: 1.5rem;
+  font-weight: 300;
 }
 
 .ds-icon-breadcrumb-location:before {
@@ -1293,6 +1298,8 @@ table.diff {
   /* Ensure the font "ETmoudles" is loaded */
   vertical-align: top;
   content: "\e01d";
+  font-size: 1.5rem;
+  font-weight: 300;
   /* Unicode for the 'location' icon */
 }
 
@@ -1301,6 +1308,8 @@ table.diff {
   /* Ensure the font "ETmoudles" is loaded */
   vertical-align: top;
   content: "\e0a1";
+  font-size: 1.5rem;
+  font-weight: 300;
   /* Unicode for the 'group' icon */
 }
 
@@ -1308,7 +1317,9 @@ table.diff {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
   vertical-align: top;
-  content: "\e01b";
+  content: "\e01b"; 
+  font-size: 1.5rem;
+  font-weight: 300;
   /* Unicode for the 'topic' icon */
 }
 
@@ -1318,6 +1329,8 @@ table.diff {
   /* Ensure the font "ETmoudles" is loaded */
   vertical-align: top;
   content: "\fc";
+  font-size: 1.5rem;
+  font-weight: 300;
   /* Unicode for the 'topic' icon */
 }
 
@@ -1326,6 +1339,8 @@ table.diff {
   /* Ensure the font "ETmoudles" is loaded */
   vertical-align: top;
   content: "\e0ef";
+  font-size: 1.5rem;
+  font-weight: 300;
   /* Unicode for the 'topic' icon */
 }
 
@@ -1333,8 +1348,9 @@ table.diff {
   font-family: "ETmoudles" !important;
   /* Ensure the font "ETmoudles" is loaded */
   vertical-align: top;
-  content: "\e0e9";
-  /* Unicode for the 'other' icon */
+  content: "\e0e9";/* Unicode for the 'other' icon */
+  font-size: 1.5rem;
+  font-weight: 300;
 }
 
 
@@ -1532,26 +1548,20 @@ table.diff {
 }
 
 
-/* .breadcrumb-item {
-  font-size: 1.5rem;
-  color: #001437;
-}
- */
-
 .breadcrumb li.active a {
-  font-weight: bold;
+  font-weight: 400;
   /* Optional */
 }
 
 
 /* Style the 'Locations' and country name links inside breadcrumb */
 .breadcrumb li:not(:first-child) a {
-  font-weight: bold;
+  font-weight: 400;
   /* Optional */
 }
 
 .breadcrumb li a {
-  color: #0F2D5B;
+  color: #28262b;
 }
 
 
