@@ -168,6 +168,7 @@ dataset_fields:
 
 - field_name: global_strategy
   label: Global strategy
+  preset: global_strategy
   help_text: e.g. Population at risk
   display_group: About the Data
 
