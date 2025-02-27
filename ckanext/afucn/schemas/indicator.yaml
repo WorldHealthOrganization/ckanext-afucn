@@ -1,0 +1,289 @@
+scheming_version: 2
+dataset_type: indicator
+name: Indicator
+about: A customized dataset schema for WHO AFRO CKAN deployment
+about_url: http://github.com/ckan/ckanext-scheming
+
+dataset_fields:
+
+- start_form_page:
+    title: General Metadata
+    description:
+      These fields provide an overview of the dataset, helping users to search and find relevant data within the catalogue.
+
+  field_name: title
+  label: Title
+  preset: title
+  required: true
+  form_placeholder: eg. Malaria Incidence 2021
+  display_group: Overview
+
+- field_name: name
+  label: URL
+  preset: dataset_slug
+  required: true
+  form_placeholder: eg. malaria-incidence-2021(url)
+  display_group: Overview
+
+- field_name: notes
+  # required: true
+  label: Description
+  form_snippet: markdown.html
+  form_placeholder: Please give a useful introduction to the dataset which will be shown straight after the title.
+
+- field_name: Countries
+  # required: true
+  preset: country
+  display_group: Overview
+
+- field_name: Programmes
+  # required: true
+  preset: programme
+  display_group: Overview
+
+- field_name: tag_string
+  # required: true
+  label: Tags
+  preset: tag_string_autocomplete
+  form_placeholder: eg. economy, mental health, government
+  display_group: Overview
+
+- field_name: maintainer
+  label: Maintainer
+  # required: true
+  display_group: Overview
+
+- field_name: maintainer_email
+  label: Maintainer Email
+  form_placeholder: joe@example.com
+  display_property: dc:contributor
+  display_snippet: email.html
+  display_email_name_field: maintainer
+  display_group: Overview
+
+- field_name: language
+  # required: true
+  label: Dataset Language
+  display_group: Overview
+  preset: select
+  choices:
+  - value: en
+    label: English
+  - value: fn
+    label: French
+
+- field_name: owner_org
+  required: true
+  label: Organization
+  preset: dataset_organization
+  display_group: Access & Use
+
+- field_name: license_id
+  label: License
+  form_snippet: license.html
+  #required: true
+  help_text: License definitions and additional information can be found at http://opendefinition.org/
+  display_group: Access & Use
+
+
+- start_form_page:
+    title: About the data
+    description: Please provide as many details as possible to facilitate the reuse of the data.
+
+  field_name: accrual_periodicity
+  label: Frequency of data collection
+  form_placeholder: e.g. Annual
+  help_text: Indicate how frequently new data is incorporated into this dataset.
+  display_group: About the Data
+  preset: select
+  choices:
+  - value: daily
+    label: Daily
+  - value: weekly
+    label: Weekly
+  - value: monthly
+    label: Monthly
+  - value: quarterly
+    label: Quarterly
+  - value: semiannual
+    label: Semi-annual
+  - value: annual
+    label: Annual
+  - value: asNeeded
+    label: As Needed
+
+- field_name: provenance
+  label: Provenance
+  form_placeholder: e.g. "Country reports" or "Household surveys"
+  help_text: Briefly describe where the data has come from.
+  display_group: About the Data
+
+- field_name: temporal_start
+  label: Temporal Start Date
+  preset: date
+  help_text: Earliest date covered by the dataset (ISO format).
+  display_group: About the Data
+
+- field_name: temporal_end
+  label: Temporal End Date
+  preset: date
+  help_text: Latest date covered by the dataset (ISO format).
+  display_group: About the Data
+
+- field_name: temporal_resolution
+  label: Temporal Resolution
+  form_placeholder: e.g. “Monthly,” “Daily”
+  help_text: The smallest time unit the dataset addresses.
+  display_group: About the Data
+
+- field_name: spatial_resolution
+  label: Spatial Resolution
+  form_placeholder: e.g. “region” “country” "district"
+  help_text: The smallest geographic unit represented in the dataset.
+  display_group: About the Data
+
+- field_name: source
+  label: Source
+  form_snippet: markdown.html
+  form_placeholder: e.g. “Official Ministry of Health reports”
+  help_text: Additional info or references about the data source.
+  display_group: About the Data
+  
+- field_name: sustainable_development_goals
+  label: Sustainable Development Goals
+  preset: sustainable_development_goals
+  help_text: Multi-select referencing one or more SDGs
+  display_group: About the Data
+
+- start_form_page:
+    title: Indicator Specifics
+    description: Please provide further specific details about the indicator in question.
+  
+  field_name: indicator_definition
+  label: Indicator Definition
+  form_snippet: markdown.html
+  form_placeholder: e.g. Births per 1000 women aged 15–19
+  display_group: Indicator Details
+  help_text: The formal definition or meaning of this indicator.
+
+- field_name: global_strategy
+  label: Global strategy
+  help_text: e.g. Population at risk
+  display_group: About the Data
+
+- field_name: direction_of_progress
+  label: Direction of Progress
+  form_placeholder: e.g.  Lower is better, Higher is better
+  display_group: Indicator Details
+
+- field_name: data_type
+  label: Data Type
+  form_placeholder: e.g. Float or Int
+  display_group: Indicator Details
+
+- field_name: unit_of_measure
+  label: Unit of Measure
+  form_placeholder: e.g. Births per 1000, %
+  display_group: Indicator Details
+
+- field_name: value_display_label
+  label: Value Display Label
+  form_placeholder: e.g. % or Births per 1000
+  help_text: Shown on charts or visualisations to label numeric values
+  display_group: Indicator Details
+
+- field_name: short_value_display_label
+  label: Short Value Display Label
+  form_placeholder: e.g. % or Births per 1000
+  help_text: Used in visualisations and charts
+  display_group: Indicator Details
+
+- field_name: subject_of_measure
+  label: Subject Of Measure
+  form_placeholder: e.g. immunization, vaccine
+  display_group: Indicator Details
+
+- field_name: subject_of_measure_sentiment
+  label: Subject Of Measure Sentiment
+  form_placeholder: e.g. Negative, Neutral
+  display_group: Indicator Details
+
+- field_name: preferred_semantic_value_type
+  label: Preferred Semantic Value Type
+  form_placeholder: e.g. Rate per 1000, Percentage
+  display_group: Indicator Details
+
+- field_name: confidence_intervals
+  label: Confidence Intervals
+  preset: select
+  choices:
+  - value: 'yes'
+    label: 'Yes'
+  - value: 'no'
+    label: 'No'
+  help_text: Whether confidence intervals are included in the indicator data
+  display_group: Indicator Details
+
+- field_name: calculation_type
+  label: Calculation Type
+  form_placeholder: e.g. Adjusted or Predicted
+  display_group: Indicator Details
+
+- field_name: data_completeness
+  label: Data Completeness
+  form_placeholder: e.g. Incomplete or Fully complete
+  display_group: Indicator Details
+
+- start_form_page:
+    title: Methodology
+    description: Methodology 
+
+  field_name: method_of_measurement
+  form_snippet: markdown.html
+  label: Method of Measurement
+  form_placeholder: Sum of Values
+  display_group: Methodology
+
+- field_name: method_of_estimation_aggregates
+  label: Method of Estimation Aggregates
+  form_snippet: markdown.html
+  form_placeholder: Weighted average of country estimates
+  display_group: Methodology
+
+- field_name: process_of_validation
+  label: Process of Validation
+  form_snippet: markdown.html
+  form_placeholder: e.g Data Quality checks and external peer review
+  display_group: Methodology
+
+- field_name: rationale
+  label: Rationale
+  form_snippet: markdown.html
+  form_placeholder: e.g Indicator tracks adolescent helth outcomes
+  display_group: Methodology
+
+- field_name: comments
+  label: Comments
+  form_snippet: markdown.html
+  form_placeholder: e.g Low sample size for some refions
+  display_group: Methodology
+
+
+resource_fields:
+
+- field_name: url
+  label: URL
+  preset: resource_url_upload
+
+- field_name: name
+  label: Name
+  form_placeholder: eg. Senegal HTC Scale Up Plan
+
+- field_name: description
+  label: Description
+  form_snippet: markdown.html
+  form_placeholder: Some useful notes about the data
+
+- field_name: format
+  label: Format
+  preset: resource_format_autocomplete
