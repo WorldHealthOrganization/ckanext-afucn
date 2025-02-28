@@ -78,7 +78,9 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
             data_dict['country'] = json.loads(data_dict['country'])
         if isinstance(data_dict.get('sustainable_development_goals'), str):
             data_dict['sustainable_development_goals'] = json.loads(data_dict['sustainable_development_goals'])
-
+        if isinstance(data_dict.get('global_strategy'), str):
+            data_dict['global_strategy'] = json.loads(data_dict['global_strategy'])
+        
         return data_dict
 
 # --------------------------------------------------------------------
