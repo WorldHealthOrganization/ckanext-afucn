@@ -21,6 +21,7 @@ afucn-css:
     - css/afucn.css
     - css/styles.css
     - css/custom.css
+    - css/portal_visualization.css
 
 
 afucn-map-css:

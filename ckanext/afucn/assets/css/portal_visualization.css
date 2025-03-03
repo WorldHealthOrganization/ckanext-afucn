@@ -1,0 +1,51 @@
+#portal_viz {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+#portal_viz .control-panel {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+#portal_viz .control-panel.year-filter {
+  justify-content: flex-start;
+}
+
+#portal_viz .control-panel.location-filter {
+  justify-content: center;
+}
+
+#portal_viz .control-panel .filter-group {
+  display: flex;
+  align-items: center;
+}
+
+#portal_viz .control-panel label {
+  font-size: 14px;
+  margin-right: 5px;
+  white-space: nowrap;
+}
+
+#portal_viz .control-panel select {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+  margin-right: 10px;
+  min-width: 120px;
+}
+
+#portal_viz .visualization {
+  height: 500px;
+  margin-bottom: 20px;
+}
+
+#portal_viz #trend {
+  width: 100%;
+  height: 500px;
+  margin-bottom: 20px;
+} 
