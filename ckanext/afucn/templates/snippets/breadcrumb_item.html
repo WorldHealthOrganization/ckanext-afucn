@@ -2,7 +2,7 @@
 <li class="breadcrumb-item">
     <a href="{{ h.url_for('home.index') }}">
         {% if 'package' in request.path %}
-        <p class="ds-icon-breadcrumb-package">
+             <p class="ds-icon-breadcrumb-package">
             {% elif 'group' in request.path %}
             <p class="ds-icon-breadcrumb-group">
                 {% elif 'user' in request.path %}
@@ -16,7 +16,8 @@
                 {% elif 'organization' in request.path %}
             <p class="ds-icon-breadcrumb-org">
                 {% else %}
-                <i class="fa fa-question-circle"></i>
+            <p class="home">
+                <i class="fa fa-home"></i>
                 {% endif %}
     </a>
 </li>

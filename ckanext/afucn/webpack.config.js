@@ -1,56 +1,62 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+// Removed: const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: {
-    styles: './assets/sass/styles.scss', // Entry point for Sass
-    afucn: './assets/js/afucn.js', // Entry point for custom JavaScript
-    'afucn.bundle': './assets/js/afucn.bundle.js', // Entry point for libraries
+    app: './assets/js/main.js',  // Your custom JS entry point
+    vendor: './assets/js/vendor.js',  // Entry for third-party libraries
   },
   output: {
-    path: path.resolve(__dirname, 'public'), // Output directory
-    filename: '[name].js', // Output file name ([name] = entry point name)
+    path: path.resolve(__dirname, '../public'), // Output directory (public folder)
+    filename: 'js/[name].bundle.js', // Output JS bundles (e.g., public/js/app.bundle.js)
   },
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader, // Extracts CSS into a file
-          'css-loader', // Translates CSS into CommonJS
-          {
-            loader: 'sass-loader', // Compiles Sass to CSS
-            options: {
-              sourceMap: true, // Enable source maps
-            },
-          },
+          MiniCssExtractPlugin.loader,
+          'css-loader', // Parses CSS files
         ],
       },
       {
-        test: /\.js$/, // Process JavaScript files
-        exclude: /node_modules/, // Exclude node_modules
-        use: {
-          loader: 'babel-loader', // Transpile JavaScript using Babel
-          options: {
-            presets: ['@babel/preset-env'], // Use modern JavaScript features
-          },
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader', // Compiles SCSS to CSS
+        ],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|svg)$/, // Font files
+        type: 'asset/css/',
+        generator: {
+          filename: 'fonts/[name].[hash][ext]', // Output to fonts folder
         },
       },
     ],
   },
+  resolve: {
+    extensions: ['.js', '.json', '.css', '.scss'], // Resolve file extensions
+  },
+  optimization: {
+    minimize: true,  // Minimize the output (production builds)
+    minimizer: [
+      new TerserWebpackPlugin(),  // Minify JavaScript
+      // Removed ImageMinimizerPlugin instance
+    ],
+  },
+  stats: {
+    errorDetails: true,
+  },
   plugins: [
+    new CleanWebpackPlugin(),  // Clean the output folder before each build
     new MiniCssExtractPlugin({
-      filename: 'afucn.css', // Output CSS file name
-    }),
-    new BrowserSyncPlugin({
-      proxy: 'https://localhost:8443', // Proxy your Docker app
-      files: ['public/afucn.css'], // Watch the compiled CSS file
-      serveStatic: ['./public'], // Serve the public folder locally
-      injectCss: true, // Inject CSS changes without reloading
-      https: true, // Enable HTTPS for BrowserSync
+      filename: 'css/[name].bundle.css',  // Output CSS files (e.g., public/css/app.bundle.css)
     }),
   ],
-  devtool: 'source-map', // Generate source maps
-  mode: 'development', // No minification
+  mode: 'production',  // Set to 'production' for optimized build
 };
