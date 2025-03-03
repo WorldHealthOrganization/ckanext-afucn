@@ -13,99 +13,99 @@ presets:
       choices:
         - value: AFRO
           label: WHO African Region
-        - value: AO
+        - value: AGO
           label: Angola
-        - value: BF
+        - value: BFA
           label: Burkina Faso
-        - value: BI
+        - value: BDI
           label: Burundi
-        - value: BJ
+        - value: BEN
           label: Benin
-        - value: BW
+        - value: BWA
           label: Botswana
-        - value: CD
+        - value: COD
           label: Democratic Republic of the Congo
-        - value: CF
+        - value: CAF
           label: Central African Republic
-        - value: CG
+        - value: COG
           label: Congo
-        - value: CI
+        - value: CIV
           label: Côte d'Ivoire
-        - value: CM
+        - value: CMR
           label: Cameroon
-        - value: CV
+        - value: CPV
           label: Cabo Verde
-        - value: DZ
+        - value: DZA
           label: Algeria
-        - value: ER
+        - value: ERI
           label: Eritrea
-        - value: ET
+        - value: ETH
           label: Ethiopia
-        - value: GA
+        - value: GAB
           label: Gabon
-        - value: GH
+        - value: GHA
           label: Ghana
-        - value: GN
+        - value: GIN
           label: Guinea
-        - value: GM
+        - value: GMB
           label: Gambia
-        - value: GQ
+        - value: GNQ
           label: Equatorial Guinea
-        - value: GW
+        - value: GNB
           label: Guinea-Bissau
-        - value: KE
+        - value: KEN
           label: Kenya
-        - value: KM
+        - value: COM
           label: Comoros
-        - value: LR
+        - value: LBR
           label: Liberia
-        - value: LS
+        - value: LSO
           label: Lesotho
-        - value: MG
+        - value: MDG
           label: Madagascar
-        - value: ML
+        - value: MLI
           label: Mali
-        - value: MR
+        - value: MRT
           label: Mauritania
-        - value: MU
+        - value: MUS
           label: Mauritius
-        - value: MW
+        - value: MWI
           label: Malawi
-        - value: MZ
+        - value: MOZ
           label: Mozambique
-        - value: NA
+        - value: NAM
           label: Namibia
-        - value: NE
+        - value: NER
           label: Niger
-        - value: NG
+        - value: NGA
           label: Nigeria
-        - value: RW
+        - value: RWA
           label: Rwanda
-        - value: SC
+        - value: SYC
           label: Seychelles
-        - value: SL
+        - value: SLE
           label: Sierra Leone
-        - value: SN
+        - value: SEN
           label: Senegal
-        - value: SS
+        - value: SSD
           label: South Sudan
-        - value: ST
+        - value: STP
           label: Sao Tome and Principe
-        - value: SZ
+        - value: SWZ
           label: Eswatini
-        - value: TD
+        - value: TCD
           label: Chad
-        - value: TG
+        - value: TGO
           label: Togo
-        - value: TZ
+        - value: TZA
           label: United Republic of Tanzania
-        - value: UG
+        - value: UGA
           label: Uganda
-        - value: ZA
+        - value: ZAF
           label: South Africa
-        - value: ZM
+        - value: ZMB
           label: Zambia
-        - value: ZW
+        - value: ZWE
           label: Zimbabwe
   
   - preset_name: programme

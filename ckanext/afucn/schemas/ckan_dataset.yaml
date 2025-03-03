@@ -30,113 +30,101 @@ dataset_fields:
   label: Country
   preset: select
   choices:
-  - value: Algeria
-    label: Algeria
-  - value: Angola
+  - value: AFRO
+    label: WHO African Region
+  - value: AGO
     label: Angola
-  - value: Benin
-    label: Benin
-  - value: Botswana
-    label: Botswana
-  - value: Burkina Faso
+  - value: BFA
     label: Burkina Faso
-  - value: Burundi
+  - value: BDI
     label: Burundi
-  - value: Cabo Verde
-    label: Cabo Verde
-  - value: Cameroon
-    label: Cameroon
-  - value: Central African Republic
-    label: Central African Republic
-  - value: Chad
-    label: Chad
-  - value: Comoros
-    label: Comoros
-  - value: Congo
-    label: Congo
-  - value: Democratic Republic of the Congo
+  - value: BEN
+    label: Benin
+  - value: BWA
+    label: Botswana
+  - value: COD
     label: Democratic Republic of the Congo
-  - value: Djibouti
-    label: Djibouti
-  - value: Egypt
-    label: Egypt
-  - value: Equatorial Guinea
-    label: Equatorial Guinea
-  - value: Eritrea
+  - value: CAF
+    label: Central African Republic
+  - value: COG
+    label: Congo
+  - value: CIV
+    label: Côte d'Ivoire
+  - value: CMR
+    label: Cameroon
+  - value: CPV
+    label: Cabo Verde
+  - value: DZA
+    label: Algeria
+  - value: ERI
     label: Eritrea
-  - value: Eswatini
-    label: Eswatini
-  - value: Ethiopia
+  - value: ETH
     label: Ethiopia
-  - value: Gabon
+  - value: GAB
     label: Gabon
-  - value: Gambia
-    label: Gambia
-  - value: Ghana
+  - value: GHA
     label: Ghana
-  - value: Guinea
+  - value: GIN
     label: Guinea
-  - value: Guinea-Bissau
+  - value: GMB
+    label: Gambia
+  - value: GNQ
+    label: Equatorial Guinea
+  - value: GNB
     label: Guinea-Bissau
-  - value: Ivory Coast
-    label: Ivory Coast
-  - value: Kenya
+  - value: KEN
     label: Kenya
-  - value: Lesotho
-    label: Lesotho
-  - value: Liberia
+  - value: COM
+    label: Comoros
+  - value: LBR
     label: Liberia
-  - value: Libya
-    label: Libya
-  - value: Madagascar
+  - value: LSO
+    label: Lesotho
+  - value: MDG
     label: Madagascar
-  - value: Malawi
-    label: Malawi
-  - value: Mali
+  - value: MLI
     label: Mali
-  - value: Mauritania
+  - value: MRT
     label: Mauritania
-  - value: Mauritius
+  - value: MUS
     label: Mauritius
-  - value: Morocco
-    label: Morocco
-  - value: Mozambique
+  - value: MWI
+    label: Malawi
+  - value: MOZ
     label: Mozambique
-  - value: Namibia
+  - value: NAM
     label: Namibia
-  - value: Niger
+  - value: NER
     label: Niger
-  - value: Nigeria
+  - value: NGA
     label: Nigeria
-  - value: Rwanda
+  - value: RWA
     label: Rwanda
-  - value: São Tomé and Príncipe
-    label: São Tomé and Príncipe
-  - value: Senegal
-    label: Senegal
-  - value: Seychelles
+  - value: SYC
     label: Seychelles
-  - value: Sierra Leone
+  - value: SLE
     label: Sierra Leone
-  - value: Somalia
-    label: Somalia
-  - value: South Africa
-    label: South Africa
-  - value: South Sudan
+  - value: SEN
+    label: Senegal
+  - value: SSD
     label: South Sudan
-  - value: Sudan
-    label: Sudan
-  - value: Tanzania
-    label: Tanzania
-  - value: Togo
+  - value: STP
+    label: Sao Tome and Principe
+  - value: SWZ
+    label: Eswatini
+  - value: TCD
+    label: Chad
+  - value: TGO
     label: Togo
-  - value: Tunisia
-    label: Tunisia
-  - value: Uganda
+  - value: TZA
+    label: United Republic of Tanzania
+  - value: UGA
     label: Uganda
-  - value: Zambia
+  - value: ZAF
+    label: South Africa
+  - value: ZMB
     label: Zambia
-  - value: Zimbabwe
+  - value: ZWE
     label: Zimbabwe
 
 - field_name: owner_org
