@@ -206,12 +206,19 @@ const PortalViz = {
       return {
         backgroundColor: '#F5F5F5',
         title: {
-          text: 'Africa Map',
-          subtext: `Year: ${selectedYear}`,
+          text: 'Geographic Distribution',
+          subtext: `${selectedYear}`,
           left: '5%',
           top: '3%',
-          textStyle: { fontSize: 16, fontWeight: 'normal' },
-          subtextStyle: { fontSize: 14 }
+          textStyle: { 
+            fontSize: 16, 
+            fontWeight: 'normal',
+            color: '#333333'
+          },
+          subtextStyle: { 
+            fontSize: 14,
+            color: '#666666'
+          }
         },
         tooltip: {
           trigger: "item",
@@ -277,10 +284,19 @@ const PortalViz = {
       return {
         backgroundColor: '#F5F5F5',
         title: {
-          text: 'Country Rankings',
-          subtext: `Year: ${selectedYear}`,
+          text: 'Country Comparison',
+          subtext: `${selectedYear}`,
           left: '5%',
-          top: '3%'
+          top: '3%',
+          textStyle: { 
+            fontSize: 16, 
+            fontWeight: 'normal',
+            color: '#333333'
+          },
+          subtextStyle: { 
+            fontSize: 14,
+            color: '#666666'
+          }
         },
         tooltip: {
           trigger: 'axis',
@@ -320,7 +336,7 @@ const PortalViz = {
       return {
         backgroundColor: '#F5F5F5',
         title: {
-          text: 'Trend Over Time',
+          text: 'Historical Trend',
           subtext: `${locationName}`,
           left: '5%',
           top: '3%',
