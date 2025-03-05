@@ -32,7 +32,7 @@ msgstr ""
 #: ckanext/afucn/plugin.py:26 ckanext/afucn/plugin.py:38
 #: ckanext/afucn/plugin.py:50 ckanext/afucn/templates/header.html:108
 msgid "Groups"
-msgstr "Health Topics"
+msgstr "Topics"
 
 #: ckanext/afucn/plugin.py:26 ckanext/afucn/plugin.py:38
 #: ckanext/afucn/plugin.py:50 ckanext/afucn/templates/header.html:108
@@ -150,3 +150,15 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+#: ckan/templates/group/index.html:14 ckan/templates/user/dashboard_groups.html:7
+msgid "Add Group"
+msgstr "Add Topic"
+
+#: ckan/templates/group/index.html:21
+msgid "Search groups..."
+msgstr "Search topics..."
+
+#: ckan/logic/converters.py:195 ckan/logic/validators.py:334
+#: ckan/views/group.py:1044 ckanext/stats/templates/ckanext/stats/index.html:91
+msgid "Group"
+msgstr "Topic"
