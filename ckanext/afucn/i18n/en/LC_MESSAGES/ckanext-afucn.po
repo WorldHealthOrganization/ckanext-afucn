@@ -162,3 +162,19 @@ msgstr "Search topics..."
 #: ckan/views/group.py:1044 ckanext/stats/templates/ckanext/stats/index.html:91
 msgid "Group"
 msgstr "Topic"
+
+#: ckan/templates/group/snippets/helper.html:15
+msgid "What are Groups?"
+msgstr "What are Topics?"
+
+#: ckan/templates/group/snippets/helper.html:19
+msgid ""
+"You can use CKAN Groups to create and manage collections of datasets. This "
+"could be to catalogue datasets for a particular project or team, or on a "
+"particular theme, or as a very simple way to help people find and search "
+"your own published datasets."
+msgstr ""
+"You can use Topics to create and manage collections of datasets. This "
+"could be to catalogue datasets for a particular project or team, or on a "
+"particular theme, or as a very simple way to help people find and search "
+"your own published datasets."
