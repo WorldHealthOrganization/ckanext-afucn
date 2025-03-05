@@ -11,10 +11,15 @@
 {% block page_header %}{% endblock %}
 
 {% block page_primary_action %}
-{% if h.check_access('group_create') %}
-{% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Location'), named_route=group_type+'.new',
-class_='btn btn-primary', icon='plus-square' %}
-{% endif %}
+  {% if h.check_access('group_create') %}
+    {% if 'location' in request.path %}
+      {% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Location'), named_route=group_type+'.new',
+    class_='btn btn-primary', icon='plus-square' %}
+    {% else %}
+    {% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Group'), named_route=group_type+'.new',
+    class_='btn btn-primary', icon='plus-square' %}
+    {% endif %}
+  {% endif %}
 {% endblock %}
 
 {% block primary_content_inner %}
@@ -57,5 +62,9 @@ sorting_selected=sort_by_selected, count=page.item_count, placeholder=h.humanize
 {% endblock %}
 
 {% block secondary_content %}
-{% snippet "group/snippets/helper.html", group_type=group_type %}
+{% if 'location' in request.path %}
+  {% snippet "group/snippets/helper_location.html", group_type=group_type %}
+{% else %}
+  {% snippet "group/snippets/helper.html", group_type=group_type %}
+{%endif%}
 {% endblock %}
