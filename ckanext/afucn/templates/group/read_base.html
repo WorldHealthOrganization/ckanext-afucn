@@ -20,7 +20,11 @@
 {% endblock %}
 
  {% block secondary_content %}
-  {% snippet "group/snippets/info.html", group=group_dict, show_nums=true %}
+  {% if 'location' in request.path %}
+    {% snippet "group/snippets/info_location.html", group=group_dict, show_nums=true %}
+  {% else %}
+    {% snippet "group/snippets/info.html", group=group_dict, show_nums=true %}
+  {% endif%}
 {% endblock %}
 
 {% block links %}

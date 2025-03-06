@@ -1,6 +1,5 @@
 {% extends "page.html" %}
 
-
 {% block subtitle %}{{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}{% endblock %}
 {% block title_content %}
 {% endblock %}
@@ -9,21 +8,26 @@
   <li class="active">{% link_for h.humanize_entity_type('group', group_type, 'breadcrumb') or _('Groups'), named_route=group_type+'.index' %}</li>
 {% endblock %}
 
-
-
 {% block page_header %}{% endblock %}
 
 {% block page_primary_action %}
-{% if h.check_access('group_create') %}
-{% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Location'), named_route=group_type+'.new',
-class_='btn btn-primary', icon='plus-square' %}
-{% endif %}
+  {% if h.check_access('group_create') %}
+    {% if 'location' in request.path %}
+      {% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Location'), named_route=group_type+'.new',
+    class_='btn btn-primary', icon='plus-square' %}
+    {% else %}
+    {% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Group'), named_route=group_type+'.new',
+    class_='btn btn-primary', icon='plus-square' %}
+    {% endif %}
+  {% endif %}
 {% endblock %}
 
 {% block primary_content_inner %}
 <h1 class="hide-heading">{{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}</h1>
 {% block afromap %}
-{% snippet "group/snippets/afro_map.html" %}
+  {% if (request.path == "/location") or (request.path == "/location/") %}
+    {% snippet "group/snippets/afro_map.html" %}
+  {%endif%}
 {% endblock %}
 {% block groups_search_form %}
 {% snippet 'snippets/search_form.html', form_id='group-search-form', type=group_type, query=q,
@@ -32,19 +36,25 @@ sorting_selected=sort_by_selected, count=page.item_count, placeholder=h.humanize
 [(_('Name Ascending'), 'title asc'), (_('Name Descending'), 'title desc')] %}
 {% endblock %}
 {% block groups_list %}
-{% if page.items or request.args %}
-{% if page.items %}
-{% snippet "group/snippets/group_list.html", groups=page.items %}
-{% endif %}
-{% else %}
-<p class="empty">
-  {{ h.humanize_entity_type('group', group_type, 'no any objects') or _('There are currently no groups for this site')
-  }}.
-  {% if h.check_access('group_create') %}
-  {% link_for _('How about creating one?'), named_route=group_type+'.new' %}</a>.
-  {% endif %}
-</p>
-{% endif %}
+
+  {% if page.items or request.args %}
+    {% if page.items %}
+      {% if (request.path == "/location") or (request.path == "/location/") %}
+        {% snippet "group/snippets/group_list_location.html", groups=page.items %}
+      {% else %}
+        {% snippet "group/snippets/group_list.html", groups=page.items %}
+      {% endif %}
+    
+    {% endif %}
+  {% else %}
+    <p class="empty">
+      {{ h.humanize_entity_type('group', group_type, 'no any objects') or _('There are currently no groups for this site')
+      }}.
+      {% if h.check_access('group_create') %}
+      {% link_for _('How about creating one?'), named_route=group_type+'.new' %}</a>.
+      {% endif %}
+    </p>
+    {% endif %}
 {% endblock %}
 {% block page_pagination %}
 {{ page.pager(q=q or '', sort=sort_by_selected or '') }}
@@ -52,5 +62,9 @@ sorting_selected=sort_by_selected, count=page.item_count, placeholder=h.humanize
 {% endblock %}
 
 {% block secondary_content %}
-{% snippet "group/snippets/helper.html", group_type=group_type %}
+{% if 'location' in request.path %}
+  {% snippet "group/snippets/helper_location.html", group_type=group_type %}
+{% else %}
+  {% snippet "group/snippets/helper.html", group_type=group_type %}
+{%endif%}
 {% endblock %}
