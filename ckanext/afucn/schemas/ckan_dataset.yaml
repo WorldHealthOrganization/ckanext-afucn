@@ -28,104 +28,7 @@ dataset_fields:
 
 - field_name: country
   label: Country
-  preset: select
-  choices:
-  - value: AFRO
-    label: WHO African Region
-  - value: AGO
-    label: Angola
-  - value: BFA
-    label: Burkina Faso
-  - value: BDI
-    label: Burundi
-  - value: BEN
-    label: Benin
-  - value: BWA
-    label: Botswana
-  - value: COD
-    label: Democratic Republic of the Congo
-  - value: CAF
-    label: Central African Republic
-  - value: COG
-    label: Congo
-  - value: CIV
-    label: Côte d'Ivoire
-  - value: CMR
-    label: Cameroon
-  - value: CPV
-    label: Cabo Verde
-  - value: DZA
-    label: Algeria
-  - value: ERI
-    label: Eritrea
-  - value: ETH
-    label: Ethiopia
-  - value: GAB
-    label: Gabon
-  - value: GHA
-    label: Ghana
-  - value: GIN
-    label: Guinea
-  - value: GMB
-    label: Gambia
-  - value: GNQ
-    label: Equatorial Guinea
-  - value: GNB
-    label: Guinea-Bissau
-  - value: KEN
-    label: Kenya
-  - value: COM
-    label: Comoros
-  - value: LBR
-    label: Liberia
-  - value: LSO
-    label: Lesotho
-  - value: MDG
-    label: Madagascar
-  - value: MLI
-    label: Mali
-  - value: MRT
-    label: Mauritania
-  - value: MUS
-    label: Mauritius
-  - value: MWI
-    label: Malawi
-  - value: MOZ
-    label: Mozambique
-  - value: NAM
-    label: Namibia
-  - value: NER
-    label: Niger
-  - value: NGA
-    label: Nigeria
-  - value: RWA
-    label: Rwanda
-  - value: SYC
-    label: Seychelles
-  - value: SLE
-    label: Sierra Leone
-  - value: SEN
-    label: Senegal
-  - value: SSD
-    label: South Sudan
-  - value: STP
-    label: Sao Tome and Principe
-  - value: SWZ
-    label: Eswatini
-  - value: TCD
-    label: Chad
-  - value: TGO
-    label: Togo
-  - value: TZA
-    label: United Republic of Tanzania
-  - value: UGA
-    label: Uganda
-  - value: ZAF
-    label: South Africa
-  - value: ZMB
-    label: Zambia
-  - value: ZWE
-    label: Zimbabwe
+  preset: country
 
 - field_name: owner_org
   label: Organization
@@ -133,6 +36,7 @@ dataset_fields:
 
 - field_name: programme
   label: Programme
+  preset: programme
 
 - field_name: disease
   label: Disease
