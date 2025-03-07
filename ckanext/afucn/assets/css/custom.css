@@ -31,3 +31,16 @@ ul.hierarchy-tree-top {
     border: 0.5px solid #09286226;
     font-weight: 400;
 }
+
+/* Header menu styling */
+.masthead {
+    background: none;
+    background-color: #0e2b58;
+    font-family: 'Roboto',sans-serif;
+}
+
+.account-masthead {
+    min-height: 30px;
+    color: #fff;
+    background: #000000;
+}
