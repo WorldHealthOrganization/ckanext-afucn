@@ -1,9 +1,10 @@
 {% set dataset_type = h.default_package_type() %}
 
 {% block header_wrapper %} {% block header_account %}
+{% if c.userobj %}
 <div class="account-masthead">
   <div class="container">
-    {% block header_account_container_content %} {% if c.userobj %}
+    {% block header_account_container_content %}
     <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
       <ul class="list-unstyled">
         {% block header_account_logged %} {% if c.userobj.sysadmin %}
@@ -46,20 +47,11 @@
         </li>
         {% endblock %} {% endblock %}
       </ul>
-    </div>
-    {% else %}
-    <nav class="account not-authed" aria-label="{{ _('Account') }}">
-      <ul class="list-unstyled">
-        {% block header_account_notlogged %}
-        <li>{% link_for _('Log in'), named_route='user.login' %}</li>
-        {% if h.check_access('user_create') %}
-        <li>{% link_for _('Register'), named_route='user.register', class_='sub' %}</li>
-        {% endif %} {% endblock %}
-      </ul>
-    </nav>
-    {% endif %} {% endblock %}
+    </div>  
   </div>
 </div>
+{% endblock %}
+{% endif %} 
 {% endblock %}
 <header class="masthead">
   <div class="container">
