@@ -98,7 +98,16 @@
             <a href="/location">{{ _('Country Profiles') }}</a>
           </li>
           <li>
-            <a href="#">{{ _('Resources') }}</a>
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{_("Resources") }}
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="https://dataportal.afro.who.int/data-snapshots/">{{ _("Data Snapshots") }}</a></li>
+                <li><a class="dropdown-item" href="https://dataportal.afro.who.int/dashboards/">{{ _("Dashboards") }}</a></li>
+                <li><a class="dropdown-item" href="https://dataportal.afro.who.int/tools-and-guidelines/">{{ _("Tools and Guidelines") }}</a></li>
+              </ul>
+            </div>
           </li>
           <li>
             <a href="https://dataportal.afro.who.int/about-us/">{{ _('About Us') }}</a>
