@@ -48,3 +48,16 @@ ul.hierarchy-tree-top {
 #dataportal_logo {
     padding-left: 35px;
 }
+
+.navbar-nav .dropdown-menu{
+    background-color: #0e2b58;
+}
+
+.masthead .main-navbar ul{
+    padding: 0px;
+}
+
+.masthead .main-navbar ul li a:hover{
+    background-color: #2ea3f2;
+}
+
