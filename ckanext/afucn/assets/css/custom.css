@@ -32,7 +32,7 @@ ul.hierarchy-tree-top {
     font-weight: 400;
 }
 
-/* Header menu styling */
+/* Start Header menu styling */
 .masthead {
     background: none;
     background-color: #0e2b58;
@@ -61,3 +61,4 @@ ul.hierarchy-tree-top {
     background-color: #2ea3f2;
 }
 
+/* End Header menu styling */
