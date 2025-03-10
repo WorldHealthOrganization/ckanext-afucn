@@ -26,16 +26,14 @@ dataset_fields:
   preset: tag_string_autocomplete
   form_placeholder: eg. economy, mental health, government
 
-- field_name: country
-  label: Country
+- field_name: countries
   preset: country
 
 - field_name: owner_org
   label: Organization
   preset: dataset_organization
 
-- field_name: programme
-  label: Programme
+- field_name: programmes
   preset: programme
 
 - field_name: disease
