@@ -538,38 +538,6 @@ table.diff {
   color: #fff;
 }
 
-.account-masthead {
-  min-height: 30px;
-  color: #fff;
-  background: #0F2D5B url("../../../base/images/bg.png");
-}
-
-
-.account-masthead .account ul li a {
-  display: block;
-  text-decoration: none;
-  color: #fff;
-  font-size: 13px;
-  font-weight: bold;
-  padding: 0 10px;
-  line-height: 31px;
-}
-
-
-.account-masthead .account ul li a:hover {
-  color: #fff;
-  background-color: #0078d4;
-  text-decoration: none;
-}
-
-
-
-.account-masthead .account .notifications a span.badge {
-  background-color: #0078d4;
-
-}
-
-
 .masthead {
   background: url("https://azapp-pph-dataportal-wp-02.azurewebsites.net/wp-content/uploads/2025/01/UCN-Data-Portal-Recovered.png");
 }
@@ -1019,140 +987,6 @@ table.diff {
 
 /* HDX end */
 
-.context-info h1.heading,
-.context-info .heading.h1 {
-  color: #0F2D5B !important;
-  font-weight: bold;
-}
-
-/* General styles for the media grid */
-.location-media-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: table;
-  width: 100%;
-}
-
-.location-media-item {
-  display: table-row;
-  border-bottom: 1px solid #ddd;
-}
-
-.location-media-item:last-child {
-  border-bottom: none;
-}
-
-/* Columns (cells) within each media item */
-.location-media-item>div {
-  display: flex;
-  padding-top: 5px;
-  padding-bottom: 0;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
-}
-
-/* Styling for each column */
-.location-media-item .location-col-md-4 {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-/* Aligning the country flag and name */
-.location-media-item .location-col-md-4 img {
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
-.location-media-item .location-col-md-4 a {
-  color: #333;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.location-media-item .location-col-md-4 a:hover {
-  color: #007bff;
-}
-
-/* Text and count alignment for datasets and projects */
-.location-media-item .location-text-center {
-  text-align: center;
-}
-
-.location-media-item .location-count {
-  font-size: 14px;
-  color: #666;
-}
-
-/* Hover effect for each item */
-.location-media-item:hover {
-  background-color: #f9f9f9;
-}
-
-.location-media-item .location-clearfix {
-  clear: both;
-}
-
-@media (max-width: 767px) {
-  .location-media-item {
-    display: block;
-  }
-
-  .location-media-item>div {
-    display: block;
-  }
-}
-
-.location-media-item-header {
-  margin: 0;
-  padding: 0.5rem 10px;
-  font-size: 0.875rem;
-  line-height: 1.3;
-  background-color: var(--l2-neutralForegroundRest);
-  border-top: 1px solid var(--l2-neutralForegroundRest);
-  border-bottom: 1px solid var(--l2-neutralForegroundRest);
-  color: #fff;
-}
-
-/* Styles for the rows */
-.location-media-item:nth-child(odd) {
-  background-color: #fff;
-  /* Light blue for odd rows */
-}
-
-.location-media-item:nth-child(even) {
-  background-color: #f1f1f1;
-  /* Light grey for even rows */
-}
-
-.location-media-item .location-text-center {
-  padding: 8px;
-}
-
-.location-media-item:hover {
-  background-color: #d1e7e1;
-  /* A hover effect to highlight on hover */
-}
-
-.location-media-item .location-count {
-  font-size: 14px;
-  color: #666;
-}
-
-.location-media-item i {
-  color: #007bff;
-  /* Color for the info icon */
-}
-
-.col-md-3.location-text-center {
-  text-align: center;
-}
-
-.col-md-1.location-text-center {
-  text-align: center;
-}
-
 
 /* Scheming Group About  */
 
@@ -1377,13 +1211,6 @@ table.diff {
 }
 
 
-#location-info {
-  margin-top: 2rem;
-}
-
-#location-info-heading {
-  margin-left: 5px;
-}
 
 /** Group info stats **/
 

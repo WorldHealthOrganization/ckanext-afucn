@@ -1,5 +1,14 @@
 {# Adds dataset-extent map to dataset-page #}
 {% ckan_extends %}
+
+{% block maintag %}
+    {% snippet 'snippets/who-hero.html', 
+    show_search_form = false, 
+    title = h.scheming_get_dataset_schema(pkg.type).name, 
+    description = pkg.title %}
+    {{ super() }}
+{% endblock %}
+
 {% block package_description %}
     {{ super() }}
     {# We include a filed "spatial" through ckanext-scheming. It is not in "extras" #}

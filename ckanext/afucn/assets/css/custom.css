@@ -1,64 +1,359 @@
-
-.et_pb_menu_0_tb_header.et_pb_menu .et-menu-nav li a {
-    padding: 5px 20px 5px 20px;
-}
-
-.et_pb_css_mix_blend_mode_passthrough {
-    mix-blend-mode: unset !important;
-    width: 20.875%;
-}
-
-.et_pb_menu .et-menu>li {
-padding-left: 0;
-padding-right: 0;
-}
-.et_pb_menu_0_tb_header.et_pb_menu ul li a {
-font-size: 17px;
-}
-
-
-ul.hierarchy-tree-top {
-    list-style-type: none !important;
-    background: none;
-    display: none;
-  }
-  
-
-  .module-narrow .nav-item>a .badge, .module-narrow .nav-aside li a .badge {
-    background-color: transparent;
-    border-radius: 0px;
-    color: #092862;
-    border: 0.5px solid #09286226;
-    font-weight: 400;
-}
-
 /* Start Header menu styling */
-.masthead {
-    background: none;
-    background-color: #0e2b58;
-    font-family: 'Roboto',sans-serif;
-}
-
 .account-masthead {
-    min-height: 30px;
-    color: #fff;
-    background: #000000;
+    background-color: #0F2D5B;
 }
 
-#dataportal_logo {
-    padding-left: 35px;
+/* Header Styles */
+.who-header {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
 }
 
-.navbar-nav .dropdown-menu{
-    background-color: #0e2b58;
+.who-header .nav-container {
+    width: 80%;
+    max-width: 1920px;
 }
 
-.masthead .main-navbar ul{
-    padding: 0px;
+.who-header .navbar {
+    padding: 25px 0;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: flex-end;
 }
 
-.masthead .main-navbar ul li a:hover{
-    background-color: #2ea3f2;
+/* Logo Styles */
+.who-header .logo {
+    width: 140px;
+    object-fit: contain;
+    transition: all 0.3s ease-in-out;
 }
 
-/* End Header menu styling */
+.who-header #navbarNav {
+    align-self: flex-end;
+}
+
+/* Navigation Links */
+.who-header .navbar-nav {
+    margin-bottom: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.who-header .nav-item {
+    margin: 0;
+}
+
+.who-header .nav-link {
+    color: #ffffff !important;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    padding: 5px 20px !important;
+    transition: all 0.3s ease-in-out;
+    line-height: 2em;
+    font-size: 14px;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.who-header .nav-link:focus,
+.who-header .nav-link:active,
+.who-header .dropdown-toggle:focus,
+.who-header .dropdown-toggle:active {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.who-header .home-tablet {
+    display: none;
+}
+
+.who-header .home-icon {
+    transform: translateY(-3px);
+}
+
+.who-header .nav-link:hover {
+    color: #ffffff !important;
+    background-color: #0093D5;
+}
+
+/* Dropdown Styles */
+.who-header .dropdown-menu {
+    background-color: #0F2D5B;
+    border: none;
+    padding: 0.5rem 0;
+    margin-top: 0;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+.who-header .dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.who-header .dropdown-item {
+    color: #ffffff;
+    padding: 0.75rem 2.5rem;
+    transition: all 0.2s ease-in-out;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+.who-header .dropdown-item:focus,
+.who-header .dropdown-item:active {
+    background-color: #0093D5;
+    color: #ffffff;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.who-header .dropdown-item:hover {
+    background-color: #0093D5;
+    color: #ffffff;
+}
+
+/* Mobile Toggle Button */
+.who-header .navbar-toggler {
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 0.5rem;
+    padding: 0;
+}
+
+.who-header .navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.who-header .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    transition: all 0.3s ease-in-out;
+}
+
+/* Content Styles */
+.content {
+    padding-top: 100px; /* To account for fixed header */
+}
+
+/* Hero Section */
+.who-hero {
+    position: relative;
+    background: linear-gradient(135deg, #0F2D5B 0%, #081b3a 60%, #050f20 100%);
+    padding-top: 120px;
+    overflow: hidden;
+}
+
+.who-hero .hero-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('transparent-pattern.png');
+    background-size: 100% 100%;
+    background-position: center;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+}
+
+.who-hero .hero-container {
+    width: 80%;
+    max-width: 1080px !important;
+}
+
+.who-hero h1 {
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.4em;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.who-hero .lead {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+/* Search Container */
+.who-hero .search-container {
+    position: relative;
+    max-width: 600px;
+    margin-top: 2rem;
+}
+
+.who-hero .input-group {
+    display: flex;
+    flex-direction: row !important;
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+.who-hero .input-group > .form-control {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    height: 50px;
+    padding: 0 20px;
+    font-size: 1rem;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 8px;
+}
+
+.who-hero .form-control:focus {
+    background-color: #ffffff;
+}
+
+.who-hero .input-group .btn-primary {
+    height: 50px;
+    width: 120px;
+    padding: 0 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    margin: 0;
+    white-space: nowrap;
+    background-color: #0093D5;
+    border: 1px solid #0093D5;
+    flex: 0 0 auto;
+    color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    line-height: 50px;
+}
+
+.who-hero .input-group .btn-primary:hover {
+    background-color: #41B6E6;
+    border-color: #41B6E6;
+    color: #ffffff;
+}
+
+/* Sticky Header Class */
+.header-sticky {
+    background-color: #0F2D5B;
+    top: 0 !important;
+}
+
+.header-sticky .navbar {
+    padding: 0;
+}
+
+.debug {
+    color: #aaa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .who-hero {
+        padding-top: 100px;
+    }
+    
+    .who-hero h1 {
+        font-size: 36px;
+    }
+
+    .who-header .nav-container {
+    }
+    
+    /* Logo adjustments for mobile */
+    .who-header .logo {
+        width: 120px;
+        height: auto;
+    }
+    
+    .who-header .navbar-brand {
+    }
+
+    .who-header .navbar-nav {
+        padding: 10px;
+        background-color: #0F2D5B;
+    }
+    
+    .who-header .nav-link {
+        padding: 0.5rem 1rem !important;
+    }
+    
+    .who-header .home-tablet {
+        display: block;
+    }
+    
+    .who-header .home-desktop {
+        display: none;
+    }
+
+    /* Mobile Navigation */
+    .who-header .dropdown-toggle::after {
+        display: none;
+    }
+
+    .who-header .dropdown-menu {
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition: none;
+    }
+
+    .who-header .dropdown-menu.show {
+        display: block;
+    }
+
+    .who-header .dropdown-item {
+        padding: 0.5rem 2rem;
+        font-size: 14px;
+    }
+
+    /* Mobile Search */
+    .who-hero .input-group > .form-control {
+        height: 45px;
+        font-size: 12px;
+    }
+
+    .who-hero .input-group .btn-primary {
+        height: 45px;
+        font-size: 12px;
+        line-height: 45px;
+    }
+}
+
+@media (max-width: 425px) {
+    .who-header .logo {
+        width: 100px;
+    }
+}
+
+.who-hero .hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.who-hero .hero-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}

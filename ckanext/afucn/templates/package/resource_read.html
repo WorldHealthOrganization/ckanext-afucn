@@ -1,0 +1,9 @@
+{% ckan_extends %}
+
+{% block maintag %}
+    {% snippet 'snippets/who-hero.html', 
+    show_search_form = false, 
+    title = h.resource_display_name(res), 
+    description = h.dataset_display_name(package) %}
+    {{ super() }}
+{% endblock %}

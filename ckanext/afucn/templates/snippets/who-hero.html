@@ -1,0 +1,30 @@
+{% set title = title or _('Health Datasets') %}
+{% set description = description or _('Access and explore comprehensive health data from the World Health Organization. Find datasets, statistics, and insights to support global health research and decision-making.') %}
+{% set search_placeholder = search_placeholder or _('Search datasets...') %}
+{% set hero_image = hero_image or '/img/could-transparent.png' %}
+{% set show_search_form = show_search_form if show_search_form is defined else true %}
+{% set hero_background = hero_background or '/img/transparent-pattern.png' %}
+{% set hero_side_background = hero_side_background or '' %}
+
+<section class="who-hero hero-section">
+    <div class="hero-pattern" style="background-image: url('{{ hero_background }}')"></div>
+    <div class="container hero-container">
+        <div class="row min-vh-50 align-items-center py-5">
+            <div class="col-lg-6 p-0">
+                <h1 class="display-4 fw-bold mb-4">{{ title }}</h1>
+                <p class="lead mb-4">{{ description }}</p>
+                {% if show_search_form %}
+                <form class="search-container" action="" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="{{ search_placeholder }}" aria-label="{{ _('Search datasets') }}">
+                        <input class="btn btn-primary" type="submit" value="{{ _('Search') }}">
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 d-none d-lg-flex hero-image" style="background-image: url('{{ hero_side_background }}')">
+                <img src="{{ url_for('static',filename = hero_image) }}" alt="{{ _('Hero Image') }}" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>

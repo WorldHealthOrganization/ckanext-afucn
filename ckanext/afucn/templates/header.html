@@ -1,8 +1,8 @@
 {% set dataset_type = h.default_package_type() %}
 
 {% block header_wrapper %} {% block header_account %}
-{% if c.userobj %}
-<div class="account-masthead">
+  {% if c.userobj %}
+  <div class="account-masthead">
   <div class="container">
     {% block header_account_container_content %}
     <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
@@ -52,75 +52,60 @@
   </div>
   {% endblock %}{% endif %} 
   {% endblock %}
-<header class="masthead">
-  <div class="container">
-    {% block header_debug %} {% if g.debug and not g.debug_supress_header %}
-    <div class="debug">Blueprint : {{ g.blueprint }}<br />View : {{ g.view }}</div>
-    {% endif %} {% endblock %}
-    <nav class="navbar navbar-expand-lg navbar-light">
-      
-      <hgroup class="{{ g.header_class }} navbar-left">
-      {% block header_logo %}
-      {% if g.site_logo %}
-      <a class="logo" href="https://dataportal.afro.who.int/">
-        <img src="{{ h.url_for_static_or_external(g.site_logo) }}" alt="{{ g.site_title }}"
-          title="{{ g.site_title }}" />
-      </a>
-      {% else %}
-      <h1>
-        <a href="https://dataportal.afro.who.int/">{{ g.site_title }}</a>
-      </h1>
-      {% if g.site_description %}
-      <h2>{{ g.site_description }}</h2>
-      {% endif %}
-      {% endif %}
-      <a class="logo" id="dataportal_logo" href="https://dataportal.afro.who.int/">
-        <img src="https://dataportal.afro.who.int/wp-content/uploads/2025/03/dataportal-logo-small.png" alt="{{ g.site_title }}"
-          title="{{ g.site_title }}" />
-      </a>
-      {% endblock %}
-      </hgroup>
-      
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-toggle"
-        aria-controls="main-navigation-toggle" aria-expanded="false" aria-label="{{ _('Toggle navigation') }}">
-        <span class="fa fa-bars text-white"></span>
-      </button>
 
-      <div class="main-navbar collapse navbar-collapse" id="main-navigation-toggle">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li>
-            <a href="https://dataportal.afro.who.int/">
-              <i class="fa fa-house" aria-hidden="true"></i>
-            </a>
-          </li>
-          {% block header_site_navigation %}
-            {% block header_site_navigation_tabs %}
-		          {{ h.build_nav_main(
-		            (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
-		             ) }}
-	          {% endblock %}
-          <li>
-            <a href="/location">{{ _('Country Profiles') }}</a>
-          </li>
-          <li>
-            <div class="dropdown">
-              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{_("Resources") }}
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="https://dataportal.afro.who.int/data-snapshots/">{{ _("Data Snapshots") }}</a></li>
-                <li><a class="dropdown-item" href="https://dataportal.afro.who.int/dashboards/">{{ _("Dashboards") }}</a></li>
-                <li><a class="dropdown-item" href="https://dataportal.afro.who.int/tools-and-guidelines/">{{ _("Tools and Guidelines") }}</a></li>
-              </ul>
+  <header class="who-header main-header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid nav-container p-0">
+            <!-- Logos -->
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand me-4" href="https://afro.who.int">
+                  <img src="https://dataportal.afro.who.int/wp-content/uploads/2025/01/WHO-AfricanRegion_Hor_White_Transparent_cropped.png" alt="{{ g.site_title }}"
+                  title="{{ g.site_title }}" class="logo"/>
+                </a>
+                <a class="navbar-brand" href="https://dataportal.afro.who.int">
+                  <img src="https://dataportal.afro.who.int/wp-content/uploads/2025/03/dataportal-logo-small.png" alt="{{ g.site_title }}"
+                  title="{{ g.site_title }}" class="logo"/>
+                </a>
             </div>
-          </li>
-          <li>
-            <a href="https://dataportal.afro.who.int/about-us/">{{ _('About Us') }}</a>
-          </li>
-        </ul>
-      {% endblock %}
-      </div>
+            {% block header_debug %} {% if g.debug and not g.debug_supress_header %}
+              <div class="debug">Blueprint : {{ g.blueprint }}<br />View : {{ g.view }}</div>
+            {% endif %} {% endblock %}
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link home-desktop" href="https://dataportal.afro.who.int">
+                            <img src="https://dataportal.afro.who.int/wp-content/uploads/2025/03/who-icon-home-1.svg" width="22" height="22" alt="Home" class="home-icon">
+                        </a>
+                        <a class="nav-link home-tablet" href="https://dataportal.afro.who.int">{{ _('Home') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dataset">{{ _('Datasets') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/location">{{ _('Country Profiles') }}</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                          {{_("Resources") }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="https://dataportal.afro.who.int/data-snapshots">{{ _('Data Snapshots') }}</a></li>
+                            <li><a class="dropdown-item" href="https://dataportal.afro.who.int/dashboards">{{ _('Dashboards') }}</a></li>
+                            <li><a class="dropdown-item" href="https://dataportal.afro.who.int/tools-and-guidelines">{{ _('Tools and Guidelines') }}</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://dataportal.afro.who.int/about-us">{{ _('About Us') }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
-  </div>
 </header>
 {% endblock %}

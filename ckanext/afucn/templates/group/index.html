@@ -4,6 +4,14 @@
 {% block title_content %}
 {% endblock %}
 
+{% block maintag %}
+    {% snippet 'snippets/who-hero.html', 
+    show_search_form = false, 
+    title = 'Africa Region Countries', 
+    description = 'Explore valuable health datasets from the countries of the Africa Region' %}
+    {{ super() }}
+{% endblock %}
+
 {% block breadcrumb_content %}
   <li class="active">{% link_for h.humanize_entity_type('group', group_type, 'breadcrumb') or _('Groups'), named_route=group_type+'.index' %}</li>
 {% endblock %}
