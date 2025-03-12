@@ -16,7 +16,7 @@
                 {% if show_search_form %}
                 <form class="search-container" action="" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="{{ search_placeholder }}" aria-label="{{ _('Search datasets') }}">
+                        <input type="text" class="form-control" name="q" placeholder="{{ search_placeholder }}" aria-label="{{ _('Search datasets') }}">
                         <input class="btn btn-primary" type="submit" value="{{ _('Search') }}">
                     </div>
                 </form>
