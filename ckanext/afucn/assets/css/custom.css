@@ -6,11 +6,14 @@
 /* Header Styles */
 .who-header {
     position: fixed;
-    top: 30px;
+    top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
+}
+.who-header.logged-in {
+    top: 30px;
 }
 
 .who-header .nav-container {
