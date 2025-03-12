@@ -1,6 +1,8 @@
 {% ckan_extends %}
 
-{% block maintag %}
-    {% snippet 'snippets/who-hero.html' %}
-    {{ super() }}
+{% block who_hero %}
+    {% snippet 'snippets/who-hero.html', 
+    show_search_form = true, 
+    title = _('Health Datasets'), 
+    description = _('Access and explore comprehensive health data from the World Health Organization. Find datasets, statistics, and insights to support global health research and decision-making.')  %}
 {% endblock %}

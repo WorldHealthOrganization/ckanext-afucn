@@ -1,12 +1,13 @@
 {% extends "group/read_base.html" %}
 {% set dataset_type = h.default_package_type() %}
-{% block maintag %}
+
+{% block who_hero %}
     {% snippet 'snippets/who-hero.html', 
     show_search_form = false, 
     title = group_dict.display_name, 
     description = group_dict.notes %}
-    {{ super() }}
 {% endblock %}
+
 {% block primary_content_inner %}
   {% block groups_search_form %}
     {% set facets = {

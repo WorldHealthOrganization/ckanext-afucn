@@ -1,8 +1,24 @@
-{% set title = title or _('Health Datasets') %}
-{% set description = description or _('Access and explore comprehensive health data from the World Health Organization. Find datasets, statistics, and insights to support global health research and decision-making.') %}
+{#
+    Responsive hero section template with optional search form
+    
+    Parameters:
+    - title: Page title (defaults to URL segment)
+    - description: Optional description text
+    - search_placeholder: Search input placeholder
+    - hero_image: Main image path
+    - show_search_form: Toggle search form
+    - hero_background: Pattern image path
+    - hero_side_background: Side background image
+#}
+{% set last_segment = request.path.split('/')[-1] %}
+{% set last_segment = last_segment.split('?')[0] %}
+{% set default_title = last_segment|replace('-', ' ')|replace('_', ' ')|title %}
+
+{% set title = title or default_title %}
+{% set description = description or '' %}
 {% set search_placeholder = search_placeholder or _('Search datasets...') %}
 {% set hero_image = hero_image or '/img/could-transparent.png' %}
-{% set show_search_form = show_search_form if show_search_form is defined else true %}
+{% set show_search_form = show_search_form if show_search_form is defined else false %}
 {% set hero_background = hero_background or '/img/transparent-pattern.png' %}
 {% set hero_side_background = hero_side_background or '' %}
 

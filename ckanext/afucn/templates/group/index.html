@@ -4,12 +4,18 @@
 {% block title_content %}
 {% endblock %}
 
-{% block maintag %}
+{% block who_hero %}
+  {% if request.path == "/location" %}
     {% snippet 'snippets/who-hero.html', 
     show_search_form = false, 
-    title = 'Africa Region Countries', 
-    description = 'Explore valuable health datasets from the countries of the Africa Region' %}
-    {{ super() }}
+    title = _('Africa Region Countries'), 
+    description = _('Explore valuable health datasets from the countries of the Africa Region') %}
+  {% else %}
+    {% snippet 'snippets/who-hero.html', 
+    show_search_form = false, 
+    title = _('Health Topics'), 
+    description = _('Browse datasets organized by key health categories including diseases, health systems, and more from the Africa Region') %}
+  {% endif %}
 {% endblock %}
 
 {% block breadcrumb_content %}

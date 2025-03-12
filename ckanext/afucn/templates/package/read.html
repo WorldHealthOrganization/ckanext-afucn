@@ -1,12 +1,11 @@
 {# Adds dataset-extent map to dataset-page #}
 {% ckan_extends %}
 
-{% block maintag %}
+{% block who_hero %}
     {% snippet 'snippets/who-hero.html', 
     show_search_form = false, 
     title = h.scheming_get_dataset_schema(pkg.type).name, 
     description = pkg.title %}
-    {{ super() }}
 {% endblock %}
 
 {% block package_description %}
