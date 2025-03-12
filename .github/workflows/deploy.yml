@@ -30,7 +30,7 @@ jobs:
             --resource-group PPH-P-EUW-RG01 \
             --scripts '
               cd /dataportal/dataportal
-              mv .env.prod .env             # Rename file
-              docker compose build          # Docker compose build
-              docker compose up -d          # Docker compose up -d
+              mv .env.prod .env               
+              docker compose build --no-cache     
+              docker compose up -d                
             '
