@@ -71,13 +71,16 @@
     outline: none !important;
     box-shadow: none !important;
 }
+.who-header .home-desktop {
+    line-height: 1em;
+    height: 100%;
+}
 
 .who-header .home-tablet {
     display: none;
 }
 
 .who-header .home-icon {
-    transform: translateY(-3px);
 }
 
 .who-header .nav-link:hover {
@@ -306,6 +309,7 @@
     
     .who-header .home-desktop {
         display: none;
+
     }
 
     /* Mobile Navigation */
