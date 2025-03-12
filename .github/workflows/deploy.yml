@@ -1,0 +1,36 @@
+name: Deploy to Azure VM
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy-to-vm:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code (optional if needed for other steps)
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Azure subscription
+        run: |
+          az account set --subscription 8c247e8d-4f67-46e2-b10e-e89fc1a60fbd
+
+      - name: Run commands on Azure VM
+        run: |
+          az vm run-command invoke \
+            --command-id RunShellScript \
+            --name vm-pph-dataportal \
+            --resource-group PPH-P-EUW-RG01 \
+            --scripts '
+              cd /dataportal/dataportal
+              mv .env.prod .env               
+              docker compose build --no-cache     
+              docker compose up -d                
+            '
