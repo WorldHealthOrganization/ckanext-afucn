@@ -87,34 +87,47 @@ const PortalViz = {
         // Safely extract numeric values, filtering out invalid ones
         const values = data
           .map(row => {
-            const value = parseFloat(row.NumericValue);
-            return isNaN(value) ? null : value;
+            const raw = row.NumericValue;
+            // If it's already a number, use it directly; if it's a string, parse it
+            if (typeof raw === 'number') return raw;
+            if (typeof raw === 'string') {
+              const parsed = parseFloat(raw);
+              return isNaN(parsed) ? null : parsed;
+            }
+            return null;  // Everything else we treat as invalid
           })
           .filter(value => value !== null);
-
-        // If no valid values found, return a default range
+    
+        // If no valid numeric values are found, return a default range
         if (values.length === 0) {
           return { min: 0, max: 0 };
         }
-
-        // Calculate min and max safely
-        const min = Math.min(...values);
-        const max = Math.max(...values);
-
-        // If min and max are the same, return a small range around the value
+    
+        // --- Instead of Math.min(...values), we do a manual loop. ---
+        let min = Infinity;
+        let max = -Infinity;
+        for (let i = 0; i < values.length; i++) {
+          const val = values[i];
+          if (val < min) min = val;
+          if (val > max) max = val;
+        }
+    
+        // If min and max are the same, return a small range around the single value
         if (min === max) {
           return {
             min: Math.max(0, min - 0.1),
             max: max + 0.1
           };
         }
-
+    
         return { min, max };
       } catch (error) {
-        console.error('Error calculating data range:', error);
+        console.error("Error calculating data range:", error);
+        // Fallback
         return { min: 0, max: 0 };
       }
-    }
+    },
+    
   },
 
   // Data processing functions
