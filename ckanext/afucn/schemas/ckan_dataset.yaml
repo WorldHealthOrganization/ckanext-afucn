@@ -40,8 +40,8 @@ dataset_fields:
 - field_name: disease
   label: Disease
 
-- field_name: indicator
-  label: Indicator
+- field_name: indicator_name
+  label: Indicator Name
 
 - field_name: url
   label: Data Source

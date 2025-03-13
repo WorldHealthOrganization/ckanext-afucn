@@ -28,30 +28,24 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     # IFacets
     def dataset_facets(self, facets_dict, package_type):
-        facets_dict['country'] = toolkit._('Country')
-        facets_dict['organization'] = toolkit._('Organization')
+        facets_dict['programmes'] = toolkit._('Programmes')
+        facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
         facets_dict['tags'] = toolkit._('tags')
-        facets_dict['res_format'] = toolkit._('Format')
-        facets_dict['license_id'] = toolkit._('License')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
-        facets_dict['country'] = toolkit._('Country')
-        facets_dict['organization'] = toolkit._('Organization')
+        facets_dict['programmes'] = toolkit._('Programmes')
+        facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
         facets_dict['tags'] = toolkit._('tags')
-        facets_dict['res_format'] = toolkit._('Format')
-        facets_dict['license_id'] = toolkit._('License')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
-        facets_dict['country'] = toolkit._('Country')
-        facets_dict['organization'] = toolkit._('Organization')
+        facets_dict['programmes'] = toolkit._('Programmes')
+        facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
         facets_dict['tags'] = toolkit._('tags')
-        facets_dict['res_format'] = toolkit._('Format')
-        facets_dict['license_id'] = toolkit._('License')
         return facets_dict
     
     # IResourceController
@@ -72,10 +66,10 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         Returns:
             Dict: Normalized input data
         """
-        if isinstance(data_dict.get('programme'), str):
-            data_dict['programme'] = json.loads(data_dict['programme'])
-        if isinstance(data_dict.get('country'), str):
-            data_dict['country'] = json.loads(data_dict['country'])
+        if isinstance(data_dict.get('programmes'), str):
+            data_dict['programmes'] = json.loads(data_dict['programmes'])
+        if isinstance(data_dict.get('countries'), str):
+            data_dict['countries'] = json.loads(data_dict['countries'])
         if isinstance(data_dict.get('sustainable_development_goals'), str):
             data_dict['sustainable_development_goals'] = json.loads(data_dict['sustainable_development_goals'])
         if isinstance(data_dict.get('global_strategy'), str):
