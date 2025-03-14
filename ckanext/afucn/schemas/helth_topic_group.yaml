@@ -1,6 +1,6 @@
 ---
 scheming_version: "1"
-group_type: "helth-topic"
+group_type: "health-topic"
 about_url: "https://github.com/WorldHealthOrganization/ckanext-afucn"
 fields: 
 - field_name: "title"
@@ -9,16 +9,16 @@ fields:
   form_snippet: "large_text.html"
   form_attrs: 
     data-module: "slug-preview-target"
-  form_placeholder: "Helth Topic Name"
+  form_placeholder: "Health Topic Name"
 - field_name: "name"
   label: "URL"
   validators: "not_empty unicode_safe name_validator group_name_validator"
   form_snippet: "slug.html"
-  form_placeholder: "name-of-the-helth-topic"
+  form_placeholder: "name-of-the-health-topic"
 - field_name: "notes"
   label: "Description"
   form_snippet: "markdown.html"
-  form_placeholder: "Information about my the helth topic..."
+  form_placeholder: "Information about my the health topic..."
 - field_name: "url"
   label: "Image URL"
   form_placeholder: "http://example.com/my-image.jpg"

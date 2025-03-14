@@ -10,7 +10,12 @@
     - hero_background: Pattern image path
     - hero_side_background: Side background image
 #}
-{% set last_segment = request.path.split('/')[-1] %}
+{% set last_segment_check = request.path.split('/')[-1] %}
+    {% if last_segment_check|length > 1 %}
+        {% set last_segment = request.path.split('/')[-1] %}
+    {% else %}
+        {% set last_segment = request.path.split('/')[-2] %}  
+    {% endif %}
 {% set last_segment = last_segment.split('?')[0] %}
 {% set default_title = last_segment|replace('-', ' ')|replace('_', ' ')|title %}
 
