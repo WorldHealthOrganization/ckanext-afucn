@@ -206,6 +206,15 @@ dataset_fields:
 
 - field_name: subject_of_measure_sentiment
   label: Subject Of Measure Sentiment
+  preset: select
+  choices:
+  - value: neutral
+    label: Neutral
+  - value: positive
+    label: Positive
+  - value: negative
+    label: Negative
+
   form_placeholder: e.g. Negative, Neutral
   display_group: Indicator Details
 

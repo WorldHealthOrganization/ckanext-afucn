@@ -5,6 +5,7 @@ from typing import Dict
 from ckan.lib.plugins import DefaultTranslation
 from ckanext.afucn.subresource import create_subresource
 from ckan.common import config
+from ckanext.afucn import helpers as h
 
 subresource = config.get('ckanext.afucn.subresource', False)
 
@@ -17,6 +18,7 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IResourceController, inherit=True)
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
 
@@ -25,6 +27,12 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "afucn")
+    
+    # ITemplateHelpers
+    def get_helpers(self):
+        return {
+            'get_labeler_for_facet': h.get_labeler_for_facet,
+        }
 
     # IFacets
     def dataset_facets(self, facets_dict, package_type):
