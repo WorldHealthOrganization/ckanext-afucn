@@ -364,3 +364,16 @@
     height: auto;
     object-fit: contain;
 }
+
+.dataset-details.countries ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dataset-details.countries ul li {
+    margin-right: 10px;
+}
+
+.dataset-details.countries ul li:last-child {
+    margin-right: 0;
+}
