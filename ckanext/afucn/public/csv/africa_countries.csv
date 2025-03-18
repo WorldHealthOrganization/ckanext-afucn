@@ -1,0 +1,52 @@
+﻿id,who_region_code,iso2,country_name_short,country_name,who_subregion_code,iso_code,country_code,who_membership_status,un_code,global_unicef_regions,longitude,latitude,adm0_notes,arabic,spanish,french,russion,chinese,wb_income_group,wb_regions,continent
+1,AFRO,AO,Angola,Angola,Central Africa,AGO,ANG,Member state,24,ESARO,17.54382499,-12.29577332,,أنغولا,Angola,Angola,Ангола,安哥拉,UMC,SSF,AFRICA
+2,AFRO,BI,Burundi,Burundi,Central Africa,BDI,BUU,Member state,108,ESARO,29.88685656,-3.356269594,,بوروندي,Burundi,Burundi,Бурунди,布隆迪,LIC,SSF,AFRICA
+3,AFRO,BJ,Benin,Benin,Western Africa,BEN,BEN,Member state,204,WCARO,2.3433178,9.647688495,,بنن,Benin,Bénin,Бенин,贝宁,LIC,SSF,AFRICA
+4,AFRO,BF,Burkina Faso,Burkina Faso,Western Africa,BFA,BFA,Member state,854,WCARO,-1.739782796,12.27795938,,بوركينا فاسو,Burkina Faso,Burkina Faso,Буркина-Фасо,布基纳法索,LIC,SSF,AFRICA
+5,AFRO,BW,Botswana,Botswana,Eastern and Southern Africa,BWA,BOT,Member state,72,ESARO,23.81512056,-22.1820045,,بوتسوانا,Botswana,Botswana,Ботсвана,博茨瓦纳,UMC,SSF,AFRICA
+6,AFRO,CF,Central African Republic,Central African Republic,Central Africa,CAF,CAF,Member state,140,WCARO,20.48281936,6.571493534,,جمهورية أفريقيا الوسطى,República Centroafricana,République centrafricaine,Центральноафриканская Республика,中非共和国,LIC,SSF,AFRICA
+7,AFRO,CI,Côte d’Ivoire,Côte d’Ivoire,Western Africa,CIV,IVC,Member state,384,WCARO,-5.549755278,7.627508693,,كوت ديفوار,Côte d'Ivoire,Côte d'Ivoire,Кот-д'Ивуар,科特迪瓦,LMC,SSF,AFRICA
+8,AFRO,CM,Cameroon,Cameroon,Central Africa,CMR,CAE,Member state,120,WCARO,12.74327089,5.685915078,,الكاميرون,Camerún,Cameroun,Камерун,喀麦隆,LMC,SSF,AFRICA
+9,AFRO,CD,DR Congo,Democratic Republic of the Congo,Central Africa,COD,COD,Member state,180,WCARO,23.65005992,-2.875730723,,جمهورية الكونغو الديمقراطية,República Democrática del Congo,République démocratique du Congo,Демократическая Республика Конго,刚果民主共和国,LIC,SSF,AFRICA
+10,AFRO,CG,Congo,Congo,Central Africa,COG,CNG,Member state,178,WCARO,15.21812829,-0.842180616,,الكونغو,Congo (el),Congo,Конго,刚果,LMC,SSF,AFRICA
+11,AFRO,KM,Comoros,Comoros,Eastern and Southern Africa,COM,COM,Member state,174,ESARO,43.67615755,-11.89331812,,جزر القمر,Comoras,Comores,Коморские Острова,科摩罗,LIC,SSF,AFRICA
+12,AFRO,CV,Cabo Verde,Cabo Verde,Western Africa,CPV,CAV,Member state,132,WCARO,-23.98631055,15.95864195,"Country name changed from Cape Verde to Cabo Verde, The coordinates were introduced manually",كابو فيردي,Cabo Verde,Cabo Verde,Кабо-Верде,佛得角,LMC,SSF,AFRICA
+13,AFRO,DZ,Algeria,Algeria,Western Africa,DZA,ALG,Member state,12,MENA,2.63240214,28.16339423,,الجزائر,Argelia,Algérie,Алжир,阿尔及利亚,UMC,MEA,AFRICA
+14,AFRO,ER,Eritrea,Eritrea,Eastern and Southern Africa,ERI,ERI,Member state,232,ESARO,38.85299167,15.35889167,,إريتريا,Eritrea,Érythrée,Эритрея,厄立特里亚,LIC,SSF,AFRICA
+15,AFRO,EH,Western Sahara,Western Sahara,Not Assigned,ESH,ESH,Other,732,Undefined,-13.13670386,24.66162671,, , , , , , , ,AFRICA
+16,AFRO,ET,Ethiopia,Ethiopia,Eastern and Southern Africa,ETH,ETH,Member state,231,ESARO,39.61608574,8.626186843,,إثيوبيا,Etiopía,Éthiopie,Эфиопия,埃塞俄比亚,LIC,SSF,AFRICA
+17,AFRO,GA,Gabon,Gabon,Central Africa,GAB,GAB,Member state,266,WCARO,11.79722622,-0.590669624,,غابون,Gabón,Gabon,Габон,加蓬,UMC,SSF,AFRICA
+18,AFRO,GH,Ghana,Ghana,Western Africa,GHA,GHA,Member state,288,WCARO,-1.207010653,7.959686547,,غانا,Ghana,Ghana,Гана,加纳,LMC,SSF,AFRICA
+19,AFRO,GN,Guinea,Guinea,Western Africa,GIN,GUI,Member state,324,WCARO,-10.93746503,10.43456247,,غينيا,Guinea,Guinée,Гвинея,几内亚,LIC,SSF,AFRICA
+20,AFRO,GM,Gambia,Gambia,Western Africa,GMB,GAM,Member state,270,WCARO,-15.38564585,13.45298534,,غامبيا,Gambia,Gambie,Гамбия,冈比亚,LIC,SSF,AFRICA
+21,AFRO,GW,Guinea-Bissau,Guinea-Bissau,Western Africa,GNB,GUB,Member state,624,WCARO,-14.98650193,12.01324663,,غينيا - بيساو,Guinea-Bissau,Guinée-Bissau,Гвинея-Бисау,几内亚比绍,LIC,SSF,AFRICA
+22,AFRO,GQ,Equatorial Guinea,Equatorial Guinea,Central Africa,GNQ,EQG,Member state,226,WCARO,10.33853395,1.710206583,,غينيا الاستوائية,Guinea Ecuatorial,Guinée équatoriale,Экваториальная Гвинея,赤道几内亚,UMC,SSF,AFRICA
+23,AFRO,KE,Kenya,Kenya,Eastern and Southern Africa,KEN,KEN,Member state,404,ESARO,37.85784435,0.530073961,,كينيا,Kenya,Kenya,Кения,肯尼亚,LMC,SSF,AFRICA
+24,AFRO,LR,Liberia,Liberia,Western Africa,LBR,LIB,Member state,430,WCARO,-9.306570133,6.446843098,,ليبريا,Liberia,Libéria,Либерия,利比里亚,LIC,SSF,AFRICA
+25,AFRO,LS,Lesotho,Lesotho,Eastern and Southern Africa,LSO,LES,Member state,426,ESARO,28.24289146,-29.5809821,,ليسوتو,Lesotho,Lesotho,Лесото,莱索托,LMC,SSF,AFRICA
+26,AFRO,MG,Madagascar,Madagascar,Eastern and Southern Africa,MDG,MAD,Member state,450,ESARO,46.70603738,-19.3735124,,مدغشقر,Madagascar,Madagascar,Мадагаскар,马达加斯加,LIC,SSF,AFRICA
+27,AFRO,ML,Mali,Mali,Western Africa,MLI,MAI,Member state,466,WCARO,-3.525618464,17.34904013,,مالي,Malí,Mali,Мали,马里,LIC,SSF,AFRICA
+28,AFRO,MZ,Mozambique,Mozambique,Eastern and Southern Africa,MOZ,MOZ,Member state,508,ESARO,35.55232281,-17.26017363,,موزامبيق,Mozambique,Mozambique,Мозамбик,莫桑比克,LIC,SSF,AFRICA
+29,AFRO,MR,Mauritania,Mauritania,Western Africa,MRT,MAU,Member state,478,WCARO,-10.33223289,20.25995115,,موريتانيا,Mauritania,Mauritanie,Мавритания,毛里塔尼亚,LMC,SSF,AFRICA
+30,AFRO,MU,Mauritius,Mauritius,Eastern and Southern Africa,MUS,MAS,Member state,480,ESARO,57.86843248,-20.17046162,,موريشيوس,Mauricio,Maurice,Маврикий,毛里求斯,UMC,SSF,AFRICA
+31,AFRO,MW,Malawi,Malawi,Eastern and Southern Africa,MWI,MAL,Member state,454,ESARO,34.30701027,-13.21499805,,ملاوي,Malawi,Malawi,Малави,马拉维,LIC,SSF,AFRICA
+32,AFRO,YT,Mayotte,Mayotte,Eastern and Southern Africa,MYT,MTE,Other,0,Undefined,45.13930237,-12.8183375,, , , , , , , ,AFRICA
+33,AFRO,NA,Namibia,Namibia,Eastern and Southern Africa,NAM,NAM,Member state,516,ESARO,17.21849533,-22.13327423,,ناميبيا,Namibia,Namibie,Намибия,纳米比亚,UMC,SSF,AFRICA
+34,AFRO,NE,Niger,Niger,Western Africa,NER,NIG,Member state,562,WCARO,9.397717445,17.42638271,,النيجر,Níger,Niger,Нигер,尼日尔,LIC,SSF,AFRICA
+35,AFRO,NG,Nigeria,Nigeria,Western Africa,NGA,NIE,Member state,566,WCARO,8.105324365,9.593641659,,نيجيريا,Nigeria,Nigéria,Нигерия,尼日利亚,LMC,SSF,AFRICA
+36,AFRO,RE,Réunion,Réunion,Eastern and Southern Africa,REU,REU,Other,638,Undefined,55.53825491,-21.12161736,, , , , , , , ,AFRICA
+37,AFRO,RW,Rwanda,Rwanda,Eastern and Southern Africa,RWA,RWA,Member state,646,ESARO,29.9172368,-1.997951266,,رواندا,Rwanda,Rwanda,Руанда,卢旺达,LIC,SSF,AFRICA
+38,AFRO,SN,Senegal,Senegal,Western Africa,SEN,SEN,Member state,686,WCARO,-14.46894586,14.36735891,,السنغال,Senegal,Sénégal,Сенегал,塞内加尔,LIC,SSF,AFRICA
+39,AFRO,SH,Saint Helena,Saint Helena,Western Africa,SHN,SAH,Other,654,Undefined,-10.20465094,-25.06978502,, , , , , , , ,AFRICA
+40,AFRO,SL,Sierra Leone,Sierra Leone,Western Africa,SLE,SIL,Member state,694,WCARO,-11.79237094,8.558572453,,سيراليون,Sierra Leona,Sierra Leone,Сьерра-Леоне,塞拉利昂,LIC,SSF,AFRICA
+41,AFRO,SS,South Sudan,South Sudan,Eastern and Southern Africa,SSD,SSD,Member state,728,ESARO,30.34075751,7.279644977,,جنوب السودان,Sudán del Sur,Soudan du Sud,Южный Судан,南苏丹,LIC,SSF,AFRICA
+42,AFRO,ST,Sao Tome and Principe,Sao Tome and Principe,Central Africa,STP,STP,Member state,678,WCARO,6.716183131,0.435938941,,سان تومي وبرينسيبي,Santo Tomé y Príncipe,Sao Tomé-et-Principe,Сан-Томе и Принсипи,圣多美和普林西比,LMC,SSF,AFRICA
+43,AFRO,SZ,Eswatini,Eswatini,Eastern and Southern Africa,SWZ,SWZ,Member state,748,ESARO,31.49722797,-26.56209614,Formerly SWAZILAND,,,,,,LMC,SSF,AFRICA
+44,AFRO,SC,Seychelles,Seychelles,Eastern and Southern Africa,SYC,SEY,Member state,690,ESARO,52.23207489,-6.398255477,,سيشيل,Seychelles,Seychelles,Сейшельские Острова,塞舌尔,HIC,SSF,AFRICA
+45,AFRO,TD,Chad,Chad,Central Africa,TCD,CHA,Member state,148,WCARO,18.66464588,15.36118821,,تشاد,Chad (el),Tchad,Чад,乍得,LIC,SSF,AFRICA
+46,AFRO,TG,Togo,Togo,Western Africa,TGO,TOG,Member state,768,WCARO,0.97589117,8.534969753,,توغو,Togo (el),Togo,Того,多哥,LIC,SSF,AFRICA
+47,AFRO,TZ,Tanzania,United Republic of Tanzania,Eastern and Southern Africa,TZA,TAN,Member state,834,ESARO,34.82344382,-6.270159744,,جمهورية تنزانيا المتحدة,República Unida de Tanzanía,République-Unie de Tanzanie,Объединенная Республика Танзания,坦桑尼亚联合共和国,LIC,SSF,AFRICA
+48,AFRO,UG,Uganda,Uganda,Eastern and Southern Africa,UGA,UGA,Member state,800,ESARO,32.3863205,1.280074673,,أوغندا,Uganda,Ouganda,Уганда,乌干达,LIC,SSF,AFRICA
+49,AFRO,ZA,South Africa,South Africa,Eastern and Southern Africa,ZAF,SOA,Member state,710,ESARO,25.08876516,-28.99318538,,جنوب أفريقيا,Sudáfrica,Afrique du Sud,Южная Африка,南非,UMC,SSF,AFRICA
+50,AFRO,ZM,Zambia,Zambia,Eastern and Southern Africa,ZMB,ZAM,Member state,894,ESARO,27.79790638,-13.4530558,,زامبيا,Zambia,Zambie,Замбия,赞比亚,LMC,SSF,AFRICA
+51,AFRO,ZW,Zimbabwe,Zimbabwe,Eastern and Southern Africa,ZWE,ZIM,Member state,716,ESARO,29.87181443,-18.99997718,,زمبابوي,Zimbabwe,Zimbabwe,Зимбабве,津巴布韦,LIC,SSF,AFRICA

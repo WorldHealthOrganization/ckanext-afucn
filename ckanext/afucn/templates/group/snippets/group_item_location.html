@@ -13,11 +13,12 @@ position - The index of the group in the list (passed from group_list.html).
     <!-- Hidden input field to store the group data (field value) -->
 
     <div class="col-md-1 location-text-center">
+      {{ group }}
       {% if group.url %}
       <img src="{{ group.url }}" alt="{{ group.display_name }}" height="15" width="20">
       {% else %}
       {% if group.countrycode %}
-      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/' + group.countrycode + '.jpg') }}"
+      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/' + group.countrycode|lower + '.jpg') }}"
         height="15" width="20" src="" />
       <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
         class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
