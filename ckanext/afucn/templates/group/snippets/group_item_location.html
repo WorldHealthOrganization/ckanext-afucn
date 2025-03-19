@@ -1,62 +1,51 @@
 {#
-Renders a media item for a group. This should be used in a list.
-
-group - A group dict.
-position - The index of the group in the list (passed from group_list.html).
-#}
-{% set type = group.type or 'group' %}
-{% set url = h.url_for(type ~ '.read', id=group.name) %}
-{% block item %}
-<!-- <pre>{{group}}</pre> -->
-<li class="location-media-item {% if position is even %}location-even{% else %}location-odd{% endif %}">
-  <div class="row">
-    <!-- Hidden input field to store the group data (field value) -->
-
-    <div class="col-md-1 location-text-center">
-      {% if group.url %}
-      <img src="{{ group.url }}" alt="{{ group.display_name }}" height="15" width="20">
-      {% else %}
-      {% if group.countrycode %}
-      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/' + group.countrycode + '.jpg') }}"
-        height="15" width="20" src="" />
-      <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
-        class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
-      {% else %}
-      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/blank.jpg') }}" height="15" width="20"
-        src="" />
-      <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
-        class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
+  Renders a media item for a group. This should be used in a list.
+  
+  group - A group dict.
+  
+  Example:
+  
+      <ul class="media-grid">
+        {% for group in groups %}
+          {% snippet "group/snippets/group_item.html", group=group %}
+        {% endfor %}
+      </ul>
+  #}
+  {% set type = group.type or 'group' %}
+  {% set url = h.url_for(type ~ '.read', id=group.name) %}
+  {% block item %}
+  <li class="media-item">
+    {% block item_inner %}
+    {% block image %}
+      <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" class="media-image img-fluid">
+    {% endblock %}
+    {% block title %}
+      <h2 class="media-heading">{{ group.display_name }}</h2>
+    {% endblock %}
+    {% block description %}
+      {% if group.description %}
+        <p class="media-description">{{ h.markdown_extract(group.description, extract_length=80) }}</p>
       {% endif %}
+    {% endblock %}
+    {% block datasets %}
+      {% if group.package_count %}
+        <strong class="count">{{ ungettext('{num} Dataset', '{num} Datasets', group.package_count).format(num=group.package_count) }}</strong>
+      {% elif group.package_count == 0 %}
+        <span class="count">{{ _('0 Datasets') }}</span>
       {% endif %}
-    </div>
-    <div class="col-md-3 location-text-center">
-      <a href="{{ url }}">
-        <strong>{{ group.display_name }}</strong>
-      </a>
-    </div>
-    <div class="col-md-3 location-text-center">
-      {% if group.package_count is defined and group.package_count is not none %}
-      <span class="location-count">{{ ungettext('{num} Dataset', '{num} Datasets',
-        group.package_count).format(num=group.package_count) }}</span>
-      {% else %}
-      <span class="location-count">{{ _('0 Datasets') }}</span>
-      {% endif %}
-    </div>
-    <div class="col-md-3 location-text-center">
-      {% if group.total_projects is defined and group.total_projects is not none %}
-      <span class="location-count">{{ ungettext('{num} Project', '{num} Projects',
-        group.total_projects).format(num=group.total_projects) }}</span>
-      {% else %}
-      <span class="location-count">{{ _('0 Projects') }}</span>
-      {% endif %}
-    </div>
-    <div class="col-md-1 location-text-center">
-      <i class="fa fa-info-circle" aria-hidden="true"></i>
-    </div>
-  </div>
-</li>
-{% endblock %}
-
-{% if position is divisibleby 3 %}
-<li class="location-clearfix js-hide"></li>
-{% endif %}
+    {% endblock %}
+    {% block link %}
+    <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}" class="media-view">
+      <span>{{ _('View {name}').format(name=group.display_name) }}</span>
+    </a>
+    {% endblock %}
+    {% if group.user_member %}
+      <input name="group_remove.{{ group.id }}" value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-sm media-edit" title="{{ _('Remove dataset from this group') }}"/>
+    {% endif %}
+    {% endblock %}
+  </li>
+  {% endblock %}
+  {% if position is divisibleby 3 %}
+    <li class="clearfix js-hide"></li>
+  {% endif %}
+  
