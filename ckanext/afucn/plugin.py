@@ -39,21 +39,21 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         facets_dict['programmes'] = toolkit._('Programmes')
         facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
-        facets_dict['tags'] = toolkit._('tags')
+        facets_dict['tags'] = toolkit._('Tags')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
         facets_dict['programmes'] = toolkit._('Programmes')
         facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
-        facets_dict['tags'] = toolkit._('tags')
+        facets_dict['tags'] = toolkit._('Tags')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
         facets_dict['programmes'] = toolkit._('Programmes')
         facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
-        facets_dict['tags'] = toolkit._('tags')
+        facets_dict['tags'] = toolkit._('Tags')
         return facets_dict
     
     # IResourceController
