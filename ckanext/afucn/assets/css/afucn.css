@@ -256,8 +256,8 @@ caption {
 
 
 .btn-primary {
-  background-color: #0078d4 !important;
-  border-color: #007CE0;
+  background-color: #0F2D5B;
+  border-color: #0F2D5B;
 }
 
 .btn-primary:hover {
@@ -361,101 +361,61 @@ caption {
 }
 
 
-.module-heading {
-  margin: 0;
-  padding: 0.5rem 25px;
-  font-size: 0.875rem;
-  line-height: 1.3;
-  background-color: #008DC9;
-  border-top: 1px solid #008DC9;
-  border-bottom: 1px solid #008DC9;
-  color: #fff;
-}
-
-
-.module-narrow .nav-item>a .badge,
-.module-narrow .nav-aside li a .badge {
-  background-color: #0F2D5B;
-  border-radius: 10px;
-  color: #fff;
-}
-
-.module-narrow .nav-item.active>a,
-.module-narrow .nav-aside li.active a {
-  background-color: var(--d-l3-accentFillActive);
-}
-
-.module-narrow .nav-item.active>a:before,
-.module-narrow .nav-aside li.active a:before {
-  border-left-color: var(--d-l3-accentFillActive);
-
-}
-
 .stages li.active .highlight {
   color: rgb(255, 255, 255);
   background: var(--l4-accentFillRest);
 }
 
-.dataset-heading a {
-  color: #0F2D5B !important;
-}
-
-.dataset-heading .badge {
-  position: relative;
-  top: -1px;
-}
-
 .badge-inverse {
-  background-color: #3c4245;
+  background-color: #595959; /* Foreground weaker */
 }
 
 .badge[data-format=html],
 .badge[data-format*=html] {
-  background-color: #55a1ce;
+  background-color: #008DC9; /* Brand base */
 }
 
 .badge[data-format=json],
 .badge[data-format*=json] {
-  background-color: #ef7100;
+  background-color: #F4A81D; /* Category 1 */
 }
 
 .badge[data-format=xml],
 .badge[data-format*=xml] {
-  background-color: #ef7100;
+  background-color: #F26829; /* Category 2 */
 }
 
 .badge[data-format=text],
 .badge[data-format*=text] {
-  background-color: #74cbec;
+  background-color: #90D3FB; /* Brand weaker */
 }
 
 .badge[data-format=csv],
 .badge[data-format*=csv] {
-  background-color: #2db55d;
+  background-color: #40BF73; /* Category 6 */
 }
 
 .badge[data-format=xls],
 .badge[data-format*=xls] {
-  background-color: #2db55d;
+  background-color: #40BF73; /* Category 6 */
 }
 
 .badge[data-format=zip],
 .badge[data-format*=zip] {
-  background-color: #686868;
+  background-color: #CCCCCC; /* Foreground weakest */
 }
 
 .badge[data-format=api],
 .badge[data-format*=api] {
-  background-color: #ec96be;
+  background-color: #BD53BD; /* Category 3 */
 }
 
 .badge-default[href]:hover,
 .badge-default[href]:focus {
-  background-color: #5e5e5e;
+  background-color: #0F2D5B; /* Brand stronger */
   color: #fff;
   text-decoration: none;
 }
-
 
 
 /* diff styles */
@@ -502,34 +462,6 @@ table.diff {
   margin: 0 auto;
 }
 
-.homepage .module-search .search-form {
-  border-radius: 0.25rem;
-  background-color: #0b2960;
-  padding: 30px 20px;
-}
-
-
-.homepage .module-search .tags {
-  margin-top: -5px;
-  padding: 5px 10px 10px 10px;
-  background-color: #0b2960;
-  color: #fff;
-}
-
-
-
-.homepage .module-search .tags h3,
-.homepage .module-search .tags .h3,
-.homepage .module-search .tags .tag {
-  display: block;
-  float: left;
-  margin: 5px 10px 0 0;
-  color: #fff;
-}
-
-.masthead {
-  background: url("https://azapp-pph-dataportal-wp-02.azurewebsites.net/wp-content/uploads/2025/01/UCN-Data-Portal-Recovered.png");
-}
 
 
 
@@ -682,7 +614,7 @@ table.diff {
 .btn-light,
 .btn-default {
   background-color: #fff;
-  border: 2px solid #00205c;
+  border: 1px solid #00205c;
   background-color: transparent;
   color: var(--l1-neutralForegroundRest);
 }
@@ -695,7 +627,7 @@ table.diff {
 .btn-light:hover,
 .btn-default:hover {
   background-color: #00205c !important;
-  border: 2px solid #00205c !important;
+  border: 1px solid #00205c !important;
   color: #fff !important;
 }
 
@@ -740,14 +672,12 @@ table.diff {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #008DC9;
   /* Circle border */
   border-radius: 50%;
   /* Circular shape */
   font-size: 14px;
   /* FontAwesome icon size */
-  color: #fff;
-  background-color: #008DC9;
+  color: #008DC9;
   cursor: pointer;
   transform: translateY(-50%);
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -758,9 +688,8 @@ table.diff {
 }
 
 .toggle-icon.collapsed {
-  background-color: #008DC9;
   /* Darker background when collapsed */
-  color: white;
+  color: #008DC9;
   /* White icon color */
 }
 
@@ -770,209 +699,6 @@ table.diff {
 }
 
 /* HDX */
-
-.list-items.search-form h2 {
-
-  font-weight: 700;
-  font-size: 28px;
-  color: #000;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  margin: 35px 0;
-}
-
-.search-list .dataset-item {
-  border-bottom: 1px solid #cccccc;
-  margin: 0;
-  position: relative;
-}
-
-.search-list .dataset-item .dataset-content {
-  padding: 15px;
-}
-
-.search-list .dataset-item .dataset-content .dataset-heading {
-  margin-bottom: 0;
-  line-height: 1;
-  font-size: 14px;
-}
-
-.search-list .dataset-item .dataset-content .dataset-heading a {
-
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  line-height: 1;
-}
-
-.search-list .dataset-item .dataset-content .dataset-updated {
-
-  font-weight: 400;
-  font-size: 12px;
-  color: #888888;
-  letter-spacing: 0.01em;
-}
-
-.search-list .dataset-item .dataset-content .updatedNameColor {
-
-  font-weight: 400;
-  font-size: 12px;
-  color: #333333;
-  letter-spacing: 0.01em;
-}
-
-.search-list .dataset-item .dataset-content .dataset-actions>ul {
-  display: inline;
-  list-style: none;
-}
-
-.search-list .dataset-item .dataset-content .dataset-actions>ul>li {
-  display: inline;
-  color: #007CE0;
-}
-
-.search-list .dataset-item .dataset-content .dataset-actions>ul>li>a {
-  text-transform: uppercase;
-
-  font-weight: 700;
-  font-size: 12px;
-  color: #007CE0;
-  letter-spacing: 0.01em;
-}
-
-.search-list .dataset-item .dataset-content .dataset-description {
-
-  font-weight: 400;
-  font-size: 12px;
-  color: #888888;
-  letter-spacing: 0.01em;
-}
-
-.search-list .dataset-item .dataset-content .dataset-others .label-size {
-  font-size: 10px;
-
-  font-weight: 400;
-  color: #888888;
-  letter-spacing: 0.01em;
-  margin-left: 5px;
-}
-
-.search-list .dataset-item .dataset-content2 {
-  padding: 32px 12px;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-heading a {
-
-  font-weight: 600;
-  font-size: 14px;
-  color: #007CE0;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-updated {
-  line-height: 1;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-org {
-  margin: 8px 0;
-  font-size: 13.25px;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons {
-  margin-bottom: 8px;
-  font-size: 13.25px;
-  display: flex;
-  align-items: flex-end;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class^="icon-"],
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons [class*=" icon-"] {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 5px;
-  color: #888888;
-  font-size: 18px;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons .humanitarianicons-Chart:hover::before {
-  color: #007CE0;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons .icon-check:hover::before {
-  color: #1ebfb3;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-updated .dataset-updated-icons .icon-hxl-tags:hover::before {
-  color: #f2645a;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-dates {
-  margin-bottom: 8px;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-dates span {
-  display: inline-block;
-  width: 155px;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-dataseries {
-  margin-top: 8px;
-}
-
-.search-list .dataset-item .dataset-content2 .dataset-dataseries a {
-  color: #007CE0;
-}
-
-.search-list .dataset-item .dataset-content2 .updatedNameColor {
-
-  font-weight: 600;
-  font-size: 13.25px;
-  color: #888888;
-}
-
-.search-list .dataset-item:last-of-type {
-  border-bottom: none;
-}
-
-.search-nav>li>a {
-  padding-top: 0;
-}
-
-.select2-results .select2-result-label {
-  max-height: 2em;
-  overflow: hidden;
-}
-
-.select2-results .select2-result-label:hover {
-  max-height: inherit;
-  overflow: inherit;
-}
-
-.dataset-private.badge.bg-secondary {
-  --bs-bg-opacity: 1;
-  background-color: red !important;
-}
-
-.dataset-heading>a {
-  font-weight: 600;
-  font-size: 14px;
-  color: #007CE0;
-}
-
-.updatedNameColor {
-  font-weight: 600;
-  font-size: 13.25px;
-  color: #888888;
-}
-
-.download-counts {
-  font-size: 13.25px;
-  color: #888888;
-}
-
-
-.input-group .form-control {
-  z-index: 0;
-}
 
 /* HDX end */
 
