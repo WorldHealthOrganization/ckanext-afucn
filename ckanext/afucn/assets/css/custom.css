@@ -365,6 +365,9 @@
     object-fit: contain;
 }
 
+/* ----------------------------------------------
+   To fix the countries list on the metadata in the dataset read page
+---------------------------------------------- */
 .dataset-details.countries ul {
     display: flex;
     flex-wrap: wrap;
@@ -377,3 +380,345 @@
 .dataset-details.countries ul li:last-child {
     margin-right: 0;
 }
+
+/* ----------------------------------------------------------------------------
+   1. WHO Africa Region Color Theme - Updated
+   ----------------------------------------------------------------------------
+   - Keeps a clean color palette aligned with your brand (WHO Africa Region).
+   - Light and dark blues, light grays, consistent rounding, etc.
+----------------------------------------------------------------------------- */
+
+
+/* ----------------------------------------------------------------------------
+   2. Modules & Headings (general)
+   ----------------------------------------------------------------------------
+   - Base styling for .module blocks and headings.
+----------------------------------------------------------------------------- */
+
+.module {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD; /* Lighter border */
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 4px;
+  }
+  
+  /* The heading for each module */
+  .module-heading {
+    color: #0F2D5B;
+    border-bottom: 1px solid #008dc973; /* Subtle bottom border */
+    margin-bottom: 10px;
+    font-weight: 600;
+    border-top: none;
+    border-radius: 5px 5px 0 0 !important;
+  }
+  
+  
+  /* ----------------------------------------------------------------------------
+     3. Filter Pane (.filters, .module-narrow, .nav-facet, etc.)
+     ----------------------------------------------------------------------------
+     - Styles for the sidebar or narrow modules that display facets/filters.
+  ----------------------------------------------------------------------------- */
+  
+  /* Removes borders from a filter pane used in certain sections */
+  .filters.no-border {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+  }
+  
+  /* Custom heading for filters */
+  .filters-heading {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #0F2D5B;
+  }
+  
+  .filters-heading .fa-filter {
+    color: #008DC9;
+    margin-right: 6px;
+  }
+  
+  /* A narrower module or "shallow" area with a lighter border */
+  .module.module-narrow.module-shallow {
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+  }
+  
+  /* Active facet list item in .module-narrow layout */
+  .nav-facet .nav-item.active > a {
+    background-color: #90D3FB; /* Light blue highlight */
+    color: #0F2D5B;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  
+  /* For an arrow/triangle to the left of active items if needed */
+  .module-narrow .nav-item.active > a:before,
+  .module-narrow .nav-aside li.active a:before {
+    border-left-color: #0F2D5B;
+  }
+  
+  /*
+   * Pill-style badges within the narrow module facet list
+   * (e.g., for clickable category tags in the sidebar).
+   */
+  .module-narrow .nav-item > a .badge,
+  .module-narrow .nav-aside li a .badge {
+    display: inline-block;
+    background-color: transparent;
+    color: #008DC9;
+    border: 1px solid #008DC9;
+    border-radius: 10px;       /* Larger radius for pill shape */
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 5px 8px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    text-decoration: none;
+  }
+  
+  /* Pill badge hover effect (fill the brand color) */
+  .module-narrow .nav-item > a .badge:hover,
+  .module-narrow .nav-aside li a .badge:hover {
+    background-color: #008DC9;
+    color: #FFFFFF;
+  }
+  
+  /* Active or selected pill badge in the narrow module */
+  .module-narrow .nav-item.active > a .badge,
+  .module-narrow .nav-aside li.active a .badge {
+    background-color: #0F2D5B;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+  }
+  
+  
+  /* ----------------------------------------------------------------------------
+     4. Dataset List Wrapper & Card Container
+     ----------------------------------------------------------------------------
+     - Manages the overall styling for the dataset list area (.dataset-list-wrapper)
+     - Subtle shadows, background color, removing borders, etc.
+  ----------------------------------------------------------------------------- */
+  
+  /*
+   * .dataset-list-wrapper typically encloses the dataset listing
+   * and can have a "module-narrow module-shallow" inside.
+   */
+  .dataset-list-wrapper {
+    border: none;
+    box-shadow: none;
+  }
+  
+  .dataset-list-wrapper:before {
+    border-right: none;
+  }
+  
+  /* The .module.module-narrow.module-shallow within .dataset-list-wrapper */
+  .dataset-list-wrapper .module.module-narrow.module-shallow {
+    background-color: #cccccc2a; /* Light translucent gray */
+    border: none;               /* Remove the typical module border */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 0 0 10px 0;
+    border-radius: 10px;
+  }
+  
+  /* When an active facet is inside the dataset-list-wrapper, make it white-on-blue */
+  .dataset-list-wrapper .module.module-narrow.module-shallow .nav-facet .nav-item.active > a {
+    background-color: #0F2D5B;
+    color: #FFFFFF;
+  }
+  
+  /* Hide any icon in an h2 under this container if not wanted */
+  .dataset-list-wrapper .module.module-narrow.module-shallow > h2 > i.fa {
+    display: none;
+  }
+  
+  /* Remove borders from a section.module if it's inside .dataset-list-wrapper */
+  .dataset-list-wrapper section.module {
+    border: none;
+  }
+  
+  
+  /* ----------------------------------------------------------------------------
+     5. Search Form & Filtered Facets
+     ----------------------------------------------------------------------------
+     - Styling for the large search form header, titles, and filter "pills."
+  ----------------------------------------------------------------------------- */
+  
+  /* Adjusted search form heading style */
+  .search-form > h1 {
+    font-size: 22px;
+    font-weight: 500;
+  }
+  
+  /* Filtered "pill" style (e.g., for active search facets) */
+  .filtered.pill {
+    background: #e8f4f9; /* Soft blue/gray background */
+    color: #008DC9;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .filtered.pill:last-child {
+    margin-right: 0;
+  }
+  
+  .filtered.pill a {
+    color: #008DC9;
+    text-decoration: none;
+  }
+  
+  
+  /* ----------------------------------------------------------------------------
+     6. Dataset List Container & Header Row
+     ----------------------------------------------------------------------------
+     - Deals with the <ul> container and the "location-media-item-header" row.
+  ----------------------------------------------------------------------------- */
+  
+  /* The overall <ul> container remains white */
+  .dataset-list-container {
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0 0 15px;
+    list-style: none;
+    border-radius: 8px;
+  }
+  
+  /* Optional header row for columns in the dataset list */
+  .dataset-list-container > li.location-media-item-header {
+    background-color: #0F2D5B; /* Dark navy */
+    color: #FFFFFF;
+    padding: 10px 15px;
+    margin: 0;
+    font-weight: 600;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  
+  /* ----------------------------------------------------------------------------
+     7. Individual Dataset Item (Card)
+     ----------------------------------------------------------------------------
+     - Each item appears as a "card" with a light gray background, shadow, etc.
+  ----------------------------------------------------------------------------- */
+  
+  .dataset-item-container {
+    background-color: #F7F7F7; /* Light gray for the card background */
+    border: 0;
+    border-radius: 6px;
+    margin: 20px 0;
+    padding: 15px;
+    position: relative;
+    
+    /* More pronounced shadow for a "card" feel */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .dataset-item-container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
+  }
+  
+  /* 
+   * Title links within the dataset item
+   * e.g. <a href="..." class="dataset-title">
+   */
+  .dataset-item-container a.dataset-title {
+    color: #0F2D5B;  /* Dark navy */
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .dataset-item-container a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Last updated label/paragraph */
+  .last-updated {
+    margin: 0;
+    color: #595959;
+  }
+  
+  /*
+   * File types: badges in .dataset-resources-item 
+   * (We do NOT override the brand colors if they are set inline or by CKAN).
+   */
+  .dataset-resources-item {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dataset-resources-item li {
+    display: inline-block;
+    margin: 0 4px 4px 0;
+  }
+  
+  /* Example styling if you want a uniform color/shape (optional) */
+  .dataset-resources-item .badge {
+    padding: 5px 10px;
+    font-weight: 600;
+    border-radius: 4px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  
+  /*
+   * Dataset Type Badges
+   * e.g., if you show the dataset "type" near your item 
+   */
+  .dataset-type-badge {
+    background-color: #FFFFFF; /* or a brand color if you prefer */
+    color: #FFFFFF;           /* placeholder color if background changes */
+    font-weight: 600;
+    border: none;
+    display: block;
+    max-width: 100px;
+    font-size: 12px;
+    border-radius: 5px 0 0 5px;
+    padding: 5px 20px 5px 10px;
+    margin-right: -15px;
+    transition: all 0.1s ease-in-out;
+  }
+  
+  .dataset-type-badge:hover {
+    background-color: #FFFFFF !important; /* You can unify brand usage here */
+    color: #0F2D5B !important;
+    text-decoration: none !important;
+  }
+  
+  /* Example: If "indicator" or "dataset" types have special colors */
+  .dataset-type-badge[data-format=indicator],
+  .dataset-type-badge[data-format*=indicator] {
+    background-color: #008DC9;
+  }
+  
+  .dataset-type-badge[data-format=dataset],
+  .dataset-type-badge[data-format*=dataset] {
+    background-color: #BD53BD;
+  }
+  
+  /* Resource count (if you display it near the type) */
+  .resource-count {
+    color: #595959;
+    font-size: 12px;
+  }
+  
+  /* Description area within each dataset card */
+  .dataset-description-wrapper {
+    margin-top: 10px;
+  }
+  
+  .package-description {
+    margin: 0;
+    color: #333333;
+    line-height: 1.4;
+  }
+  
+
