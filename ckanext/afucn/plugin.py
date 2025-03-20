@@ -40,6 +40,7 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
         facets_dict['tags'] = toolkit._('Tags')
+        facets_dict['res_format'] = plugins.toolkit._('Format')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
@@ -47,6 +48,7 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
         facets_dict['tags'] = toolkit._('Tags')
+        facets_dict['res_format'] = plugins.toolkit._('Format')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
@@ -54,6 +56,7 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         facets_dict['countries'] = toolkit._('Countries')
         facets_dict['groups'] = toolkit._('Groups')
         facets_dict['tags'] = toolkit._('Tags')
+        facets_dict['res_format'] = plugins.toolkit._('Format')
         return facets_dict
     
     # IResourceController
