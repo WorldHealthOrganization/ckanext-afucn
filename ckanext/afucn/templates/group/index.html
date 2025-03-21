@@ -14,43 +14,72 @@
   {% endif %}
 {% endblock %}
 
-{% block primary_content_inner %}
-  <h1 class="hide-heading">
-    {{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}
-  </h1>
+{% block primary %}
+  <div class="primarycol-xs-12" role="main">
+    {#
+    The primary_content block can be used to add content to the page.
+    This is the main block that is likely to be used within a template.
 
-  {% block groups_search_form %}
-    {{ super() }}
-  {% endblock %}
+    Example:
 
-  {% block groups_list %}
-    {% if page.items or request.args %}
-      {% if page.items %}
-        {% if (request.path == "/location") or (request.path == "/location/") %}
-          {% snippet "group/snippets/group_list_location.html", groups=page.items %}
-        {% else %}
-          {% snippet "group/snippets/group_list.html", groups=page.items %}
-        {% endif %}
-      {% endif %}
-    {% else %}
-      <p class="empty">
-        {{ h.humanize_entity_type('group', group_type, 'no any objects') or _('There are currently no groups for this site') }}.
-        {% if h.check_access('group_create') %}
-          {% link_for _('How about creating one?'), named_route=group_type+'.new' %}</a>.
-        {% endif %}
-      </p>
-    {% endif %}
-  {% endblock %}
+      {% block primary_content %}
+        <h1>My page content</h1>
+        <p>Some content for the page</p>
+      {% endblock %}
+    #}
+    {% block primary_content %}
+      <article class="module">
+        {% block page_header %}
+          <header class="module-content page-header">
+            {% if self.content_action() | trim %}
+              <div class="content_action">
+                {% block content_action %}{% endblock %}
+              </div>
+            {% endif %}
+            <ul class="nav nav-tabs">
+              {% block content_primary_nav %}{% endblock %}
+            </ul>
+          </header>
+        {% endblock %}
+        <div class="module-content">
+          {% if self.page_primary_action() | trim %}
+            <div class="page_primary_action">
+              {% block page_primary_action %}{% endblock %}
+            </div>
+          {% endif %}
+          {% block primary_content_inner %}
+            <h1 class="hide-heading">
+              {{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}
+            </h1>
 
-  {% block page_pagination %}
-    {{ page.pager(q=q or '', sort=sort_by_selected or '') }}
-  {% endblock %}
+            {% block groups_search_form %}
+              {{ super() }}
+            {% endblock %}
+
+            {% block groups_list %}
+              {% if page.items or request.args %}
+                {% if page.items %}
+                  {% if (request.path == "/location") or (request.path == "/location/") %}
+                    {% snippet "group/snippets/group_list_location.html", groups=page.items %}
+                  {% else %}
+                    {% snippet "group/snippets/group_list.html", groups=page.items %}
+                  {% endif %}
+                {% endif %}
+              {% else %}
+                <p class="empty">
+                  {{ h.humanize_entity_type('group', group_type, 'no any objects') or _('There are currently no groups for this site') }}.
+                  {% if h.check_access('group_create') %}
+                    {% link_for _('How about creating one?'), named_route=group_type+'.new' %}</a>.
+                  {% endif %}
+                </p>
+              {% endif %}
+            {% endblock %}
+          {% endblock %}
+        </div>
+      </article>
+    {% endblock %}
+  </div>
 {% endblock %}
 
-{% block secondary_content %}
-  {% if 'location' in request.path %}
-    {% snippet "group/snippets/helper_location.html", group_type=group_type %}
-  {% else %}
-    {% snippet "group/snippets/helper.html", group_type=group_type %}
-  {% endif %}
+{% block secondary %}
 {% endblock %}
