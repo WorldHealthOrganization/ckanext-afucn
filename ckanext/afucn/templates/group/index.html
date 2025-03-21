@@ -52,10 +52,6 @@
               {{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}
             </h1>
 
-            {% block groups_search_form %}
-              {{ super() }}
-            {% endblock %}
-
             {% block groups_list %}
               {% if page.items or request.args %}
                 {% if page.items %}
