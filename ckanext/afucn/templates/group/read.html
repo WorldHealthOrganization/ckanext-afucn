@@ -10,8 +10,8 @@
 {% block groups_search_form %}
   
   {% if 'location' in request.path %}
-    {% snippet 'scheming/group/about.html', group_type = group_type %}
-    {% snippet 'scheming/group/group_stats.html', group_type = group_type %}
+    {% snippet 'group/snippets/about_location.html', group_type = group_type %}
+    {% snippet 'group/snippets/group_stats_location.html', group_type = group_type %}
   {% endif %} 
   {{ super() }}
 {% endblock %}
