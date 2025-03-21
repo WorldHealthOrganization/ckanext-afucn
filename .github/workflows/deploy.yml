@@ -31,6 +31,7 @@ jobs:
             --scripts '
               cd /dataportal/dataportal
               mv .env.prod .env               
-              docker compose build  
-              docker compose up -d                
+              docker compose build --no-cache  
+              docker compose up -d
+              docker builder prune                
             '
