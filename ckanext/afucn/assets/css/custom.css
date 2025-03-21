@@ -721,3 +721,196 @@
   }
   
 
+/***************************************************
+  1) Remove the border and box-shadow from the wrapper
+****************************************************/
+.wrapper-location-index {
+  border: none;
+  box-shadow: none;
+}
+/***************************************************
+  2) Country Grid (Flex Layout with Fixed Item Widths)
+****************************************************/
+.country-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  /* Optional: if you want spacing between items, do "gap: 1rem" 
+     but older browsers won't support gap on flex. 
+     Alternatively, use margin on .country-item (below). */
+}
+
+/* Each item has a fixed width (e.g., 240px).
+   This ensures all cards line up uniformly and the last row doesn't stretch. */
+.country-item {
+  width: 240px;         /* fixed card width */
+  margin: 0 1.5rem 1.5rem 0; /* spacing around cards (alternatively "margin-right" etc.) */
+
+  /* If you want smaller or bigger cards, adjust 240px -> 200px or 300px */
+  
+  flex: 0 0 auto;       /* do NOT grow or shrink, so all remain same width */
+  box-sizing: border-box;
+
+  /* If you're absolutely positioning the dataset count, you might need position: relative; */
+  position: relative;
+}
+
+/***************************************************
+  3) Card Styles (Entire Anchor is the Card)
+****************************************************/
+.country-card-link {
+  position: relative;
+  display: block;
+  background-color: #F7F7F7;
+  border: 0;
+  border-radius: 6px;
+  height: 224px;
+  /* No border: you asked for "no borders, maybe subtle shadow" */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.2s ease;
+}
+
+.country-card-link:hover {
+  /* Subtle lift on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/***************************************************
+  4) Image (Full Width)
+****************************************************/
+.country-image {
+  display: block;
+  width: 100%;  /* fill card width */
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover; /* if images differ in ratio */
+}
+
+/***************************************************
+  5) Title
+****************************************************/
+.country-title {
+  font-size: 1rem;
+  color: #0F2D5B;  /* WHO dark navy */
+  font-weight: 600;
+  padding: 1rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+/***************************************************
+  6) Dataset Count (Subtle label, top-right or inline)
+****************************************************/
+/* If you want it top-right within the card, 
+   absolutely position it. For example: */
+.dataset-count {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  background-color: #0f2d5b7a;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 6px;
+  border-radius: 4px 0 0 4px;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.dataset-count.zero-datasets {
+  background-color: #0f2d5b33;
+}
+
+/* If you prefer it inline under the title, 
+   remove the position property above and style differently. 
+   e.g. comment out the "position: absolute" block. */
+
+/***************************************************
+  7) Basic Responsiveness
+****************************************************/
+/* If the viewport is too narrow to fit 240px cards horizontally,
+   they'll wrap to the next line. 
+   You can adjust card size or use media queries as you like. */
+@media (max-width: 500px) {
+  .country-item {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+
+/******************************************************
+  1) Remove Borders & Add Fancy Shadow
+******************************************************/
+.country-controls-cards .card {
+  border: none !important;  /* remove Bootstrap’s default border */
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15); /* fancy shadow */
+  border-radius: 8px;      /* slight rounding for a modern feel */
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  height: 120px;
+  background-color: #F7F7F7;
+}
+
+.country-controls-cards .card:hover {
+  /* Subtle lift on hover */
+  box-shadow: 0 6px 14px rgba(0,0,0,0.20);
+  transform: translateY(-2px);
+}
+
+/* Optionally remove border on .card-header and set a background color, etc. */
+.country-controls-cards .card-header {
+  border-bottom: none !important;
+  background-color: transparent;  /* or #F7F7F7, #FAFAFA, etc. */
+  font-weight: 600;
+  font-size: 1rem;
+}
+.country-controls-cards .card-body {
+  padding-bottom: 0;
+}
+
+/******************************************************
+  2) Example Enhancements for Buttons & Headings
+******************************************************/
+/* (Adjust brand colors or paddings as desired) */
+
+.control {
+  background-color: #0F2D5B; /* brand color */
+  color: #FFFFFF;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.control:hover {
+  background-color: #008DC9; /* darker on hover */
+}
+
+.control.active {
+  background-color: #008DC9;
+}
+.country-controls-cards .search-input {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 45, 91, 0.1); /* subtle WHO navy border */
+  box-shadow: 0 2px 8px rgba(15, 45, 91, 0.08); /* more pronounced shadow with WHO navy tint */
+  transition: all 0.2s ease;
+}
+
+.country-controls-cards .search-input:focus {
+  outline: none;
+  border-color: rgba(15, 45, 91, 0.2);
+  box-shadow: 0 4px 12px rgba(15, 45, 91, 0.12);
+}
+
+
+
