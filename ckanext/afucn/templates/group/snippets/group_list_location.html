@@ -10,25 +10,12 @@
   #}
   {% block group_list %}
   <!-- MixItUp Controls Bar: Filter and Sort -->
-  <div class="row country-controls-cards mb-3">
-    <!-- Filter Card -->
-    <div class="col-md-6 col-sm-6 col-xs-12 mb-2">
-      <div class="card">
-        <div class="card-header">Filter by WHO Africa Region</div>
-        <div class="card-body">
-          <!-- Filter Buttons -->
-          <button class="control filter-button active" data-filter="all">All</button>
-          <button class="control filter-button" data-filter=".central-africa">Central Africa</button>
-          <button class="control filter-button" data-filter=".western-africa">Western Africa</button>
-          <button class="control filter-button" data-filter=".eastern-and-southern-africa">Eastern &amp; Southern Africa</button>
-          <button class="control filter-button" data-filter=".africa">Africa Other</button>
-        </div>
-      </div>
-    </div>
+  <div class="row country-controls-cards mb-2">
+    
   
     <!-- Search Card -->
-    <div class="col-md-3 col-sm-3 col-xs-12 mb-2">
-      <div class="card">
+    <div class="col-lg-4 col-12 mb-3 d-flex">
+      <div class="card flex-fill">
         <div class="card-header">Search by Country</div>
         <div class="card-body">
           <!-- Search Input -->
@@ -43,8 +30,8 @@
     </div>
   
     <!-- Sort Card -->
-    <div class="col-md-3 col-sm-3 col-xs-12 mb-2">
-      <div class="card">
+    <div class="col-lg-4 col-12 mb-3 d-flex">
+      <div class="card flex-fill">
         <div class="card-header">Alphabetical Order</div>
         <div class="card-body">
           <!-- Sort Buttons -->
@@ -53,10 +40,23 @@
         </div>
       </div>
     </div>
+
+    <!-- Filter Card -->
+    <div class="col-lg-8 col-12 mb-3 d-flex">
+      <div class="card flex-fill">
+        <div class="card-header">Filter by WHO Africa Region</div>
+        <div class="card-body">
+          <!-- Filter Buttons -->
+          <button class="control filter-button active" data-filter="all">All</button>
+          <button class="control filter-button" data-filter=".central-africa">Central Africa</button>
+          <button class="control filter-button" data-filter=".western-africa">Western Africa</button>
+          <button class="control filter-button" data-filter=".eastern-and-southern-africa">Eastern &amp; Southern Africa</button>
+          <button class="control filter-button" data-filter=".africa">Africa Other</button>
+        </div>
+      </div>
+    </div>
+
   </div>
-  
-  
-  
 
   <!-- The Grid (no Bootstrap) -->
   <ul class="country-grid" data-ref="container">
@@ -78,7 +78,8 @@
 
   var mixer = mixitup(container, {
       animation: {
-          duration: 350
+          duration: 350,
+          effects: 'fade'
       },
       callbacks: {
           onMixClick: function() {

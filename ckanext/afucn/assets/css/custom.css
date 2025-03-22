@@ -852,8 +852,7 @@
   box-shadow: 0 3px 10px rgba(0,0,0,0.15); /* fancy shadow */
   border-radius: 8px;      /* slight rounding for a modern feel */
   transition: box-shadow 0.2s ease, transform 0.2s ease;
-  height: 120px;
-  background-color: #F7F7F7;
+  background-color: #ffffff;
 }
 
 .country-controls-cards .card:hover {
@@ -870,7 +869,6 @@
   font-size: 1rem;
 }
 .country-controls-cards .card-body {
-  padding-bottom: 0;
 }
 
 /******************************************************
@@ -879,8 +877,8 @@
 /* (Adjust brand colors or paddings as desired) */
 
 .control {
-  background-color: #0F2D5B; /* brand color */
-  color: #FFFFFF;
+  background: #e8f4f9;
+  color: #008DC9;
   font-weight: 500;
   padding: 6px 12px;
   border-radius: 10px;
@@ -892,17 +890,19 @@
 }
 
 .control:hover {
-  background-color: #008DC9; /* darker on hover */
+  background-color: #0F2D5B; /* darker on hover */
+  color: #FFFFFF;
 }
 
 .control.active {
-  background-color: #008DC9;
+  background-color: #0F2D5B;
+  color: #FFFFFF;
 }
 .country-controls-cards .search-input {
   padding: 6px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(15, 45, 91, 0.1); /* subtle WHO navy border */
-  box-shadow: 0 2px 8px rgba(15, 45, 91, 0.08); /* more pronounced shadow with WHO navy tint */
+  border: 1px solid rgba(15, 61, 91, 0.1); /* subtle WHO navy border */
+  box-shadow: 0 2px 8px rgba(15, 63, 91, 0.08); /* more pronounced shadow with WHO navy tint */
   transition: all 0.2s ease;
 }
 
