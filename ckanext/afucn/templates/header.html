@@ -103,9 +103,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://dataportal.afro.who.int/about-us/">{{ _('About Us') }}</a>
                     </li>
+                    {% if c.userobj %}
                     <li class="nav-item">
-                      <a class="nav-link" href="/user/login">{{ _('Login') }}</a>
-                  </li>
+                      <a class="nav-link" href="{{ h.url_for('user.logout') }}">{{ _('Logout') }}</a>
+                    </li>
+                    {% else%}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ h.url_for('user.login') }}">{{ _('Login') }}</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
