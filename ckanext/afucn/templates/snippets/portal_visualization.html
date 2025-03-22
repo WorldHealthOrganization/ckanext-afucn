@@ -522,6 +522,74 @@ const PortalViz = {
     },
 
     getTrendChartConfig: function(years, averages, locationName) {
+      // Check if there's only a single data point
+      if (averages.length === 1) {
+        const year = averages[0][0];
+        const value = averages[0][1];
+        
+        return {
+          backgroundColor: '#F5F5F5',
+          title: {
+            text: 'Historical Trend',
+            subtext: `${locationName}`,
+            left: '5%',
+            top: '3%',
+            textStyle: { 
+              fontSize: 16, 
+              fontWeight: 'normal',
+              color: '#333333'
+            },
+            subtextStyle: { 
+              fontSize: 14,
+              color: '#666666'
+            }
+          },
+          textStyle: {
+            fontFamily: 'Arial',
+            fontSize: 14,
+            color: '#333'
+          },
+          grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%',
+            top: '20%',
+            containLabel: true
+          },
+          graphic: {
+            elements: [{
+              type: 'text',
+              style: {
+                text: 'Historical trend cannot\n be displayed with\n a single value',
+                fontSize: 16,
+                textAlign: 'left'
+              },
+              left: '7%',
+              top: '35%'
+            }, {
+              type: 'text',
+              style: {
+                text: `Year: ${year}`,
+                fontSize: 14,
+                textAlign: 'left'
+              },
+              left: '7%',
+              top: '50%'
+            }, {
+              type: 'text',
+              style: {
+                text: `Value: ${value.toLocaleString()}`,
+                fontSize: 14,
+                textAlign: 'left'
+              },
+              left: '7%',
+              top: '55%'
+            }]
+          }
+        };
+      }
+      
+      // Original code for multiple data points
       return {
         backgroundColor: '#F5F5F5',
         title: {
