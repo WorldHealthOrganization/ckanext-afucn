@@ -344,8 +344,6 @@ caption {
 }
 
 
-
-
 .link-secondary {
   color: #3c4245;
 }
@@ -698,74 +696,6 @@ table.diff {
   /* Rotate animation */
 }
 
-/* HDX */
-
-/* HDX end */
-
-
-/* Scheming Group About  */
-
-.info-container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  background-color: rgb(249 250 251);
-  padding: inherit;
-  margin-bottom: 50px;
-  gap: 2rem;
-}
-
-.info-container-items {
-  display: flex;
-  flex-wrap: wrap;
-  width: 55%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
-  justify-content: center;
-}
-
-.info-item {
-  width: 85%;
-  margin: 1%;
-  padding: 5px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  color: #0F2D5B;
-  align-items: center;
-}
-
-.info-item-name {
-  font-weight: bold;
-  width: 40%;
-}
-
-.info-item-value {
-  flex-grow: 1;
-  text-align: left;
-  /* Aligns the value text to the left */
-  width: 58%;
-}
-
-
-@media (max-width: 768px) {
-  .info-item {
-    width: 100%;
-  }
-}
-
-.info-container-items-map {
-  display: flex;
-  flex-wrap: wrap;
-  width: 40%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
-  justify-content: center;
-  align-content: center;
-}
-
 .portal-header {
   position: sticky !important;
   top: 0;
@@ -926,82 +856,6 @@ table.diff {
 }
 
 
-
-/** Group info stats **/
-
-.info-stats-container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  background-color: rgb(249 250 251);
-  padding: 1.5rem;
-  margin-bottom: 50px;
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 0;
-  margin-top: calc(-1* var(--bs-gutter-y));
-  margin-right: calc(-0.5* var(--bs-gutter-x));
-  margin-left: calc(-0.5* var(--bs-gutter-x));
-  gap: 2rem;
-  justify-content: center;
-}
-
-.info-stats-item {
-  display: flex;
-  flex-wrap: wrap;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
-  color: #1d3d64;
-}
-
-
-.info-stats-item h3 {
-  margin: 1rem;
-  width: 100%;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.info-stats-item span {
-  margin-bottom: 1rem;
-  width: 100%;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 400;
-
-}
-
-/**Indicator Stats*/
-.topline .indicator-title {
-  font-family: 'Gotham-Bold', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  margin-bottom: 10px;
-  color: #1d3d64;
-  line-height: 20px;
-  background-color: rgb(249 250 251);
-  padding-top: 5px;
-  padding-bottom: 5px;
-  white-space: normal;
-  overflow-wrap: break-word;
-}
-
-
-.keyfigures {
-  background-color: aliceblue;
-  padding-top: 10px;
-  padding-left: 8px;
-}
-
-
-.info-stats-item:hover {
-  background-color: aliceblue;
-}
-
-
 .dataset-item-container {
   padding: 5px;
 }
@@ -1157,3 +1011,4 @@ table.diff {
   background-color: #333;
   color: white;
 }
+
