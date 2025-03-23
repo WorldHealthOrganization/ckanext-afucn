@@ -848,7 +848,7 @@
   1) Remove Borders & Add Fancy Shadow
 ******************************************************/
 .country-controls-cards .card {
-  border: none !important;  /* remove Bootstrap’s default border */
+  border: none !important;  /* remove Bootstrap's default border */
   box-shadow: 0 3px 10px rgba(0,0,0,0.15); /* fancy shadow */
   border-radius: 8px;      /* slight rounding for a modern feel */
   transition: box-shadow 0.2s ease, transform 0.2s ease;
@@ -912,5 +912,284 @@
   box-shadow: 0 4px 12px rgba(15, 45, 91, 0.12);
 }
 
+/* Country Profile Styles */
+
+.btn-manage-group {
+  position: absolute;
+  right: 35px;
+  top: 10px;
+}
+
+.country-profile-container {
+  max-width: 1920px;
+  width: 80%;
+  margin: 0 auto 40px;
+  font-family: var(--bs-font-sans-serif);
+  color: var(--l1-neutralForegroundRest);
+  background-color: transparent; /* Transparent background to blend with page */
+}
+
+/* Two-column grid layout for country information */
+.country-info-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Left column fixed width, right column flexible */
+  gap: 30px;
+}
+
+/* Common styles for both panel containers */
+.country-meta-panel, .key-figures-panel {
+  background-color: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Section headings for both panels */
+.meta-panel-title, .key-figures-title {
+  background-color: transparent;
+  color: #0F2D5B; /* WHO dark navy blue */
+  padding: 15px 20px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+/* Content container for meta panel */
+.meta-panel-content {
+  padding: 20px;
+}
+
+/* Flag container styling */
+.country-flag {
+  margin-bottom: 20px;
+  text-align: center;
+  background-color: transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Flag image styling */
+.country-flag img {
+  display: block;
+  object-fit: cover;
+  border-radius: 4px;
+  margin: 0 auto; /* Center image */
+}
+
+/* Container for country information items */
+.info-items {
+  margin-top: 20px;
+}
+
+/* Individual information item cards */
+.info-item {
+  margin-bottom: 15px;
+  background-color: #f6f7f9; /* Light gray background */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Remove margin from last item */
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Label for each information field */
+.info-label {
+  font-weight: 600;
+  color: var(--l1-neutralForegroundRest);
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+/* Value display for each information field */
+.info-value {
+  color: #0F2D5B; /* WHO dark navy blue */
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Grid layout for key figures */
+.key-figures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Individual key figure card styling */
+.key-figure-card {
+  background-color: #f6f7f9; /* Light gray background */
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+}
+
+/* Hover effect for key figure cards */
+.key-figure-card:hover {
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+}
+
+/* Title for each indicator/key figure */
+.indicator-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--l2-neutralForegroundRest);
+  margin-bottom: 15px;
+}
+
+/* Value display for each indicator */
+.indicator-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0F2D5B; /* WHO dark navy blue */
+  margin-bottom: 15px;
+}
+
+/* Metadata container for source and date */
+.indicator-meta {
+  margin-top: auto; /* Push to bottom of card */
+  font-size: 0.8rem;
+  color: var(--l4-neutralOutlineRest);
+}
+
+/* Source information styling */
+.indicator-meta .source {
+  margin-bottom: 4px;
+}
+
+/* Links in the metadata */
+.indicator-meta a {
+  color: #0F2D5B; /* WHO dark navy blue */
+  text-decoration: none;
+}
+
+/* Hover effect for links */
+.indicator-meta a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+/* For tablets and smaller desktops */
+@media (max-width: 1200px) {
+  .btn-manage-group {
+    position: relative;
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+    right: 0;
+    top: 0;
+  }
+
+  .country-info-grid {
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
+  }
+  
+  .key-figures-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Smaller cards */
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  .country-profile-container {
+    width: 95%; /* Fuller width on small screens */
+  }
+  
+  .key-figures-grid {
+    grid-width: 1fr; /* Single column for mobile */
+  }
+}
+
+/* Trend visualization cards grid */
+.group-indicators > h3{
+  color: #0F2D5B; /* WHO dark navy blue */
+  padding: 15px 20px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.trending-indicators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Individual trend card styling */
+.trend-card {
+  background-color: #f6f7f9;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+
+/* Hover effect for trend cards */
+.trend-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title for each trend */
+.trend-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--l2-neutralForegroundRest);
+  margin-bottom: 15px;
+  line-height: 1.3;
+}
+
+/* Portal visualizations */
+.portal-viz {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hide all states by default */
+.portal-viz .loading_state,
+.portal-viz .error_state,
+.portal-viz .debug_error_state {
+  display: none;
+}
+
+/* Show viz content by default */
+.portal-viz .viz_content {
+  display: flex;
+  flex: 1;
+}
+
+/* Trend visualization */
+.trend.visualization {
+  width: 100%;
+  height: 300px;
+}
+
+/* Metadata styling */
+.trend-metadata {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.metadata-source, .metadata-date {
+  flex: 1;
+}
+
+.metadata-date {
+  text-align: right;
+}
 
 

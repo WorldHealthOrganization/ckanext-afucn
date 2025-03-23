@@ -1,25 +1,50 @@
 {% ckan_extends %}
 
 {% block who_hero %}
-    {% snippet 'snippets/who-hero.html', 
-    show_search_form = false, 
-    title = group_dict.display_name, 
-    description = group_dict.notes %}
-{% endblock %}
+  {% snippet 'snippets/who-hero.html',
+  show_search_form = false,
+  title = group_dict.display_name,
+  description = group_dict.notes,
+  hero_image = '' if '/location' in request.path else group_dict.image_display_url %}
+{% endblock who_hero %}
 
-{% block groups_search_form %}
-  
-  {% if 'location' in request.path %}
-    {% snippet 'group/snippets/about_location.html', group_type = group_type %}
-    {% snippet 'group/snippets/group_stats_location.html', group_type = group_type %}
-  {% endif %} 
-  {{ super() }}
-{% endblock %}
+{% block primary %}
+  <div class="primary col-xs-12 group-read" role="main">
+    {% block primary_content %}
 
-{% block secondary_content %}
-  {% if 'location' in request.path %}
-    {% snippet "group/snippets/info_location.html", group=group_dict, show_nums=true %}
-  {% else %}
-    {% snippet "group/snippets/info.html", group=group_dict, show_nums=true %}
-  {% endif%}
-{% endblock %}
+      {% if h.check_access('group_update', {'id': group_dict.id}) %}
+        {% link_for _('Manage Group'), named_route=group_type+'.edit', id=group_dict.name, class_='btn btn-default btn-manage-group', icon='wrench' %}
+        <div class="clear"></div>
+      {% endif %}
+
+      {% if '/location' in request.path %}
+        {% snippet 'group/snippets/location_stats.html', group_type = group_type %}
+        {% snippet 'group/snippets/location_charts.html', group_type = group_type %}
+              <!-- Display first 5 datasets of the group -->
+        <div class="group-indicators">
+          <h3>{{ _("Featured Indicators") }}</h3>
+          {% snippet 'group/snippets/featured_datasets.html', package=package, group_dict=group_dict %}
+        </div>
+      {% endif %}
+
+
+
+      {{ super() }}
+    {% endblock primary_content %}
+  </div>
+{% endblock primary %}
+
+{% block wrapper_class %} wrapper-location-index {% endblock %}
+
+
+{% block page_header %}
+{% endblock page_header %}
+
+{% block content_primary_nav %}
+{% endblock content_primary_nav %}
+
+{% block content_action %}
+{% endblock content_action %}
+
+{% block secondary %}
+{% endblock secondary %}
