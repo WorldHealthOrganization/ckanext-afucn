@@ -914,7 +914,7 @@
 
 /* Country Profile Styles */
 
-.btn-manage-group {
+.group-location .btn-manage-group {
   position: absolute;
   right: 35px;
   top: 10px;
@@ -1076,7 +1076,7 @@
 /* Responsive Adjustments */
 /* For tablets and smaller desktops */
 @media (max-width: 1200px) {
-  .btn-manage-group {
+  .group-location .btn-manage-group {
     position: relative;
     float: right;
     margin-right: 10px;
@@ -1191,5 +1191,3 @@
 .metadata-date {
   text-align: right;
 }
-
-
