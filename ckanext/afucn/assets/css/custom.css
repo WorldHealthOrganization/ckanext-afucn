@@ -1234,7 +1234,8 @@
 }
 
 /* Active tab styling */
-.datasets-base .nav-tabs li.active a {
+.datasets-base .nav-tabs li.active a,
+.datasets-base .nav-tabs .nav-link.active {
   background-color: #0F2D5B;
   color: white;
   border-color: #0F2D5B;
