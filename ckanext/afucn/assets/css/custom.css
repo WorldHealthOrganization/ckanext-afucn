@@ -1250,6 +1250,10 @@
   border: 1px solid #0F2D5B;
 }
 
+.datasets-base .module-resource .actions {
+  top: -20px
+}
+
 /* Adjust margin for "Manage" button */
 .datasets-base .content_action .btn {
   margin-bottom: 0;
