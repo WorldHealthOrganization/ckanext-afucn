@@ -368,18 +368,7 @@
 /* ----------------------------------------------
    To fix the countries list on the metadata in the dataset read page
 ---------------------------------------------- */
-.dataset-details.countries ul {
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.dataset-details.countries ul li {
-    margin-right: 10px;
-}
-
-.dataset-details.countries ul li:last-child {
-    margin-right: 0;
-}
 
 /* ----------------------------------------------------------------------------
    1. WHO Africa Region Color Theme - Updated
@@ -497,25 +486,25 @@
   /* ----------------------------------------------------------------------------
      4. Dataset List Wrapper & Card Container
      ----------------------------------------------------------------------------
-     - Manages the overall styling for the dataset list area (.dataset-list-wrapper)
+     - Manages the overall styling for the dataset list area (.datasets-base)
      - Subtle shadows, background color, removing borders, etc.
   ----------------------------------------------------------------------------- */
   
   /*
-   * .dataset-list-wrapper typically encloses the dataset listing
+   * .datasets-base typically encloses the dataset listing
    * and can have a "module-narrow module-shallow" inside.
    */
-  .dataset-list-wrapper {
+  .datasets-base {
     border: none;
     box-shadow: none;
   }
   
-  .dataset-list-wrapper:before {
+  .datasets-base:before {
     border-right: none;
   }
   
-  /* The .module.module-narrow.module-shallow within .dataset-list-wrapper */
-  .dataset-list-wrapper .module.module-narrow.module-shallow {
+  /* The .module.module-narrow.module-shallow within .datasets-base */
+  .datasets-base .module.module-narrow.module-shallow {
     background-color: #cccccc2a; /* Light translucent gray */
     border: none;               /* Remove the typical module border */
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
@@ -523,19 +512,19 @@
     border-radius: 10px;
   }
   
-  /* When an active facet is inside the dataset-list-wrapper, make it white-on-blue */
-  .dataset-list-wrapper .module.module-narrow.module-shallow .nav-facet .nav-item.active > a {
+  /* When an active facet is inside the datasets-base, make it white-on-blue */
+  .datasets-base .module.module-narrow.module-shallow .nav-facet .nav-item.active > a {
     background-color: #0F2D5B;
     color: #FFFFFF;
   }
   
   /* Hide any icon in an h2 under this container if not wanted */
-  .dataset-list-wrapper .module.module-narrow.module-shallow > h2 > i.fa {
+  .datasets-base .module.module-narrow.module-shallow > h2 > i.fa {
     display: none;
   }
   
-  /* Remove borders from a section.module if it's inside .dataset-list-wrapper */
-  .dataset-list-wrapper section.module {
+  /* Remove borders from a section.module if it's inside .datasets-base */
+  .datasets-base section.module {
     border: none;
   }
   
@@ -1191,3 +1180,418 @@
 .metadata-date {
   text-align: right;
 }
+
+/* Dataset page header styling */
+.datasets-base .module-content.page-header {
+  background: transparent;
+  border: none;
+  padding: 15px 0;
+  margin-bottom: 20px;
+}
+
+/* Adjust the content action button placement */
+.datasets-base .content_action {
+  float: right;
+  margin-left: 10px;
+  margin-top: 0;
+}
+
+/* Style for the navigation tabs/buttons */
+.datasets-base .nav-tabs {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 0;
+  float: right;
+
+}
+
+.datasets-base .nav-tabs li {
+  margin-left: 10px;
+  border: none;
+  background: none;
+}
+
+.datasets-base .nav-tabs li a {
+  border-radius: 4px;
+  padding: 0.375rem 0.75rem;
+  background-color: #ffffff;
+  color: #0F2D5B;
+  border-bottom: 1px;
+  border: 1px solid #0F2D5B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.datasets-base .nav-tabs li a i {
+  font-size: 0.9rem;
+}
+
+/* Active tab styling */
+.datasets-base .nav-tabs li.active a {
+  background-color: #0F2D5B;
+  color: white;
+  border-color: #0F2D5B;
+  border-bottom: 1px;
+}
+
+/* Hover states for buttons */
+.datasets-base .nav-tabs li a:hover:not(.active) {
+  background-color: #0F2D5B;
+  border-color: #0F2D5B;
+  border-bottom: 1px;
+  border: 1px solid #0F2D5B;
+}
+
+/* Adjust margin for "Manage" button */
+.datasets-base .content_action .btn {
+  margin-bottom: 0;
+}
+
+/* Fix for responsive behavior */
+@media (max-width: 767px) {
+  .datasets-base .nav-tabs {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+  
+  .datasets-base .nav-tabs li {
+    margin-left: 0;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .datasets-base .content_action {
+    float: none;
+    margin-left: 0;
+    margin-bottom: 15px;
+  }
+}
+
+.datasets-base .module-content > h1, 
+.datasets-base .resources > h2,
+.datasets-base .dataset-info-row > div > h2 {
+  color: #0F2D5B;
+  padding: 15px 0;
+  font-size: 22px;
+  font-weight: 500;
+  border-bottom: none;
+}
+
+.datasets-base .resources {
+  margin-bottom: 25px;
+}
+
+.datasets-base .resource-item {
+  background-color: #cccccc2a; /* Light translucent gray */
+  border: none;               /* Remove the typical module border */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 10px;
+}
+
+.datasets-base .tags-title {
+  color: #0F2D5B;
+  padding: 15px 0;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.datasets-base .tags {
+  margin-bottom: 25px;
+}
+
+.datasets-base .tags ul {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.datasets-base .tags li a {
+  background: #e8f4f9; /* Soft blue/gray background */
+  color: #008DC9;
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0, 141, 201, 0.3);
+}
+
+.datasets-base .tags li a:hover {
+  background: #008DC9;
+  color: white;
+}
+
+/***************************************************
+  3) Card Styles (Entire Anchor is the Card)
+****************************************************/
+.datasets-base .organization-card-link {
+  position: relative;
+  display: block;
+  background-color: #F7F7F7;
+  border: 0;
+  border-radius: 6px;
+  width: 300px;
+  /* No border: you asked for "no borders, maybe subtle shadow" */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.2s ease;
+}
+
+.datasets-base .organization-card-link:hover {
+  /* Subtle lift on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/***************************************************
+  4) Image (Full Width)
+****************************************************/
+.datasets-base .organization-image {
+  display: block;
+  width: 100%;  /* fill card width */
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover; /* if images differ in ratio */
+}
+
+/***************************************************
+  5) Title
+****************************************************/
+.datasets-base .organization-title {
+  font-size: 1rem;
+  color: #0F2D5B;  /* WHO dark navy */
+  font-weight: 600;
+  padding: 1rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+/* Enhanced Dataset table card styling */
+
+
+/* Table styling - already existing, but with refinements */
+.additional-info .table {
+  margin-bottom: 0;
+  background-color: transparent;
+  border: none;
+  width: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #f6f7f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 30px;
+  overflow: hidden;
+  border: none;
+}
+
+.additional-info .table:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Table header row */
+.additional-info .table thead th {
+  background-color: #F7F7F7;
+  color: #0F2D5B;
+  border: none;
+  font-weight: 600;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  font-size: 0.85rem;
+  width: auto;
+}
+
+/* First column header only */
+.additional-info .table thead th:first-child {
+  border-top-left-radius: 8px;
+  width: auto;
+}
+
+/* Last column header only */
+.additional-info .table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* Alternating row colors */
+.additional-info .table tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.additional-info .table tbody tr:nth-child(even) {
+  background-color: rgba(0, 141, 201, 0.05);
+}
+
+/* Enhanced table row hover effect */
+.additional-info .table tbody tr:hover {
+  background-color: rgba(0, 141, 201, 0.1);
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+/* Field labels (first column) */
+.additional-info .table .dataset-label {
+  font-weight: 500;
+  color: #0F2D5B;
+  width: auto;
+  padding: 12px 18px;
+  vertical-align: middle;
+  border-color: rgba(0, 0, 0, 0.025);
+  position: relative;
+}
+
+/* Add a subtle indicator to the label */
+.additional-info .table .dataset-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 70%;
+  background-color: rgba(0, 141, 201, 0.3);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Field values (second column) */
+.additional-info .table .dataset-details {
+  padding: 12px 18px;
+  color: #333;
+  vertical-align: middle;
+  border-color: rgba(0, 0, 0, 0.025);
+  line-height: 1.5;
+  width: auto;
+}
+
+.dataset-details.countries ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* List items inside table cells - enhanced pill style */
+.additional-info .table .dataset-details li {
+  display: inline-flex;
+  align-items: center;
+  background: #e8f4f9;
+  color: #008DC9;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0, 141, 201, 0.3);
+  margin-right: 10px;
+}
+
+.dataset-details.countries ul li:last-child {
+  margin-right: 0;
+}
+
+.additional-info .table .dataset-details li:hover {
+  background: #d5ebf5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Empty cells styling - improved */
+.additional-info .table .dataset-details:empty::after {
+  content: "Not specified";
+  color: #aaa;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* Links inside table - enhanced */
+.additional-info .table .dataset-details a {
+  color: #008DC9;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.additional-info .table .dataset-details a:hover {
+  color: #0F2D5B;
+}
+
+.additional-info .table .dataset-details a:hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: #0F2D5B;
+}
+
+/* Responsive adjustments - maintaining the existing ones */
+@media (max-width: 767px) {
+  .additional-info {
+    border-radius: 6px;
+  }
+  
+  .additional-info .table thead {
+    display: none; /* Hide headers on mobile */
+  }
+  
+  .additional-info .table tbody tr {
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .additional-info .table tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .additional-info .table tbody th,
+  .additional-info .table tbody td {
+    display: block;
+    width: auto;
+    text-align: left;
+  }
+  
+  .additional-info .table .dataset-label {
+    background-color: rgba(0, 141, 201, 0.05);
+    color: #0F2D5B;
+    font-weight: 600;
+    border: none;
+    padding: 12px 15px;
+    position: relative;
+  }
+  
+  /* Mobile-friendly indicator */
+  .additional-info .table .dataset-label::before {
+    width: 4px;
+    height: 60%;
+    left: 0;
+  }
+  
+  .additional-info .table .dataset-details {
+    border: none;
+    padding: 8px 15px 16px;
+    background-color: transparent !important;
+  }
+  
+  /* Adjust alternating colors for mobile */
+  .additional-info .table tbody tr:nth-child(odd) .dataset-label {
+    background-color: rgba(0, 141, 201, 0.08);
+  }
+  
+  .additional-info .table tbody tr:nth-child(even) .dataset-label {
+    background-color: rgba(0, 141, 201, 0.03);
+  }
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-accent-bg: #ffffff;
+} 
