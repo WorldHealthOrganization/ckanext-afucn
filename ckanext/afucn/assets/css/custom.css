@@ -1282,7 +1282,8 @@
 
 .datasets-base .module-content > h1, 
 .datasets-base .resources > h2,
-.datasets-base .dataset-info-row > div > h2 {
+.datasets-base .dataset-info-row > div > h2,
+.datasets-base .module-content > h2 {
   color: #0F2D5B;
   padding: 15px 0;
   font-size: 22px;
