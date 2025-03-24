@@ -761,6 +761,7 @@
   /* No border: you asked for "no borders, maybe subtle shadow" */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
   transition: box-shadow 0.2s ease;
+  overflow: hidden;
 }
 
 .country-card-link:hover {
@@ -778,6 +779,7 @@
   height: auto;
   border-radius: 4px;
   object-fit: cover; /* if images differ in ratio */
+  overflow: hidden;
 }
 
 /***************************************************
