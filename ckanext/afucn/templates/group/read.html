@@ -9,7 +9,7 @@
 {% endblock who_hero %}
 
 {% block primary %}
-  <div class="primary col-xs-12 group-read" role="main">
+  <div class="primary col-xs-12 group-read group-{{ group_type }}" role="main">
     {% block primary_content %}
 
       {% if h.check_access('group_update', {'id': group_dict.id}) %}

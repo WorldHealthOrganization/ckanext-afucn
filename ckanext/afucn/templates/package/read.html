@@ -20,3 +20,28 @@
         {% snippet "spatial/snippets/dataset_map.html", extent=dataset_extent %}
     {% endif %}
 {% endblock %}
+
+{% block package_additional_info %}
+  {{ super() }}
+{% endblock %}
+
+{% block package_tags %}
+  <div class="row dataset-info-row">
+    <div class="col-md-6 col-12 mb-5">
+      <h2 class="published-by-title">{{ _('Published by') }}</h2>
+      <a href="{{ h.url_for('organization_read', id=pkg.organization.name) }}" class="organization-card-link">
+
+        <!-- Full-width image -->
+        <img src="{{ pkg.organization.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}" alt="{{ pkg.organization.title }}" class="organization-image">
+
+        <!-- Title -->
+        <h2 class="organization-title">{{ pkg.organization.title }}</h2>
+        
+      </a>
+    </div>
+    <div class="col-md-6 col-12">
+      <h2 class="tags-title">Tags</h2>
+      {{ super() }}
+    </div>
+  </div>
+{% endblock %}

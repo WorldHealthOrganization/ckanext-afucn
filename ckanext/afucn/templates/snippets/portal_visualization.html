@@ -8,26 +8,26 @@
 <!-- Container for all visualizations -->
 <div id="portal_viz">
   <!-- Loading and error states -->
-  <div id="loading_state" class="text-center" style="display: none;">
+  <div id="loading_state" class="text-center">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
     <p class="mt-3">Loading visualizations...</p>
   </div>
   
-  <div id="error_state" class="text-center" style="display: none;">
+  <div id="error_state" class="text-center">
     <p class="mb-0">This data format does not support visualization.</p>
   </div>
 
   <!-- Debug error state -->
-  <div id="debug_error_state" class="alert alert-danger" style="display: none;">
+  <div id="debug_error_state" class="alert alert-danger">
     <p class="mb-0"></p>
   </div>
 
   <!-- Visualization content -->
-  <div id="viz_content" style="display: none;">
+  <div id="viz_content">
     <div class="row">
-      <div class="col-md-8 col-sm-12">
+      <div class="col-lg-8 col-12">
         <div class="control-panel year-filter">
           <div class="filter-group">
             <label for="yearSelect">Year</label>
@@ -36,21 +36,33 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <div id="map" class="visualization"></div>
+            <div class="vis-card">
+              <h3 class="vis-title">Geographic Distribution</h3>
+              <p class="vis-subtitle year-subtitle">Year: <span id="yearLabel">{{ selected_year }}</span></p>
+              <div id="map" class="visualization"></div>
+            </div>
           </div>
           <div class="col-md-6">
-            <div id="chart" class="visualization"></div>
+            <div class="vis-card">
+              <h3 class="vis-title">Country Comparison</h3>
+              <p class="vis-subtitle year-subtitle">Year: <span id="yearLabel2">{{ selected_year }}</span></p>
+              <div id="chart" class="visualization"></div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4 col-sm-12">
+      <div class="col-lg-4 col-12">
         <div class="control-panel location-filter">
           <div class="filter-group">
             <label for="countrySelect">Location</label>
             <select id="countrySelect"></select>
           </div>
         </div>
-        <div id="trend" class="visualization"></div>
+        <div class="vis-card">
+          <h3 class="vis-title">Historical Trend</h3>
+          <p class="vis-subtitle location-subtitle">Location: <span id="locationLabel">{{ selected_location }}</span></p>
+          <div id="trend" class="visualization"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -340,7 +352,7 @@ const PortalViz = {
       const chartConfig = {
         renderer: 'canvas',
         width: 'auto',
-        height: PortalViz.config.chartHeight
+        height: '370px'
       };
 
       // Initialize chart elements
@@ -350,7 +362,7 @@ const PortalViz = {
 
       // Set dimensions
       [mapElement, chartElement, trendElement].forEach(element => {
-        element.style.height = PortalViz.config.chartHeight;
+        element.style.height = '370px';
       });
 
       // Initialize charts
@@ -381,10 +393,10 @@ const PortalViz = {
       const dataMax = dataValues.length > 0 ? Math.max(...dataValues) : maxVal;
 
       return {
-        backgroundColor: '#F5F5F5',
+        backgroundColor: 'transparent',
         title: {
-          text: 'Geographic Distribution',
-          subtext: `${selectedYear}`,
+          text: '',
+          subtext: '',
           left: '5%',
           top: '3%',
           textStyle: { 
@@ -414,7 +426,7 @@ const PortalViz = {
           min: minVal,
           max: dataMax,
           left: "5%",
-          bottom: "5%",
+          bottom: "2%",
           text: ["High", "Low"],
           inRange: {
             color: ["#2a99c9", "#afe8ff"]
@@ -443,7 +455,8 @@ const PortalViz = {
               areaColor: '#93c3df', 
               borderWidth: 1.5 
             }
-          }
+          },
+          zoom: 1.1
         },
         series: [{
           name: 'Africa Map',
@@ -459,10 +472,10 @@ const PortalViz = {
       const endPercent = totalBars > 0 ? (10 / totalBars) * 100 : 100;
 
       return {
-        backgroundColor: '#F5F5F5',
+        backgroundColor: 'transparent',
         title: {
-          text: 'Country Comparison',
-          subtext: `${selectedYear}`,
+          text: '',
+          subtext: '',
           left: '5%',
           top: '3%',
           textStyle: { 
@@ -482,7 +495,8 @@ const PortalViz = {
         grid: {
           left: '3%',
           right: '4%',
-          bottom: '3%',
+          bottom: '2%',
+          top: '2%',
           containLabel: true
         },
         xAxis: {
@@ -522,90 +536,12 @@ const PortalViz = {
     },
 
     getTrendChartConfig: function(years, averages, locationName) {
-      // Check if there's only a single data point
-      if (averages.length === 1) {
-        const year = averages[0][0];
-        const value = averages[0][1];
-        
-        return {
-          backgroundColor: '#F5F5F5',
-          title: {
-            text: 'Historical Trend',
-            subtext: `${locationName}`,
-            left: '5%',
-            top: '3%',
-            textStyle: { 
-              fontSize: 16, 
-              fontWeight: 'normal',
-              color: '#333333'
-            },
-            subtextStyle: { 
-              fontSize: 14,
-              color: '#666666'
-            }
-          },
-          textStyle: {
-            fontFamily: 'Arial',
-            fontSize: 14,
-            color: '#333'
-          },
-          grid: {
-            left: '10%',
-            right: '10%',
-            bottom: '15%',
-            top: '20%',
-            containLabel: true
-          },
-          graphic: {
-            elements: [{
-              type: 'text',
-              style: {
-                text: 'Historical trend cannot\n be displayed with\n a single value',
-                fontSize: 16,
-                textAlign: 'left'
-              },
-              left: '7%',
-              top: '35%'
-            }, {
-              type: 'text',
-              style: {
-                text: `Year: ${year}`,
-                fontSize: 14,
-                textAlign: 'left'
-              },
-              left: '7%',
-              top: '50%'
-            }, {
-              type: 'text',
-              style: {
-                text: `Value: ${value.toLocaleString()}`,
-                fontSize: 14,
-                textAlign: 'left'
-              },
-              left: '7%',
-              top: '55%'
-            }]
-          }
-        };
-      }
-      
-      // Original code for multiple data points
+      // For multiple data points config
       return {
-        backgroundColor: '#F5F5F5',
+        backgroundColor: 'transparent',
         title: {
-          text: 'Historical Trend',
-          subtext: `${locationName}`,
-          left: '5%',
-          top: '3%',
-          textStyle: { 
-            fontSize: 16, 
-            fontWeight: 'normal',
-            color: '#333333'
-          },
-          subtextStyle: { 
-            fontSize: 14,
-            color: '#666666'
-          }
+          text: '',
+          subtext: ''
         },
         tooltip: {
           trigger: 'axis',
@@ -621,8 +557,8 @@ const PortalViz = {
         grid: {
           left: '5%',
           right: '5%',
-          bottom: '10%',
-          top: '15%',
+          bottom: '5%',
+          top: '5%',
           containLabel: true
         },
         xAxis: {
@@ -643,7 +579,17 @@ const PortalViz = {
           },
           axisLabel: {
             color: '#666666',
-            fontSize: 12
+            fontSize: 12,
+            formatter: function(value) {
+              if (value >= 1000000000) {
+                return (value / 1000000000).toFixed(1) + 'B';
+              } else if (value >= 1000000) {
+                return (value / 1000000).toFixed(1) + 'M';
+              } else if (value >= 1000) {
+                return (value / 1000).toFixed(1) + 'K';
+              }
+              return value;
+            }
           },
           splitLine: {
             lineStyle: {
@@ -789,6 +735,9 @@ const PortalViz = {
         );
       });
       countrySelect.val(locations[0].code);
+      
+      // Set initial location label text
+      jQuery("#locationLabel").text(locations[0].name);
 
       // Populate year dropdown
       const years = Array.from(new Set(PortalViz.state.csvData.map(r => r.TimeDim.toString().trim())))
@@ -800,6 +749,9 @@ const PortalViz = {
         yearSelect.append(jQuery("<option>").attr("value", year).text(year));
       });
       yearSelect.val(years[0]);
+      
+      // Set initial year label text for both charts
+      jQuery("#yearLabel, #yearLabel2").text(years[0]);
 
       // Setup event handlers
       this.setupEventHandlers();
@@ -808,6 +760,10 @@ const PortalViz = {
     setupEventHandlers: function() {
       // Year change handler
       jQuery("#yearSelect").on("change", function() {
+        const selectedYear = jQuery(this).val().trim();
+        // Update year subtitles
+        jQuery("#yearLabel, #yearLabel2").text(selectedYear);
+        
         const range = PortalViz.utils.calculateDataRange(PortalViz.state.csvData);
         PortalViz.charts.updateMapChart(range.min, range.max);
         PortalViz.charts.updateBarChart();
@@ -817,6 +773,9 @@ const PortalViz = {
       jQuery("#countrySelect").on("change", function() {
         const selectedCountry = jQuery(this).val();
         const selectedLocationName = jQuery(this).find("option:selected").text();
+        // Update location subtitle
+        jQuery("#locationLabel").text(selectedLocationName);
+        
         const trendData = PortalViz.dataProcessor.calculateTrendData(PortalViz.state.csvData, selectedCountry);
         PortalViz.charts.updateTrendChart(trendData.years, trendData.averages, selectedLocationName);
       });
