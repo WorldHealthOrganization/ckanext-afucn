@@ -258,6 +258,26 @@
     color: #ffffff;
 }
 
+.single-group-hero.who-hero .hero-image{
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+}
+
+.single-group-hero.who-hero .hero-image img{
+  max-width: 300px;
+  border-radius: 4px;
+  /* Removed padding */
+  /* Enhanced shadow with more depth */
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+  transition: all 0.2s ease-out;
+}
+
+.single-group-hero.who-hero .hero-image img:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
 /* Sticky Header Class */
 .header-sticky {
     background-color: #0F2D5B;
@@ -272,6 +292,13 @@
     color: #aaa;
 }
 
+@media (max-width: 990px) {
+    .single-group-hero.who-hero .hero-image{
+        justify-content: flex-start;
+    }
+    .single-group-hero.who-hero .hero-image img{
+    }
+}
 /* Responsive adjustments */
 @media (max-width: 767.98px) {
     .who-hero {

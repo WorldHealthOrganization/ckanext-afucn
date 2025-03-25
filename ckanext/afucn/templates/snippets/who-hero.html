@@ -9,6 +9,8 @@
     - show_search_form: Toggle search form
     - hero_background: Pattern image path
     - hero_side_background: Side background image
+    - classes: Additional CSS classes for the section
+    - hide_hero_img_on_mobile: Whether to hide hero image on mobile (defaults to true)
 #}
 {% set last_segment_check = request.path.split('/')[-1] %}
     {% if last_segment_check|length > 1 %}
@@ -26,8 +28,10 @@
 {% set show_search_form = show_search_form if show_search_form is defined else false %}
 {% set hero_background = hero_background or '/img/transparent-pattern.png' %}
 {% set hero_side_background = hero_side_background or '' %}
+{% set classes = classes or '' %}
+{% set hide_hero_img_on_mobile = hide_hero_img_on_mobile if hide_hero_img_on_mobile is defined else true %}
 
-<section class="who-hero hero-section">
+<section class="who-hero hero-section {{ classes }}">
     <div class="hero-pattern" style="background-image: url('{{ hero_background }}')"></div>
     <div class="container hero-container">
         <div class="row min-vh-50 align-items-center py-5">
@@ -43,7 +47,7 @@
                 </form>
                 {% endif %}
             </div>
-            <div class="col-lg-6 d-none d-lg-flex hero-image" style="background-image: url('{{ hero_side_background }}')">
+            <div class="col-lg-6 p-0 {% if hide_hero_img_on_mobile %}d-none d-lg-flex{% else %}d-flex{% endif %} hero-image" style="background-image: url('{{ hero_side_background }}')">
                 <img src="{{ hero_image }}" alt="{{ _('Hero Image') }}" class="img-fluid">
             </div>
         </div>
