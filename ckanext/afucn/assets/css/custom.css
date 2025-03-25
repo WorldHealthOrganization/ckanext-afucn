@@ -193,7 +193,7 @@
 .who-hero .lead {
     color: rgba(255, 255, 255, 0.9);
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 400;
     position: relative;
     margin-bottom: 2rem;
 }
@@ -258,6 +258,26 @@
     color: #ffffff;
 }
 
+.single-group-hero.who-hero .hero-image{
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+}
+
+.single-group-hero.who-hero .hero-image img{
+  max-width: 300px;
+  border-radius: 4px;
+  /* Removed padding */
+  /* Enhanced shadow with more depth */
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+  transition: all 0.2s ease-out;
+}
+
+.single-group-hero.who-hero .hero-image img:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
 /* Sticky Header Class */
 .header-sticky {
     background-color: #0F2D5B;
@@ -272,6 +292,13 @@
     color: #aaa;
 }
 
+@media (max-width: 990px) {
+    .single-group-hero.who-hero .hero-image{
+        justify-content: flex-start;
+    }
+    .single-group-hero.who-hero .hero-image img{
+    }
+}
 /* Responsive adjustments */
 @media (max-width: 767.98px) {
     .who-hero {
@@ -1236,7 +1263,8 @@
 }
 
 /* Active tab styling */
-.datasets-base .nav-tabs li.active a {
+.datasets-base .nav-tabs li.active a,
+.datasets-base .nav-tabs .nav-link.active {
   background-color: #0F2D5B;
   color: white;
   border-color: #0F2D5B;
@@ -1249,6 +1277,10 @@
   border-color: #0F2D5B;
   border-bottom: 1px;
   border: 1px solid #0F2D5B;
+}
+
+.datasets-base .module-resource .actions {
+  top: -20px
 }
 
 /* Adjust margin for "Manage" button */
@@ -1279,7 +1311,8 @@
 
 .datasets-base .module-content > h1, 
 .datasets-base .resources > h2,
-.datasets-base .dataset-info-row > div > h2 {
+.datasets-base .dataset-info-row > div > h2,
+.datasets-base .module-content > h2 {
   color: #0F2D5B;
   padding: 15px 0;
   font-size: 22px;

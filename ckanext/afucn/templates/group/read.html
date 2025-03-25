@@ -5,7 +5,9 @@
   show_search_form = false,
   title = group_dict.display_name,
   description = group_dict.notes,
-  hero_image = '' if '/location' in request.path else group_dict.image_display_url %}
+  hero_image = '' if '/location' in request.path else group_dict.image_display_url,
+  classes = '' if '/location' in request.path else 'single-group-hero',
+  hide_hero_img_on_mobile = true if '/location' in request.path else false %}
 {% endblock who_hero %}
 
 {% block primary %}
