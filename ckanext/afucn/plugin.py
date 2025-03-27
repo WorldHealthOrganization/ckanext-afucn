@@ -5,6 +5,7 @@ from typing import Dict
 from ckan.lib.plugins import DefaultTranslation
 from ckanext.afucn.subresource import create_subresource
 from ckan.common import config
+from ckanext.afucn import helpers as h
 
 subresource = config.get('ckanext.afucn.subresource', False)
 
@@ -17,6 +18,7 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IResourceController, inherit=True)
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
 
@@ -25,33 +27,33 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "afucn")
+    
+    # ITemplateHelpers
+    def get_helpers(self):
+        return {
+            'get_labeler_for_facet': h.get_labeler_for_facet,
+        }
 
     # IFacets
     def dataset_facets(self, facets_dict, package_type):
-        facets_dict['country'] = toolkit._('Country')
-        facets_dict['organization'] = toolkit._('Organization')
-        facets_dict['groups'] = toolkit._('Groups')
-        facets_dict['tags'] = toolkit._('tags')
-        facets_dict['res_format'] = toolkit._('Format')
-        facets_dict['license_id'] = toolkit._('License')
+        facets_dict['programmes'] = toolkit._('Programmes')
+        facets_dict['countries'] = toolkit._('Countries')
+        facets_dict['tags'] = toolkit._('Tags')
+        facets_dict['res_format'] = plugins.toolkit._('Format')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
-        facets_dict['country'] = toolkit._('Country')
-        facets_dict['organization'] = toolkit._('Organization')
-        facets_dict['groups'] = toolkit._('Groups')
-        facets_dict['tags'] = toolkit._('tags')
-        facets_dict['res_format'] = toolkit._('Format')
-        facets_dict['license_id'] = toolkit._('License')
+        facets_dict['programmes'] = toolkit._('Programmes')
+        facets_dict['countries'] = toolkit._('Countries')
+        facets_dict['tags'] = toolkit._('Tags')
+        facets_dict['res_format'] = plugins.toolkit._('Format')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
-        facets_dict['country'] = toolkit._('Country')
-        facets_dict['organization'] = toolkit._('Organization')
-        facets_dict['groups'] = toolkit._('Groups')
-        facets_dict['tags'] = toolkit._('tags')
-        facets_dict['res_format'] = toolkit._('Format')
-        facets_dict['license_id'] = toolkit._('License')
+        facets_dict['programmes'] = toolkit._('Programmes')
+        facets_dict['countries'] = toolkit._('Countries')
+        facets_dict['tags'] = toolkit._('Tags')
+        facets_dict['res_format'] = plugins.toolkit._('Format')
         return facets_dict
     
     # IResourceController
@@ -72,10 +74,10 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
         Returns:
             Dict: Normalized input data
         """
-        if isinstance(data_dict.get('programme'), str):
-            data_dict['programme'] = json.loads(data_dict['programme'])
-        if isinstance(data_dict.get('country'), str):
-            data_dict['country'] = json.loads(data_dict['country'])
+        if isinstance(data_dict.get('programmes'), str):
+            data_dict['programmes'] = json.loads(data_dict['programmes'])
+        if isinstance(data_dict.get('countries'), str):
+            data_dict['countries'] = json.loads(data_dict['countries'])
         if isinstance(data_dict.get('sustainable_development_goals'), str):
             data_dict['sustainable_development_goals'] = json.loads(data_dict['sustainable_development_goals'])
         if isinstance(data_dict.get('global_strategy'), str):

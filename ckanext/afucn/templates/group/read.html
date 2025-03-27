@@ -1,48 +1,52 @@
-{% extends "group/read_base.html" %}
-{% set dataset_type = h.default_package_type() %}
+{% ckan_extends %}
 
-{% block primary_content_inner %}
-  {% block groups_search_form %}
-    {% set facets = {
-      'fields': fields_grouped,
-      'search': search_facets,
-      'titles': facet_titles,
-      'translated_fields': translated_fields,
-      'remove_field': remove_field }
-    %}
-    {% set sorting = [
-      (_('Relevance'), 'score desc, metadata_modified desc'),
-      (_('Name Ascending'), 'title_string asc'),
-      (_('Name Descending'), 'title_string desc'),
-      (_('Last Modified'), 'metadata_modified desc'),
-      (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
-    %}
+{% block who_hero %}
+  {% snippet 'snippets/who-hero.html',
+  show_search_form = false,
+  title = group_dict.display_name,
+  description = group_dict.notes,
+  hero_image = '' if '/location' in request.path else group_dict.image_display_url,
+  classes = '' if '/location' in request.path else 'single-group-hero',
+  hide_hero_img_on_mobile = true if '/location' in request.path else false %}
+{% endblock who_hero %}
 
-  {% if 'location' in request.path %}
-    {% snippet 'scheming/group/about.html', group_type = group_type %}
-    {% snippet 'scheming/group/group_stats.html', group_type = group_type %}
-  {% endif %} 
-    {% snippet 'snippets/search_form.html', form_id='group-datasets-search-form', type=dataset_type, query=q, sorting=sorting, sorting_selected=sort_by_selected, count=page.item_count, facets=facets, placeholder=h.humanize_entity_type('package', dataset_type, 'search placeholder') or _('Search datasets...'), show_empty=request.args, fields=fields %}
-  
-    {% endblock %}
-  {% block packages_list %}
-    {% if page.items %}
-      {{ h.snippet('snippets/package_list.html', packages=page.items) }}
-    {% endif %}
-  {% endblock %}
-  {% block page_pagination %}
-    {{ page.pager(q=q) }}
-  {% endblock %}
-{% endblock %}
- 
-{% block secondary_content %}
-  {{ super() }}
-  <div class="filters">
-    <div>
-      {% for facet in facet_titles %}
-        {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet, extras={'id':group_dict.id}, search_facets=search_facets) }}
-      {% endfor %}
-    </div>
-    <a class="close no-text hide-filters"><i class="fa fa-times-circle"></i><span class="text">close</span></a>
+{% block primary %}
+  <div class="primary col-xs-12 group-read group-{{ group_type }}" role="main">
+    {% block primary_content %}
+
+      {% if h.check_access('group_update', {'id': group_dict.id}) %}
+        {% link_for _('Manage Group'), named_route=group_type+'.edit', id=group_dict.name, class_='btn btn-default btn-manage-group', icon='wrench' %}
+        <div class="clear"></div>
+      {% endif %}
+
+      {% if '/location' in request.path %}
+        {% snippet 'group/snippets/location_stats.html', group_type = group_type %}
+        {% snippet 'group/snippets/location_charts.html', group_type = group_type %}
+              <!-- Display first 5 datasets of the group -->
+        <div class="group-indicators">
+          <h3>{{ _("Featured Indicators") }}</h3>
+          {% snippet 'group/snippets/featured_datasets.html', package=package, group_dict=group_dict %}
+        </div>
+      {% endif %}
+
+
+
+      {{ super() }}
+    {% endblock primary_content %}
   </div>
-{% endblock %}
+{% endblock primary %}
+
+{% block wrapper_class %} wrapper-location-index {% endblock %}
+
+
+{% block page_header %}
+{% endblock page_header %}
+
+{% block content_primary_nav %}
+{% endblock content_primary_nav %}
+
+{% block content_action %}
+{% endblock content_action %}
+
+{% block secondary %}
+{% endblock secondary %}

@@ -1,0 +1,987 @@
+{% asset 'afucn/afucn-css' %}
+
+<!-- Required libraries -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<!-- Container for all visualizations -->
+<div id="portal_viz">
+  <!-- Loading and error states -->
+  <div id="loading_state" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading visualizations...</p>
+  </div>
+  
+  <div id="error_state" class="text-center">
+    <p class="mb-0">This data format does not support visualization.</p>
+  </div>
+
+  <!-- Debug error state -->
+  <div id="debug_error_state" class="alert alert-danger">
+    <p class="mb-0"></p>
+  </div>
+
+  <!-- Visualization content -->
+  <div id="viz_content">
+    <div class="row">
+      <div class="col-lg-8 col-12">
+        <div class="control-panel year-filter">
+          <div class="filter-group">
+            <label for="yearSelect">Year</label>
+            <select id="yearSelect"></select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="vis-card">
+              <h3 class="vis-title">Geographic Distribution</h3>
+              <p class="vis-subtitle year-subtitle">Year: <span id="yearLabel">{{ selected_year }}</span></p>
+              <div id="map" class="visualization"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="vis-card">
+              <h3 class="vis-title">Country Comparison</h3>
+              <p class="vis-subtitle year-subtitle">Year: <span id="yearLabel2">{{ selected_year }}</span></p>
+              <div id="chart" class="visualization"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-12">
+        <div class="control-panel location-filter">
+          <div class="filter-group">
+            <label for="countrySelect">Location</label>
+            <select id="countrySelect"></select>
+          </div>
+        </div>
+        <div class="vis-card">
+          <h3 class="vis-title">Historical Trend</h3>
+          <p class="vis-subtitle location-subtitle">Location: <span id="locationLabel">{{ selected_location }}</span></p>
+          <div id="trend" class="visualization"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Namespace for the visualization module
+const PortalViz = {
+  // Configuration settings
+  config: {
+    // Data limits
+    maxRowCount: 2000,         // Maximum number of rows allowed in dataset
+    maxFileSizeMB: 1,          // Maximum file size in MB
+    
+    // Chart settings
+    chartHeight: '500px'
+    // Other configuration settings could be moved here in the future
+  },
+
+  // State management
+  state: {
+    mapChart: null,
+    barChart: null,
+    trendChart: null,
+    csvData: null,
+    geoJsonData: null,
+    isLoading: false,
+    hasError: false,
+    isDebugMode: {{ g.debug|tojson }} // Get debug mode from CKAN
+  },
+
+  // Utility functions
+  utils: {
+    // Convert MB to bytes
+    mbToBytes: function(mb) {
+      return mb * 1024 * 1024;
+    },
+    
+    normalizeIso: function(iso) {
+      return (iso || "")
+        .toString()
+        .trim()
+        .replace(/^\uFEFF/, '')
+        .replace(/^"+|"+$/g, '')
+        .toUpperCase();
+    },
+
+    calculateDataRange: function(data) {
+      try {
+        // Safely extract numeric values, filtering out invalid ones
+        const values = data
+          .map(row => {
+            const raw = row.NumericValue;
+            // If it's already a number, use it directly; if it's a string, parse it
+            if (typeof raw === 'number') return raw;
+            if (typeof raw === 'string') {
+              const parsed = parseFloat(raw);
+              return isNaN(parsed) ? null : parsed;
+            }
+            return null;  // Everything else we treat as invalid
+          })
+          .filter(value => value !== null);
+    
+        // If no valid numeric values are found, return a default range
+        if (values.length === 0) {
+          return { min: 0, max: 0 };
+        }
+    
+        // --- Instead of Math.min(...values), we do a manual loop. ---
+        let min = Infinity;
+        let max = -Infinity;
+        for (let i = 0; i < values.length; i++) {
+          const val = values[i];
+          if (val < min) min = val;
+          if (val > max) max = val;
+        }
+    
+        // If min and max are the same, return a small range around the single value
+        if (min === max) {
+          return {
+            min: Math.max(0, min - 0.1),
+            max: max + 0.1
+          };
+        }
+    
+        return { min, max };
+      } catch (error) {
+        console.error("Error calculating data range:", error);
+        // Fallback
+        return { min: 0, max: 0 };
+      }
+    },
+    
+  },
+
+  // Data processing functions
+  dataProcessor: {
+    // File processing functions
+    processCSVData: function(csvText) {
+      return new Promise((resolve, reject) => {
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            if (results.data.length > PortalViz.config.maxRowCount) {
+              reject(new Error(`Dataset exceeded ${PortalViz.config.maxRowCount} rows`));
+              return;
+            }
+            if (!results.data.length || !results.data[0].hasOwnProperty('SpatialDim')) {
+              reject(new Error('Missing required SpatialDim column'));
+              return;
+            }
+            resolve(results.data);
+          },
+          error: function(error) {
+            console.error("Error parsing CSV:", error);
+            reject(error);
+          }
+        });
+      });
+    },
+
+    processExcelData: function(arrayBuffer) {
+      return new Promise((resolve, reject) => {
+        try {
+          const workbook = XLSX.read(arrayBuffer);
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const data = XLSX.utils.sheet_to_json(worksheet);
+          
+          if (data.length > PortalViz.config.maxRowCount) {
+            reject(new Error(`Dataset exceeded ${PortalViz.config.maxRowCount} rows`));
+            return;
+          }
+          
+          resolve(data);
+        } catch (error) {
+          console.error("Error parsing Excel:", error);
+          reject(error);
+        }
+      });
+    },
+
+    // Data transformation functions
+    processGeoData: function(geoJson, csvData) {
+      const csvLookup = {};
+      const countryNameLookup = new Map();
+
+      // Create country name lookup from GeoJSON
+      geoJson.features.forEach(feature => {
+        const iso = PortalViz.utils.normalizeIso(feature.properties.iso_code);
+        if (feature.properties.country_name_short) {
+          countryNameLookup.set(iso, feature.properties.country_name_short);
+        }
+      });
+
+      // Create CSV data lookup
+      csvData.forEach(row => {
+        const iso = PortalViz.utils.normalizeIso(row.SpatialDim);
+        csvLookup[iso] = row;
+      });
+
+      // Merge data into GeoJSON features
+      geoJson.features.forEach(feature => {
+        const geoIso = PortalViz.utils.normalizeIso(feature.properties.iso_code);
+        if (csvLookup.hasOwnProperty(geoIso)) {
+          const row = csvLookup[geoIso];
+          feature.properties.country_name = feature.properties.country_name_short;
+          feature.properties.year = row.TimeDim;
+          feature.properties.value = row.NumericValue;
+        } else {
+          feature.properties.value = 0;
+        }
+        feature.properties.name = feature.properties.country_name_short || "N/A";
+      });
+
+      return { geoJson, countryNameLookup };
+    },
+
+    // Data aggregation functions
+    calculateTrendData: function(csvData, selectedCountry) {
+      const yearData = {};
+      const filteredData = selectedCountry === 'AFR' 
+        ? csvData.filter(row => row.SpatialDimType === 'REGION')
+        : csvData.filter(row => row.SpatialDimType === 'COUNTRY' && row.SpatialDim === selectedCountry);
+
+      // Aggregate data by year
+      filteredData.forEach(row => {
+        const year = row.TimeDim.toString().trim();
+        const value = parseFloat(row.NumericValue);
+        if (!isNaN(value)) {
+          if (!yearData[year]) {
+            yearData[year] = { sum: 0, count: 0 };
+          }
+          yearData[year].sum += value;
+          yearData[year].count++;
+        }
+      });
+
+      // Calculate averages and sort by year
+      const years = Object.keys(yearData).sort();
+      const averages = years.map(year => [
+        year, 
+        Math.round((yearData[year].sum / yearData[year].count) * 100) / 100
+      ]);
+
+      return { years, averages };
+    },
+
+    // Location management functions
+    getUniqueLocations: function(csvData, countryNameLookup) {
+      const locations = new Map();
+      
+      // Add region first if available
+      const region = csvData.find(row => row.SpatialDimType === 'REGION');
+      if (region) {
+        locations.set(region.SpatialDim, {
+          code: region.SpatialDim,
+          name: region.SpatialDimLong || region.SpatialDim
+        });
+      }
+
+      // Add countries
+      csvData.forEach(row => {
+        if (row.SpatialDimType === 'COUNTRY') {
+          const iso = PortalViz.utils.normalizeIso(row.SpatialDim);
+          if (!locations.has(row.SpatialDim)) {
+            locations.set(row.SpatialDim, {
+              code: row.SpatialDim,
+              name: countryNameLookup.get(iso) || row.SpatialDimLong || row.SpatialDim
+            });
+          }
+        }
+      });
+
+      return Array.from(locations.values());
+    },
+
+    // Validation functions
+    validateVisualizationRequirements: function(data) {
+      const validations = {
+        map: {
+          isValid: false,
+          message: 'Map visualization requires at least one value in SpatialDim, one value in TimeDim, and values in NumericValue',
+          check: () => {
+            const hasSpatialDim = data.some(row => row.SpatialDim);
+            const hasTimeDim = data.some(row => row.TimeDim);
+            const hasNumericValue = data.some(row => row.NumericValue && !isNaN(row.NumericValue));
+            return hasSpatialDim && hasTimeDim && hasNumericValue;
+          }
+        },
+        barChart: {
+          isValid: false,
+          message: 'Bar chart visualization requires at least two unique values in SpatialDim, one value in TimeDim, and values in NumericValue',
+          check: () => {
+            const uniqueSpatialDims = new Set(data.map(row => row.SpatialDim)).size;
+            const hasTimeDim = data.some(row => row.TimeDim);
+            const hasNumericValue = data.some(row => row.NumericValue && !isNaN(row.NumericValue));
+            return uniqueSpatialDims >= 2 && hasTimeDim && hasNumericValue;
+          }
+        },
+        trend: {
+          isValid: false,
+          message: 'Trend visualization requires at least one value in SpatialDim, two unique values in TimeDim, and values in NumericValue',
+          check: () => {
+            const hasSpatialDim = data.some(row => row.SpatialDim);
+            const uniqueTimeDims = new Set(data.map(row => row.TimeDim)).size;
+            const hasNumericValue = data.some(row => row.NumericValue && !isNaN(row.NumericValue));
+            return hasSpatialDim && uniqueTimeDims >= 2 && hasNumericValue;
+          }
+        }
+      };
+
+      // Run validations
+      Object.keys(validations).forEach(viz => {
+        validations[viz].isValid = validations[viz].check();
+      });
+
+      return validations;
+    }
+  },
+
+  // Chart configuration and update functions
+  charts: {
+    // Chart initialization
+    initializeCharts: function() {
+      const chartConfig = {
+        renderer: 'canvas',
+        width: 'auto',
+        height: '370px'
+      };
+
+      // Initialize chart elements
+      const mapElement = document.getElementById("map");
+      const chartElement = document.getElementById("chart");
+      const trendElement = document.getElementById("trend");
+
+      // Set dimensions
+      [mapElement, chartElement, trendElement].forEach(element => {
+        element.style.height = '370px';
+      });
+
+      // Initialize charts
+      PortalViz.state.mapChart = echarts.init(mapElement, null, chartConfig);
+      PortalViz.state.barChart = echarts.init(chartElement, null, chartConfig);
+      PortalViz.state.trendChart = echarts.init(trendElement, null, chartConfig);
+
+      // Setup resize observer
+      const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          const chart = entry.target.id === 'map' ? PortalViz.state.mapChart :
+                       entry.target.id === 'chart' ? PortalViz.state.barChart :
+                       PortalViz.state.trendChart;
+          if (chart) {
+            chart.resize();
+          }
+        }
+      });
+
+      // Observe all chart elements
+      [mapElement, chartElement, trendElement].forEach(element => {
+        resizeObserver.observe(element);
+      });
+    },
+
+    getMapChartConfig: function(echartsData, minVal, maxVal, selectedYear) {
+      const dataValues = echartsData.map(item => item.value).filter(v => v > 0);
+      const dataMax = dataValues.length > 0 ? Math.max(...dataValues) : maxVal;
+
+      return {
+        backgroundColor: 'transparent',
+        title: {
+          text: '',
+          subtext: '',
+          left: '5%',
+          top: '3%',
+          textStyle: { 
+            fontSize: 16, 
+            fontWeight: 'normal',
+            color: '#333333'
+          },
+          subtextStyle: { 
+            fontSize: 14,
+            color: '#666666'
+          }
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: params => {
+            if (!params.value || params.value === 0) {
+              return `${params.name}<br/>No data available`;
+            }
+            return `${params.name}<br/>Value: ${params.value.toLocaleString()}`;
+          },
+          backgroundColor: 'rgba(255,255,255,0.9)',
+          borderColor: '#ccc',
+          borderWidth: 1,
+          textStyle: { color: '#333' }
+        },
+        visualMap: {
+          min: minVal,
+          max: dataMax,
+          left: "5%",
+          bottom: "2%",
+          text: ["High", "Low"],
+          inRange: {
+            color: ["#2a99c9", "#afe8ff"]
+          },
+          outOfRange: {
+            color: ['#E0E0E0']  // Grey color for countries with no data
+          },
+          calculable: true,
+          hoverLink: true
+        },
+        geo: {
+          map: "africa",
+          projection: {
+            project: (point) => [point[0] / 180 * Math.PI, -Math.log(Math.tan((Math.PI / 2 + point[1] / 180 * Math.PI) / 2))],
+            unproject: (point) => [point[0] * 180 / Math.PI, 2 * 180 / Math.PI * Math.atan(Math.exp(point[1])) - 90]
+          },
+          roam: { zoom: false, move: true },
+          label: { emphasis: { show: true, color: '#333' } },
+          itemStyle: { 
+            borderColor: '#fff', 
+            borderWidth: 0.8,
+            areaColor: '#E0E0E0'  // Default grey color
+          },
+          emphasis: {
+            itemStyle: { 
+              areaColor: '#93c3df', 
+              borderWidth: 1.5 
+            }
+          },
+          zoom: 1.1
+        },
+        series: [{
+          name: 'Africa Map',
+          type: "map",
+          geoIndex: 0,
+          data: echartsData
+        }]
+      };
+    },
+
+    getBarChartConfig: function(yLabels, barData, selectedYear) {
+      const totalBars = yLabels.length;
+      const endPercent = totalBars > 0 ? (10 / totalBars) * 100 : 100;
+
+      return {
+        backgroundColor: 'transparent',
+        title: {
+          text: '',
+          subtext: '',
+          left: '5%',
+          top: '3%',
+          textStyle: { 
+            fontSize: 16, 
+            fontWeight: 'normal',
+            color: '#333333'
+          },
+          subtextStyle: { 
+            fontSize: 14,
+            color: '#666666'
+          }
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '2%',
+          top: '2%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value',
+          boundaryGap: [0, 0.01],
+          axisLabel: {
+            formatter: function(value) {
+              if (value >= 1000000000) {
+                return (value / 1000000000).toFixed(1) + 'B';
+              } else if (value >= 1000000) {
+                return (value / 1000000).toFixed(1) + 'M';
+              } else if (value >= 1000) {
+                return (value / 1000).toFixed(1) + 'K';
+              }
+              return value;
+            }
+          }
+        },
+        yAxis: {
+          type: 'category',
+          data: yLabels,
+          inverse: true
+        },
+        dataZoom: [{
+          type: 'slider',
+          yAxisIndex: 0,
+          start: 0,
+          end: endPercent
+        }],
+        series: [{
+          name: "Value",
+          type: 'bar',
+          data: barData,
+          itemStyle: { color: "#3fb1e3" }
+        }]
+      };
+    },
+
+    getTrendChartConfig: function(years, averages, locationName) {
+      // For multiple data points config
+      return {
+        backgroundColor: 'transparent',
+        title: {
+          text: '',
+          subtext: ''
+        },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(255,255,255,0.9)',
+          borderColor: '#ccc',
+          borderWidth: 1,
+          textStyle: { color: '#333' },
+          formatter: function(params) {
+            const data = params[0];
+            return `Year: ${data.name}<br/>Value: ${data.value[1].toLocaleString()}`;
+          }
+        },
+        grid: {
+          left: '5%',
+          right: '5%',
+          bottom: '5%',
+          top: '5%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          axisLine: {
+            lineStyle: { color: '#999999' }
+          },
+          axisLabel: {
+            color: '#666666',
+            fontSize: 12
+          }
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: {
+            lineStyle: { color: '#999999' }
+          },
+          axisLabel: {
+            color: '#666666',
+            fontSize: 12,
+            formatter: function(value) {
+              if (value >= 1000000000) {
+                return (value / 1000000000).toFixed(1) + 'B';
+              } else if (value >= 1000000) {
+                return (value / 1000000).toFixed(1) + 'M';
+              } else if (value >= 1000) {
+                return (value / 1000).toFixed(1) + 'K';
+              }
+              return value;
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              type: 'dashed',
+              color: '#E6E6E6'
+            }
+          }
+        },
+        series: [{
+          name: 'Average Value',
+          type: 'line',
+          data: averages,
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 8,
+          itemStyle: {
+            color: '#008DC9'
+          },
+          lineStyle: {
+            width: 3,
+            color: '#008DC9'
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgba(0,141,201,0.3)' },
+              { offset: 1, color: 'rgba(0,141,201,0.1)' }
+            ])
+          }
+        }]
+      };
+    },
+
+    updateMapChart: function(minVal, maxVal) {
+      if (!PortalViz.state.csvData || !PortalViz.state.geoJsonData || !PortalViz.state.mapChart) return;
+
+      const validations = PortalViz.dataProcessor.validateVisualizationRequirements(PortalViz.state.csvData);
+      if (!validations.map.isValid) {
+        if (PortalViz.state.isDebugMode) {
+          console.error('Map validation failed:', validations.map.message);
+        }
+        return;
+      }
+
+      const selectedYear = jQuery("#yearSelect").val().trim();
+      const filtered = PortalViz.state.csvData.filter(r => r.TimeDim.toString().trim() === selectedYear);
+
+      const aggregator = {};
+      filtered.forEach(row => {
+        const iso = PortalViz.utils.normalizeIso(row.SpatialDim);
+        let val = parseFloat(row.NumericValue);
+        if (Number.isNaN(val)) return;
+        if (!aggregator[iso]) aggregator[iso] = { sum: 0, count: 0 };
+        aggregator[iso].sum += val;
+        aggregator[iso].count++;
+      });
+
+      const echartsData = PortalViz.state.geoJsonData.features.map(feature => {
+        const iso = PortalViz.utils.normalizeIso(feature.properties.iso_code);
+        const countryName = feature.properties.country_name_short || "N/A";
+        let data = aggregator[iso];
+        const value = data ? (data.sum / data.count) : null;  // Use null for missing values
+        return { 
+          name: countryName, 
+          value: value !== null ? Math.round(value * 100) / 100 : null 
+        };
+      });
+
+      const option = PortalViz.charts.getMapChartConfig(echartsData, minVal, maxVal, selectedYear);
+      PortalViz.state.mapChart.setOption(option, true);
+    },
+
+    updateBarChart: function() {
+      if (!PortalViz.state.csvData || !PortalViz.state.geoJsonData || !PortalViz.state.barChart) return;
+
+      const validations = PortalViz.dataProcessor.validateVisualizationRequirements(PortalViz.state.csvData);
+      if (!validations.barChart.isValid) {
+        if (PortalViz.state.isDebugMode) {
+          console.error('Bar chart validation failed:', validations.barChart.message);
+        }
+        return;
+      }
+
+      const selectedYear = jQuery("#yearSelect").val().trim();
+      const filtered = PortalViz.state.csvData.filter(r => r.TimeDim.toString().trim() === selectedYear);
+
+      const aggregator = {};
+      filtered.forEach(row => {
+        const iso = PortalViz.utils.normalizeIso(row.SpatialDim);
+        let val = parseFloat(row.NumericValue);
+        if (Number.isNaN(val)) return;
+        if (!aggregator[iso]) aggregator[iso] = { sum: 0, count: 0 };
+        aggregator[iso].sum += val;
+        aggregator[iso].count++;
+      });
+
+      const combined = PortalViz.state.geoJsonData.features.map(feature => {
+        const iso = PortalViz.utils.normalizeIso(feature.properties.iso_code);
+        const countryName = feature.properties.country_name_short || "N/A";
+        let data = aggregator[iso];
+        const value = data ? (data.sum / data.count) : null;
+        return { countryName, value };
+      })
+      // Filter out entries with null or zero values
+      .filter(item => item.value !== null && item.value !== 0)
+      .sort((a, b) => b.value - a.value);
+
+      const yLabels = combined.map(item => item.countryName);
+      const barData = combined.map(item => Math.round(item.value * 100) / 100);
+
+      const option = PortalViz.charts.getBarChartConfig(yLabels, barData, selectedYear);
+      PortalViz.state.barChart.setOption(option, true);
+    },
+
+    updateTrendChart: function(years, averages, locationName) {
+      if (!PortalViz.state.trendChart) return;
+
+      const validations = PortalViz.dataProcessor.validateVisualizationRequirements(PortalViz.state.csvData);
+      if (!validations.trend.isValid) {
+        if (PortalViz.state.isDebugMode) {
+          console.error('Trend chart validation failed:', validations.trend.message);
+        }
+        return;
+      }
+
+      const option = PortalViz.charts.getTrendChartConfig(years, averages, locationName);
+      PortalViz.state.trendChart.setOption(option, true);
+    }
+  },
+
+  // UI related functions
+  ui: {
+    // Dropdown management
+    populateDropdowns: function(locations) {
+      // Populate country dropdown
+      const countrySelect = jQuery("#countrySelect");
+      countrySelect.empty();
+      
+      locations.forEach(location => {
+        countrySelect.append(
+          jQuery("<option>")
+            .attr("value", location.code)
+            .text(location.name)
+        );
+      });
+      countrySelect.val(locations[0].code);
+      
+      // Set initial location label text
+      jQuery("#locationLabel").text(locations[0].name);
+
+      // Populate year dropdown
+      const years = Array.from(new Set(PortalViz.state.csvData.map(r => r.TimeDim.toString().trim())))
+        .sort((a, b) => b - a);
+
+      const yearSelect = jQuery("#yearSelect");
+      yearSelect.empty();
+      years.forEach(year => {
+        yearSelect.append(jQuery("<option>").attr("value", year).text(year));
+      });
+      yearSelect.val(years[0]);
+      
+      // Set initial year label text for both charts
+      jQuery("#yearLabel, #yearLabel2").text(years[0]);
+
+      // Setup event handlers
+      this.setupEventHandlers();
+    },
+
+    setupEventHandlers: function() {
+      // Year change handler
+      jQuery("#yearSelect").on("change", function() {
+        const selectedYear = jQuery(this).val().trim();
+        // Update year subtitles
+        jQuery("#yearLabel, #yearLabel2").text(selectedYear);
+        
+        const range = PortalViz.utils.calculateDataRange(PortalViz.state.csvData);
+        PortalViz.charts.updateMapChart(range.min, range.max);
+        PortalViz.charts.updateBarChart();
+      });
+
+      // Country change handler
+      jQuery("#countrySelect").on("change", function() {
+        const selectedCountry = jQuery(this).val();
+        const selectedLocationName = jQuery(this).find("option:selected").text();
+        // Update location subtitle
+        jQuery("#locationLabel").text(selectedLocationName);
+        
+        const trendData = PortalViz.dataProcessor.calculateTrendData(PortalViz.state.csvData, selectedCountry);
+        PortalViz.charts.updateTrendChart(trendData.years, trendData.averages, selectedLocationName);
+      });
+    },
+
+    handleResize: function() {
+      // Debounce resize events
+      let resizeTimeout;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          PortalViz.state.mapChart && PortalViz.state.mapChart.resize();
+          PortalViz.state.barChart && PortalViz.state.barChart.resize();
+          PortalViz.state.trendChart && PortalViz.state.trendChart.resize();
+        }, 100);
+      });
+    },
+
+    showLoading: function() {
+      jQuery("#loading_state").show();
+      jQuery("#error_state").hide();
+      jQuery("#debug_error_state").hide();
+      jQuery("#viz_content").hide();
+      PortalViz.state.isLoading = true;
+      PortalViz.state.hasError = false;
+    },
+
+    showError: function(message, isDebugError = false) {
+      jQuery("#loading_state").hide();
+      jQuery("#viz_content").hide();
+      
+      if (PortalViz.state.isDebugMode && isDebugError) {
+        jQuery("#error_state").hide();
+        jQuery("#debug_error_state").show();
+        jQuery("#debug_error_state p").text(message);
+      } else {
+        jQuery("#error_state").show();
+        jQuery("#debug_error_state").hide();
+      }
+      
+      PortalViz.state.isLoading = false;
+      PortalViz.state.hasError = true;
+    },
+
+    showContent: function(validations) {
+      jQuery("#loading_state").hide();
+      jQuery("#error_state").hide();
+      jQuery("#debug_error_state").hide();
+      
+      // Show/hide filters based on validation results
+      jQuery(".year-filter").toggle(validations.map.isValid || validations.barChart.isValid);
+      jQuery(".location-filter").toggle(validations.trend.isValid);
+      
+      // Show/hide visualization containers based on validation results
+      jQuery("#map").closest(".col-md-6").toggle(validations.map.isValid);
+      jQuery("#chart").closest(".col-md-6").toggle(validations.barChart.isValid);
+      jQuery("#trend").closest(".col-md-4").toggle(validations.trend.isValid);
+      
+      // Show the content container if at least one visualization is valid
+      jQuery("#viz_content").show(validations.map.isValid || validations.barChart.isValid || validations.trend.isValid);
+      
+      PortalViz.state.isLoading = false;
+      PortalViz.state.hasError = false;
+
+      // Force a resize after content is shown to ensure proper chart dimensions
+      setTimeout(() => {
+        PortalViz.state.mapChart && PortalViz.state.mapChart.resize();
+        PortalViz.state.barChart && PortalViz.state.barChart.resize();
+        PortalViz.state.trendChart && PortalViz.state.trendChart.resize();
+      }, 100);
+    }
+  },
+
+  // Initialization
+  init: function() {
+    try {
+      PortalViz.ui.showLoading();
+
+      // Check if required libraries are loaded
+      if (typeof echarts === 'undefined' || typeof Papa === 'undefined' || typeof XLSX === 'undefined') {
+        throw new Error('Required visualization libraries are not loaded');
+      }
+
+      const maxFileSizeBytes = PortalViz.utils.mbToBytes(PortalViz.config.maxFileSizeMB);
+
+      Promise.all([
+        // First fetch and process the data file
+        fetch("{{ pkg.resources[0].url }}", { method: 'HEAD' })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            // Check file size using Content-Length header
+            const contentLength = response.headers.get('Content-Length');
+            if (contentLength && parseInt(contentLength) > maxFileSizeBytes) {
+              throw new Error(`File size exceeds ${PortalViz.config.maxFileSizeMB}MB limit`);
+            }
+            
+            // If file size is acceptable, proceed with actual download
+            return fetch("{{ pkg.resources[0].url }}");
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const contentType = response.headers.get('content-type');
+            const fileUrl = "{{ pkg.resources[0].url }}".toLowerCase();
+            
+            if (fileUrl.endsWith('.csv') || contentType.includes('csv')) {
+              return response.text().then(text => PortalViz.dataProcessor.processCSVData(text));
+            } else if (fileUrl.endsWith('.xlsx') || fileUrl.endsWith('.xls') || 
+                      contentType.includes('excel') || contentType.includes('spreadsheet')) {
+              return response.arrayBuffer().then(buffer => PortalViz.dataProcessor.processExcelData(buffer));
+            } else {
+              throw new Error('Unsupported file format');
+            }
+          }),
+        fetch("{% url_for_static '/geojson/africa_countries.geojson' %}")
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+      ])
+      .then(([data, geoJson]) => {
+        // Process data
+        PortalViz.state.csvData = data;
+        if (!PortalViz.state.csvData || !PortalViz.state.csvData.length) {
+          throw new Error('No data available in the file');
+        }
+
+        // Validate data structure
+        if (!PortalViz.state.csvData.some(row => row.SpatialDim)) {
+          throw new Error('Missing or empty SpatialDim column');
+        }
+
+        const { geoJson: processedGeoJson, countryNameLookup } = PortalViz.dataProcessor.processGeoData(geoJson, PortalViz.state.csvData);
+        PortalViz.state.geoJsonData = processedGeoJson;
+        
+        try {
+          echarts.registerMap("africa", processedGeoJson);
+        } catch (e) {
+          throw new Error('Failed to register map data');
+        }
+
+        // Initialize UI with country name lookup
+        const locations = PortalViz.dataProcessor.getUniqueLocations(PortalViz.state.csvData, countryNameLookup);
+        if (!locations || locations.length === 0) {
+          throw new Error('No valid locations found in the data');
+        }
+        
+        PortalViz.ui.populateDropdowns(locations);
+        PortalViz.ui.handleResize();
+
+        // Initialize charts
+        PortalViz.charts.initializeCharts();
+
+        // Validate all visualizations
+        const validations = PortalViz.dataProcessor.validateVisualizationRequirements(PortalViz.state.csvData);
+
+        // If all visualizations fail, show error message
+        if (!validations.map.isValid && !validations.barChart.isValid && !validations.trend.isValid) {
+          PortalViz.ui.showError('This data format does not support visualization.');
+          return;
+        }
+
+        // Update visualizations only if they are valid
+        if (validations.trend.isValid) {
+          const initialCountry = jQuery("#countrySelect").val();
+          const initialLocationName = jQuery("#countrySelect option:selected").text();
+          const trendData = PortalViz.dataProcessor.calculateTrendData(PortalViz.state.csvData, initialCountry);
+          PortalViz.charts.updateTrendChart(trendData.years, trendData.averages, initialLocationName);
+        }
+
+        if (validations.map.isValid || validations.barChart.isValid) {
+          try {
+            const range = PortalViz.utils.calculateDataRange(PortalViz.state.csvData);
+            if (validations.map.isValid) {
+              PortalViz.charts.updateMapChart(range.min, range.max);
+            }
+            if (validations.barChart.isValid) {
+              PortalViz.charts.updateBarChart();
+            }
+          } catch (error) {
+            console.error('Error updating visualizations:', error);
+            // Continue with the rest of the initialization even if visualization updates fail
+          }
+        }
+
+        PortalViz.ui.showContent(validations);
+      })
+      .catch(err => {
+        console.error("Error loading data:", err);
+        PortalViz.ui.showError(err.message, true);
+      });
+    } catch (err) {
+      console.error("Initialization error:", err);
+      PortalViz.ui.showError(err.message, true);
+    }
+  }
+};
+
+// Initialize when document is ready
+jQuery(document).ready(function() {
+  PortalViz.init();
+});
+</script>

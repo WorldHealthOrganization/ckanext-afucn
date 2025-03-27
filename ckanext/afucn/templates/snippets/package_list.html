@@ -13,21 +13,23 @@ Example:
 #}
 {% block package_list %}
   {% if packages %}
-    <ul class="{{ list_class or 'dataset-list list-unstyled' }}">
-      <li class="location-media-item-header">
+    <!-- White container around the list -->
+    <ul class="{{ list_class or 'dataset-list dataset-list-container' }} list-unstyled">
+      <!-- Optional header row for large screens -->
+      <li class="location-media-item-header d-none d-md-block">
         <div class="row">
-       <!--    <div class="col-md-1 dataset-text-center"><strong>View</strong></div> -->
-          <div class="col-md-3 dataset-text-center"><strong>Title</strong></div>
-          <div class="col-md-2 dataset-text-center"><strong>Resources</strong></div>
-          <div class="col-md-3 dataset-text-center"><strong>Last updated</strong></div>
-          <div class="col-md-3 dataset-text-center"><strong>File Types</strong></div>
+          <div class="col-md-6"><strong>Title</strong></div>
+          <div class="col-md-2"><strong>Last Updated</strong></div>
+          <div class="col-md-2"><strong>File Types</strong></div>
+          <div class="col-md-2"></div>
         </div>
-      </li>   
-    	{% block package_list_inner %}
-	      {% for package in packages %}
-	        {% snippet 'snippets/package_item.html', package=package, item_class=item_class, hide_resources=hide_resources %}
-	      {% endfor %}
-	    {% endblock %}
+      </li>
+
+      {% block package_list_inner %}
+        {% for package in packages %}
+          {% snippet 'snippets/package_item.html', package=package, item_class=item_class, hide_resources=hide_resources %}
+        {% endfor %}
+      {% endblock %}
     </ul>
   {% endif %}
 {% endblock %}

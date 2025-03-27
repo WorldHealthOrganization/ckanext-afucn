@@ -10,62 +10,66 @@ Example:
 {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
 
 #}
-{% set title = package.title or package.name %}
-{% set notes = h.markdown_extract(package.notes, extract_length=180) %}
+{% if package.type == 'dataset' %}
+  {% set resource_type = "Datapack" %}
+{% else %}
+  {% set resource_type = h.scheming_get_dataset_schema(package.type).name %}
+{% endif %}
 
 {% block package_item %}
 <li class="dataset-item-container">
-  <div class="row">
-    <!-- Icon Section -->
-<!--     <div class="col-md-1 ">
-      <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
-        <strong><p class=""></strong>
-      </a>
-    </div> -->
-    <!-- Title Section -->
-    <div class="col-md-3 ">
-      <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
+  <div class="row align-items-center">
+    <!-- Title (col-md-4 on large screens, full width on small screens) -->
+    <div class="col-12 col-md-6 mb-2 mb-md-0">
+      <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}" class="dataset-title">
         <strong>{{ package.title | truncate(80) }}</strong>
       </a>
     </div>
 
-    <!-- Metadata Section -->
-    <div class="col-md-2 ">
-      <p class="">{{ package.num_resources }}</p>
+    <!-- Last updated (col-md-3 on large screens) -->
+    <div class="col-12 col-md-2 mb-2 mb-md-0">
+      <p class="last-updated">{{ h.render_datetime(package.metadata_modified) }}</p>
     </div>
-    
-    <div class="col-md-3 ">
-         <p class="">{{ h.render_datetime(package.metadata_modified) }}</p>
-    </div>
-    <div class="col-md-3 ">
+
+    <!-- File types (col-md-3 on large screens) -->
+    <div class="col-12 col-md-2 mb-2 mb-md-0">
       {% block resources %}
-      {% if package.resources and not hide_resources %}
-        {% block resources_outer %}
+        {% if package.resources and not hide_resources %}
           <ul class="dataset-resources list-unstyled dataset-resources-item">
-            {% block resources_inner %}
-              {% for resource in h.dict_list_reduce(package.resources, 'format') %}
+            {% for resource in h.dict_list_reduce(package.resources, 'format') %}
               <li>
-                <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}" class="badge badge-default" data-format="{{ resource.lower() }}">{{ resource }}</a>
+                <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}"
+                   class="badge badge-default"
+                   data-format="{{ resource.lower() }}">
+                  {{ resource }}
+                </a>
               </li>
-              {% endfor %}
-            {% endblock %}
+            {% endfor %}
           </ul>
-        {% endblock %}
-      {% endif %}
-    {% endblock %}
+        {% endif %}
+      {% endblock %}
+    </div>
+
+    <!-- Dataset Type + Resource Count (col-md-2 on large screens) -->
+    <div class="col-12 col-md-2 d-flex flex-column justify-content-between align-items-end">
+      <!-- Type as a small badge -->
+      <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}"
+         class="badge dataset-type-badge"
+         data-format="{{ package.type }}">
+         {{ resource_type }}
+      </a>
+      <!-- Resource count as a stylized label -->
+      <span class="resource-count">{{ package.num_resources }} Resources</span>
     </div>
   </div>
 
-  <!-- Description Section -->
-  <div class="mt-1">
-    <p class="line-clamp-2 text-sm text-gray-600 mt-4 package-description">
-      {% if package.notes %}
-        {{ package.notes | urlize }}
-      {% else %}
-        {{ _('There is no description for this package') }}
-      {% endif %}
-    </p>
+  <!-- Description -->
+  <div class="dataset-description-wrapper col-12 col-md-8">
+    {% if package.notes %}
+      <p class="package-description">{{ package.notes | urlize }}</p>
+    {% else %}
+      <p class="package-description">{{ _('There is no description for this package') }}</p>
+    {% endif %}
   </div>
 </li>
-
 {% endblock %}

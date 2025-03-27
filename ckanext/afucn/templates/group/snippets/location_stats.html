@@ -1,0 +1,140 @@
+{% if group_dict is not defined %}
+  {% set group_dict = c.group_dict %}
+{% endif %}
+
+<div class="country-info-grid">
+  <div class="country-meta-panel">
+    <div class="meta-panel-content">
+      <div class="country-flag">
+        {% if group_dict.url %}
+          <a href="{{ group_dict.url }}">
+            <img id="country-flag"
+                 src="{{ group_dict.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}"
+                 alt="{{ group_dict.name }}" />
+          </a>
+        {% else %}
+          <img id="country-flag"
+               src="{{ group_dict.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}"
+               alt="{{ group_dict.title }}" />
+        {% endif %}
+      </div>
+
+      <div class="info-items">
+        <div class="info-item">
+          <div class="info-label">{{ _("WHO Subregion") }}</div>
+          <div class="info-value">{{ group_dict.who_subregion or ("&nbsp;"|safe) }}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">{{ _("ISO3 Code") }}</div>
+          <div class="info-value">{{ group_dict.iso_code or ("&nbsp;"|safe) }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-figures-panel">
+    <div class="key-figures-title">{{ _("Key Figures") }}</div>
+    <div class="key-figures-grid">
+      <!-- Population Total -->
+      <div class="key-figure-card">
+        <div class="indicator-title">Population, total</div>
+        <div class="indicator-value" id="populationTotal">Loading...</div>
+        <div class="indicator-meta">
+          <div class="source">
+            Source: <a id="dataSource" href="#">World Bank</a>
+          </div>
+          <div class="date" id="populationDate">Date: Loading...</div>
+        </div>
+      </div>
+
+      <!-- Population Density -->
+      <div class="key-figure-card">
+        <div class="indicator-title">Population density</div>
+        <div class="indicator-value" id="populationDensity">Loading...</div>
+        <div class="indicator-meta">
+          <div class="source">
+            Source: <a id="dataSource1" href="#">World Bank</a>
+          </div>
+          <div class="date" id="densityDate">Date: Loading...</div>
+        </div>
+      </div>
+
+      <!-- GDP Per Capita -->
+      <div class="key-figure-card">
+        <div class="indicator-title">GDP per capita, PPP</div>
+        <div class="indicator-value" id="gdpPerCapita">Loading...</div>
+        <div class="indicator-meta">
+          <div class="source">
+            Source: <a id="dataSource2" href="#">World Bank</a>
+          </div>
+          <div class="date" id="gdpDate">Date: Loading...</div>
+        </div>
+      </div>
+
+      <!-- Land Area -->
+      <div class="key-figure-card">
+        <div class="indicator-title">Land area</div>
+        <div class="indicator-value" id="landArea">Loading...</div>
+        <div class="indicator-meta">
+          <div class="source">
+            Source: <a id="dataSource3" href="#">World Bank</a>
+          </div>
+          <div class="date" id="landAreaDate">Date: Loading...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="hidden"
+       id="group-field-value"
+       value="{{ group_dict.title or ('&nbsp;'|safe) }}"
+       data-flag-img-id="country-flag" />
+
+<script>
+    // Function to format the number dynamically based on its value
+    function formatNumber(value) {
+        if (value >= 1e9) {
+            return (value / 1e9).toFixed(2) + ' Billions'; // For billions
+        } else if (value >= 1e6) {
+            return (value / 1e6).toFixed(2) + ' Millions'; // For millions
+        } else if (value >= 1e3) {
+            return (value / 1e3).toFixed(2) + ' Thousands'; // For thousands
+        } else {
+            return value.toFixed(2); // For numbers less than 1000
+        }
+    }
+
+    let apiUrl = `https://api.worldbank.org/v2/en/country/{{ group_dict.iso_code|lower }}/indicator/SP.POP.TOTL;EN.POP.DNST;NY.GDP.PCAP.PP.CD;AG.LND.TOTL.K2?source=2&mrnev=1&format=json&per_page=10000`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Now populate the HTML sections with the data from the World Bank API
+            let indicators = data[1]; // Indicators array from the World Bank API response
+
+            indicators.forEach(item => {
+                // Example of populating different sections based on the indicator ID
+                if (item.indicator.id === "SP.POP.TOTL") {
+                    document.getElementById('populationTotal').innerHTML = formatNumber(item.value);
+                    document.getElementById('populationDate').innerHTML = `Date: ${item.date}`;
+                    document.getElementById('dataSource').href = apiUrl;
+                }
+                if (item.indicator.id === "EN.POP.DNST") {
+                    document.getElementById('populationDensity').innerHTML = formatNumber(item.value) + ' people per sq. km';
+                    document.getElementById('densityDate').innerHTML = `Date: ${item.date}`;
+                    document.getElementById('dataSource1').href = apiUrl;
+                }
+                if (item.indicator.id === "NY.GDP.PCAP.PP.CD") {
+                    document.getElementById('gdpPerCapita').innerHTML = formatNumber(item.value);
+                    document.getElementById('gdpDate').innerHTML = `Date: ${item.date}`;
+                    document.getElementById('dataSource2').href = apiUrl;
+                }
+                if (item.indicator.id === "AG.LND.TOTL.K2") {
+                    document.getElementById('landArea').innerHTML = formatNumber(item.value) + ' sq. km';
+                    document.getElementById('landAreaDate').innerHTML = `Date: ${item.date}`;
+                    document.getElementById('dataSource3').href = apiUrl;
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>

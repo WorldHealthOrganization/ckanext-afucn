@@ -3,9 +3,7 @@ afucn-js:
   output: ckanext-afucn/%(version)s-afucn.js
   contents:
     - js/afucn.js
-    - js/afucn.bundle.js
-    - js/afucn.divi.js
-    
+
   extra:
     preload:
       - base/main
@@ -21,11 +19,4 @@ afucn-css:
     - css/afucn.css
     - css/styles.css
     - css/custom.css
-
-
-afucn-map-css:
-  filter: cssrewrite
-  output: ckanext-afucn/%(version)s-afucn-map.css
-  contents:
-    - css/maps.styles.min.css
-
+    - css/portal_visualization.css

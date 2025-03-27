@@ -1,70 +1,73 @@
-{% extends "page.html" %}
+{% ckan_extends %}
 
-{% block subtitle %}{{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}{% endblock %}
-{% block title_content %}
-{% endblock %}
-
-{% block breadcrumb_content %}
-  <li class="active">{% link_for h.humanize_entity_type('group', group_type, 'breadcrumb') or _('Groups'), named_route=group_type+'.index' %}</li>
-{% endblock %}
-
-{% block page_header %}{% endblock %}
-
-{% block page_primary_action %}
-  {% if h.check_access('group_create') %}
-    {% if 'location' in request.path %}
-      {% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Location'), named_route=group_type+'.new',
-    class_='btn btn-primary', icon='plus-square' %}
-    {% else %}
-    {% link_for h.humanize_entity_type('group', group_type, 'add link') or _('Add Group'), named_route=group_type+'.new',
-    class_='btn btn-primary', icon='plus-square' %}
-    {% endif %}
+{% block who_hero %}
+  {% if request.path == "/location" %}
+    {% snippet 'snippets/who-hero.html', 
+      show_search_form = false, 
+      title = _('Africa Region Countries'), 
+      description = _('Explore valuable health datasets from the countries of the Africa Region') %}
+  {% else %}
+    {% snippet 'snippets/who-hero.html', 
+      show_search_form = false, 
+      title = _('Health Topics'), 
+      description = _('Browse datasets organized by key health categories including diseases, health systems, and more from the Africa Region') %}
   {% endif %}
 {% endblock %}
 
-{% block primary_content_inner %}
-<h1 class="hide-heading">{{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}</h1>
-{% block afromap %}
-  {% if (request.path == "/location") or (request.path == "/location/") %}
-    {% snippet "group/snippets/afro_map.html" %}
-  {%endif%}
-{% endblock %}
-{% block groups_search_form %}
-{% snippet 'snippets/search_form.html', form_id='group-search-form', type=group_type, query=q,
-sorting_selected=sort_by_selected, count=page.item_count, placeholder=h.humanize_entity_type('group', group_type,
-'search placeholder') or _('Search groups...'), show_empty=request.args, no_bottom_border=true if page.items, sorting =
-[(_('Name Ascending'), 'title asc'), (_('Name Descending'), 'title desc')] %}
-{% endblock %}
-{% block groups_list %}
+{% block wrapper_class %} wrapper-location-index {% endblock %}
 
-  {% if page.items or request.args %}
-    {% if page.items %}
-      {% if (request.path == "/location") or (request.path == "/location/") %}
-        {% snippet "group/snippets/group_list_location.html", groups=page.items %}
-      {% else %}
-        {% snippet "group/snippets/group_list.html", groups=page.items %}
-      {% endif %}
-    
-    {% endif %}
-  {% else %}
-    <p class="empty">
-      {{ h.humanize_entity_type('group', group_type, 'no any objects') or _('There are currently no groups for this site')
-      }}.
-      {% if h.check_access('group_create') %}
-      {% link_for _('How about creating one?'), named_route=group_type+'.new' %}</a>.
-      {% endif %}
-    </p>
-    {% endif %}
-{% endblock %}
-{% block page_pagination %}
-{{ page.pager(q=q or '', sort=sort_by_selected or '') }}
-{% endblock %}
+{% block primary %}
+  <div class="primary col-xs-12" role="main">
+    {#
+    The primary_content block can be used to add content to the page.
+    This is the main block that is likely to be used within a template.
+
+    Example:
+
+      {% block primary_content %}
+        <h1>My page content</h1>
+        <p>Some content for the page</p>
+      {% endblock %}
+    #}
+    {% block primary_content %}
+      <article class="module">
+        <div class="module-content">
+          {% if self.page_primary_action() | trim %}
+            <div class="page_primary_action">
+              {% block page_primary_action %}{% endblock %}
+            </div>
+          {% endif %}
+          {% block primary_content_inner %}
+            <h1 class="hide-heading">
+              {{ h.humanize_entity_type('group', group_type, 'page title') or _('Groups') }}
+            </h1>
+
+            {% block groups_list %}
+              {% if page.items or request.args %}
+                {% if page.items %}
+                  {% if (request.path == "/location") or (request.path == "/location/") %}
+                    {% snippet "group/snippets/group_list_location.html", groups=page.items %}
+                  {% elif (request.path == "/health-topic") or (request.path == "/health-topic/") %}
+                    {% snippet "group/snippets/group_list_health_topic.html", groups=page.items %}
+                  {% else %}
+                    {% snippet "group/snippets/group_list.html", groups=page.items %}
+                  {% endif %}
+                {% endif %}
+              {% else %}
+                <p class="empty">
+                  {{ h.humanize_entity_type('group', group_type, 'no any objects') or _('There are currently no groups for this site') }}.
+                  {% if h.check_access('group_create') %}
+                    {% link_for _('How about creating one?'), named_route=group_type+'.new' %}</a>.
+                  {% endif %}
+                </p>
+              {% endif %}
+            {% endblock %}
+          {% endblock %}
+        </div>
+      </article>
+    {% endblock %}
+  </div>
 {% endblock %}
 
-{% block secondary_content %}
-{% if 'location' in request.path %}
-  {% snippet "group/snippets/helper_location.html", group_type=group_type %}
-{% else %}
-  {% snippet "group/snippets/helper.html", group_type=group_type %}
-{%endif%}
+{% block secondary %}
 {% endblock %}

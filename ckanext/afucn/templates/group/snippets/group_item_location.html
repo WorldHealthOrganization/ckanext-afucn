@@ -1,62 +1,48 @@
 {#
-Renders a media item for a group. This should be used in a list.
+  Renders a country item for a group. This should be used in a list.
+  
+  group - A group dict.
+  
+  Example:
+  
+      <ul class="country-grid">
+        {% for group in groups %}
+          {% snippet "group/snippets/group_item.html", group=group %}
+        {% endfor %}
+      </ul>
+  #}
+  {% set type = group.type or 'group' %}
+  {% set url = h.url_for(type ~ '.read', id=group.name) %}
+  {% block item %}
+    <!-- Each item is a fixed-width "card" -->
+    <li
+      class="mix country-item {{ group.who_subregion|lower|replace(' ', '-') }}"
+      data-ref="mixitup-target"
+      data-country="{{ group.display_name|lower }}"
+    >
+      <!-- Entire card is a clickable anchor -->
+      <a href="{{ url }}" class="country-card-link">
 
-group - A group dict.
-position - The index of the group in the list (passed from group_list.html).
-#}
-{% set type = group.type or 'group' %}
-{% set url = h.url_for(type ~ '.read', id=group.name) %}
-{% block item %}
-<!-- <pre>{{group}}</pre> -->
-<li class="location-media-item {% if position is even %}location-even{% else %}location-odd{% endif %}">
-  <div class="row">
-    <!-- Hidden input field to store the group data (field value) -->
+        <!-- Full-width image -->
+        <img
+          src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}"
+          alt="{{ group.name }}"
+          class="country-image"
+        >
 
-    <div class="col-md-1 location-text-center">
-      {% if group.url %}
-      <img src="{{ group.url }}" alt="{{ group.display_name }}" height="15" width="20">
-      {% else %}
-      {% if group.countrycode %}
-      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/' + group.countrycode + '.jpg') }}"
-        height="15" width="20" src="" />
-      <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
-        class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
-      {% else %}
-      <img id="country-flag-{{ position }}" src="{{ h.url_for_static('/img/flags/blank.jpg') }}" height="15" width="20"
-        src="" />
-      <input type="hidden" id="group-field-value-{{ position }}" value="{{ group.title or ('&nbsp;'|safe) }}"
-        class="group-field-value" data-flag-img-id="country-flag-{{ position }}">
-      {% endif %}
-      {% endif %}
-    </div>
-    <div class="col-md-3 location-text-center">
-      <a href="{{ url }}">
-        <strong>{{ group.display_name }}</strong>
+        <!-- Title -->
+        <h2 class="country-title">{{ group.display_name }}</h2>
+
+        <!-- Dataset count (top-right or inline; see CSS) -->
+        {% if group.package_count %}
+          <span class="dataset-count">
+            {{ ungettext('{num} Dataset', '{num} Datasets', group.package_count).format(num=group.package_count) }}
+          </span>
+        {% else %}
+          <span class="dataset-count zero-datasets">0 Datasets</span>
+        {% endif %}
       </a>
-    </div>
-    <div class="col-md-3 location-text-center">
-      {% if group.package_count is defined and group.package_count is not none %}
-      <span class="location-count">{{ ungettext('{num} Dataset', '{num} Datasets',
-        group.package_count).format(num=group.package_count) }}</span>
-      {% else %}
-      <span class="location-count">{{ _('0 Datasets') }}</span>
-      {% endif %}
-    </div>
-    <div class="col-md-3 location-text-center">
-      {% if group.total_projects is defined and group.total_projects is not none %}
-      <span class="location-count">{{ ungettext('{num} Project', '{num} Projects',
-        group.total_projects).format(num=group.total_projects) }}</span>
-      {% else %}
-      <span class="location-count">{{ _('0 Projects') }}</span>
-      {% endif %}
-    </div>
-    <div class="col-md-1 location-text-center">
-      <i class="fa fa-info-circle" aria-hidden="true"></i>
-    </div>
-  </div>
-</li>
-{% endblock %}
+    </li>
+  {% endblock %}
 
-{% if position is divisibleby 3 %}
-<li class="location-clearfix js-hide"></li>
-{% endif %}
+  

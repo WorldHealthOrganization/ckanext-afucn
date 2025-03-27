@@ -1,11 +1,47 @@
 {# Adds dataset-extent map to dataset-page #}
 {% ckan_extends %}
+
+{% block who_hero %}
+    {% snippet 'snippets/who-hero.html', 
+    show_search_form = false, 
+    title = h.scheming_get_dataset_schema(pkg.type).name, 
+    description = pkg.title %}
+{% endblock %}
+
 {% block package_description %}
     {{ super() }}
     {# We include a filed "spatial" through ckanext-scheming. It is not in "extras" #}
     {# AS set pkg = c.pkg_dict is in template this change is made: c.pkg_dict['spatial'] -> pkg.spatial #}
+    {% if pkg.resources|length > 0 and pkg.type == 'indicator' %}
+        {% include "./snippets/portal_visualization.html" %}
+    {% endif %}
     {% set dataset_extent = pkg.spatial %}
     {% if dataset_extent and dataset_extent != "{}" %}
         {% snippet "spatial/snippets/dataset_map.html", extent=dataset_extent %}
     {% endif %}
+{% endblock %}
+
+{% block package_additional_info %}
+  {{ super() }}
+{% endblock %}
+
+{% block package_tags %}
+  <div class="row dataset-info-row">
+    <div class="col-md-6 col-12 mb-5">
+      <h2 class="published-by-title">{{ _('Published by') }}</h2>
+      <a href="{{ h.url_for('organization_read', id=pkg.organization.name) }}" class="organization-card-link">
+
+        <!-- Full-width image -->
+        <img src="/uploads/group/{{ pkg.organization.image_url }}" alt="{{ pkg.organization.title }}" class="organization-image">
+
+        <!-- Title -->
+        <h2 class="organization-title">{{ pkg.organization.title }}</h2>
+        
+      </a>
+    </div>
+    <div class="col-md-6 col-12">
+      <h2 class="tags-title">Tags</h2>
+      {{ super() }}
+    </div>
+  </div>
 {% endblock %}

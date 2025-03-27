@@ -31,12 +31,12 @@ dataset_fields:
   form_snippet: markdown.html
   form_placeholder: Please give a useful introduction to the dataset which will be shown straight after the title.
 
-- field_name: Countries
+- field_name: countries
   # required: true
   preset: country
   display_group: Overview
 
-- field_name: Programmes
+- field_name: programmes
   # required: true
   preset: programme
   display_group: Overview
@@ -206,6 +206,15 @@ dataset_fields:
 
 - field_name: subject_of_measure_sentiment
   label: Subject Of Measure Sentiment
+  preset: select
+  choices:
+  - value: neutral
+    label: Neutral
+  - value: positive
+    label: Positive
+  - value: negative
+    label: Negative
+
   form_placeholder: e.g. Negative, Neutral
   display_group: Indicator Details
 
