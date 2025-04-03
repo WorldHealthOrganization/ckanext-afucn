@@ -1,5 +1,5 @@
 scheming_version: "1"
-group_type: "health-topic"
+group_type: "project"
 about_url: "https://github.com/WorldHealthOrganization/ckanext-afucn"
 fields: 
 
@@ -9,21 +9,21 @@ fields:
   form_snippet: "large_text.html"
   form_attrs: 
     data-module: "slug-preview-target"
-  form_placeholder: "Health Topic Name"
+  form_placeholder: "Project Name"
 
 - field_name: "name"
   label: "URL"
   validators: "not_empty unicode_safe name_validator group_name_validator"
   form_snippet: "slug.html"
-  form_placeholder: "name-of-the-health-topic"
+  form_placeholder: "name-of-the-project"
 
 - field_name: "notes"
   label: "Description"
   form_snippet: "markdown.html"
-  form_placeholder: "Information about the health topic..."
+  form_placeholder: "Information about the project..."
 
 - field_name: image_url
   label: Image URL
   form_snippet: organization_upload.html
   form_placeholder: https://example.com/my-image.jpg
-  help_text: A logo or general picture to help visually identify the health topic.
+  help_text: A logo or general picture to help visually identify the project.

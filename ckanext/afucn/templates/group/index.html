@@ -49,6 +49,8 @@
                     {% snippet "group/snippets/group_list_location.html", groups=page.items %}
                   {% elif (request.path == "/health-topic") or (request.path == "/health-topic/") %}
                     {% snippet "group/snippets/group_list_health_topic.html", groups=page.items %}
+                  {% elif (request.path == "/project") or (request.path == "/project/") %}
+                    {% snippet "group/snippets/group_list_project.html", groups=page.items %}
                   {% else %}
                     {% snippet "group/snippets/group_list.html", groups=page.items %}
                   {% endif %}
