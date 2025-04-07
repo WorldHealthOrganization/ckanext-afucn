@@ -871,6 +871,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   .resource-count {
     color: #595959;
     font-size: 12px;
+    margin-right: -5px;
   }
   
   /* Description area within each dataset card */
