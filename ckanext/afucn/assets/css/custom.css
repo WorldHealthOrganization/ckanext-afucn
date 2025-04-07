@@ -1637,3 +1637,40 @@
 ul.hierarchy-tree-top{
   list-style-type: none !important;
 }
+
+/* global style improvements */
+
+.form-control {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 61, 91, 0.1); /* subtle WHO navy border */
+  box-shadow: 0 2px 8px rgba(15, 63, 91, 0.08); /* more pronounced shadow with WHO navy tint */
+  transition: all 0.2s ease;
+}
+.form-control:focus {
+  outline: none;
+  border-color: rgba(15, 45, 91, 0.2);
+  box-shadow: 0 4px 12px rgba(15, 45, 91, 0.12);
+}
+
+.form-control.form-select {
+  border: 1px solid #ced4da;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+  min-width: 160px;
+  color: #495057;
+  flex-grow: 1;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control.form-select:hover {
+  border-color: #adb5bd;
+}
+
+.form-control.form-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
