@@ -1630,3 +1630,10 @@
 .table-striped > tbody > tr:nth-of-type(odd) > * {
   --bs-table-accent-bg: #ffffff;
 } 
+
+
+/* misc */
+
+ul.hierarchy-tree-top{
+  list-style-type: none !important;
+}
