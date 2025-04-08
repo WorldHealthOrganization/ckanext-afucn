@@ -130,6 +130,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   .table tbody tr {
     display: block;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
   
   .table tbody tr:last-child {
@@ -1480,6 +1481,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   font-size: 22px;
   font-weight: 500;
   border-bottom: none;
+  overflow-wrap: break-word;
 }
 
 .datasets-base .resources {
@@ -1718,7 +1720,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   }
   
   .additional-info .table .dataset-label {
-    background-color: rgba(0, 141, 201, 0.05);
+    background-color: transparent;
     color: #0F2D5B;
     font-weight: 600;
     border: none;
@@ -1741,11 +1743,11 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   
   /* Adjust alternating colors for mobile */
   .additional-info .table tbody tr:nth-child(odd) .dataset-label {
-    background-color: rgba(0, 141, 201, 0.08);
+    background-color: transparent;
   }
   
   .additional-info .table tbody tr:nth-child(even) .dataset-label {
-    background-color: rgba(0, 141, 201, 0.03);
+    background-color: transparent;
   }
 }
 
