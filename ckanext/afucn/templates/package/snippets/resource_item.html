@@ -12,8 +12,7 @@
     {% snippet "package/snippets/resource_item.html", res=resource, pkg=pkg, can_edit=True, url_is_edit=False %}
 
 #}
-Resource Id = {{ res.id }}
-Package Id = {{ res.package_id }}
+
 {% set resource_views = h.call_action('resource_view_list', {'id': res.id}) %}
 
 {% set url_action = pkg.type ~ ('_resource.edit' if url_is_edit and can_edit else '_resource.read') %}
