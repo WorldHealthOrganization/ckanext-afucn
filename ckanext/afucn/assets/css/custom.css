@@ -119,6 +119,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   box-shadow: none !important;
 }
 
+
 /* Responsive adjustments - maintaining the existing ones */
 @media (max-width: 767px) {
 
@@ -129,6 +130,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   .table tbody tr {
     display: block;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
   
   .table tbody tr:last-child {
@@ -144,6 +146,17 @@ table.dataTable.table-striped > tbody > tr.odd > * {
 .table.table-bordered > :not(caption) > * > * ,
 .table.table-bordered {
   border: none;
+}
+
+.btn-outline-primary {
+  color: #0F2D5B;
+  border-color: #0F2D5B;
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #0F2D5B;
+  border-color: #0F2D5B;
 }
 
 /* Start Header menu styling */
@@ -1426,6 +1439,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   border-color: #0F2D5B;
   border-bottom: 1px;
   border: 1px solid #0F2D5B;
+  color: white;
 }
 
 .datasets-base .module-resource .actions {
@@ -1467,6 +1481,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   font-size: 22px;
   font-weight: 500;
   border-bottom: none;
+  overflow-wrap: break-word;
 }
 
 .datasets-base .resources {
@@ -1513,6 +1528,37 @@ table.dataTable.table-striped > tbody > tr.odd > * {
 .datasets-base .tags li a:hover {
   background: #008DC9;
   color: white;
+}
+
+/* Resource Item Button Groups */
+.resource-item .btn-group-container {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.resource-item .btn-group-container .btn-group {
+  margin-left: 5px;
+  position: relative;
+  top: 0px;
+  right: 0px;
+}
+
+.resource-item .btn-group-container .btn {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* Responsive styles for tablet */
+@media only screen and (max-width: 980px) {
+  .resource-item .btn-group-container {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 10px;
+  }
 }
 
 /***************************************************
@@ -1674,7 +1720,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   }
   
   .additional-info .table .dataset-label {
-    background-color: rgba(0, 141, 201, 0.05);
+    background-color: transparent;
     color: #0F2D5B;
     font-weight: 600;
     border: none;
@@ -1697,11 +1743,11 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   
   /* Adjust alternating colors for mobile */
   .additional-info .table tbody tr:nth-child(odd) .dataset-label {
-    background-color: rgba(0, 141, 201, 0.08);
+    background-color: transparent;
   }
   
   .additional-info .table tbody tr:nth-child(even) .dataset-label {
-    background-color: rgba(0, 141, 201, 0.03);
+    background-color: transparent;
   }
 }
 

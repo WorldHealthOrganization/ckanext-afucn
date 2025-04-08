@@ -651,6 +651,7 @@ table.diff {
 
 .resource-item .heading {
   color: var(--l2-neutralForegroundRest) !important;
+  overflow-wrap: anywhere
 }
 
 .nav-link,
@@ -898,9 +899,53 @@ table.diff {
 .container-sm,
 .container {
   max-width: 1920px;
-  width: 80%;
+  width: 100%;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
+/* Responsive container widths */
+@media (min-width: 576px) {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    width: 95%;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    width: 90%;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    width: 80%;
+  }
+}
 
 .title-strip {
   height: 50px;
