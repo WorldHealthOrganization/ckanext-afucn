@@ -1,3 +1,151 @@
+/* global style improvements */
+
+.form-control {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 61, 91, 0.1); /* subtle WHO navy border */
+  box-shadow: 0 2px 8px rgba(15, 63, 91, 0.08); /* more pronounced shadow with WHO navy tint */
+  transition: all 0.2s ease;
+}
+.form-control:focus {
+  outline: none;
+  border-color: rgba(15, 45, 91, 0.2);
+  box-shadow: 0 4px 12px rgba(15, 45, 91, 0.12);
+}
+
+.form-control.form-select {
+  border: 1px solid #ced4da;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+  min-width: 160px;
+  color: #495057;
+  flex-grow: 1;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control.form-select:hover {
+  border-color: #adb5bd;
+}
+
+.form-control.form-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+/* Table styling - already existing, but with refinements */
+.table {
+  margin-bottom: 0;
+  background-color: transparent;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #f6f7f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 30px;
+  overflow: hidden;
+  border: none;
+}
+
+.table:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Table header row */
+.table thead th {
+  background-color: #F7F7F7;
+  color: #0F2D5B;
+  border: none;
+  font-weight: 600;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  font-size: 0.85rem;
+  width: auto;
+}
+
+/* First column header only */
+.table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+/* Last column header only */
+.table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* Alternating row colors */
+.table tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: rgba(0, 141, 201, 0.05);
+}
+
+/* Enhanced table row hover effect */
+.table tbody tr:hover {
+  background-color: rgba(0, 141, 201, 0.1);
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+/* Consistent table row styling */
+.table tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+/* Consistent table cell styling */
+.table td {
+  padding: 12px 18px;
+  color: #333;
+  vertical-align: middle;
+  border: none;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Last row should not have bottom border */
+.table tr:last-child {
+  border-bottom: none;
+}
+
+table.dataTable.table-striped > tbody > tr.odd > * {
+  box-shadow: none !important;
+}
+
+/* Responsive adjustments - maintaining the existing ones */
+@media (max-width: 767px) {
+
+  .table thead {
+    display: none; /* Hide headers on mobile */
+  }
+  
+  .table tbody tr {
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .table tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .table tbody th,
+  .table tbody td {
+    display: block;
+    text-align: left;
+  }
+}
+.table.table-bordered > :not(caption) > * > * ,
+.table.table-bordered {
+  border: none;
+}
+
 /* Start Header menu styling */
 .account-masthead {
     background-color: #0F2D5B;
@@ -723,6 +871,7 @@
   .resource-count {
     color: #595959;
     font-size: 12px;
+    margin-right: -5px;
   }
   
   /* Description area within each dataset card */
@@ -1415,71 +1564,20 @@
 
 
 /* Table styling - already existing, but with refinements */
-.additional-info .table {
-  margin-bottom: 0;
-  background-color: transparent;
-  border: none;
-  width: auto;
-  border-collapse: separate;
-  border-spacing: 0;
-  background-color: #f6f7f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease;
-  margin-bottom: 30px;
-  overflow: hidden;
-  border: none;
-}
-
-.additional-info .table:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-/* Table header row */
-.additional-info .table thead th {
-  background-color: #F7F7F7;
-  color: #0F2D5B;
-  border: none;
-  font-weight: 600;
-  padding: 14px 18px;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  font-size: 0.85rem;
-  width: auto;
-}
-
-/* First column header only */
-.additional-info .table thead th:first-child {
-  border-top-left-radius: 8px;
-  width: auto;
-}
-
-/* Last column header only */
-.additional-info .table thead th:last-child {
-  border-top-right-radius: 8px;
-}
-
-/* Alternating row colors */
-.additional-info .table tbody tr:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.7);
-}
-
-.additional-info .table tbody tr:nth-child(even) {
-  background-color: rgba(0, 141, 201, 0.05);
-}
-
-/* Enhanced table row hover effect */
-.additional-info .table tbody tr:hover {
-  background-color: rgba(0, 141, 201, 0.1);
-  transform: translateX(2px);
-  transition: all 0.2s ease;
-}
 
 /* Field labels (first column) */
+.additional-info .table {
+  width: 100%;
+}
+.additional-info .table tbody th,
+.additional-info .table tbody td {
+  width: auto;
+}
+
 .additional-info .table .dataset-label {
   font-weight: 500;
   color: #0F2D5B;
-  width: auto;
+  width: 30%;
   padding: 12px 18px;
   vertical-align: middle;
   border-color: rgba(0, 0, 0, 0.025);
@@ -1504,7 +1602,7 @@
   padding: 12px 18px;
   color: #333;
   vertical-align: middle;
-  border-color: rgba(0, 0, 0, 0.025);
+  border-left: solid 0.5px rgba(0, 0, 0, 0.1);  
   line-height: 1.5;
   width: auto;
 }
@@ -1575,26 +1673,6 @@
     border-radius: 6px;
   }
   
-  .additional-info .table thead {
-    display: none; /* Hide headers on mobile */
-  }
-  
-  .additional-info .table tbody tr {
-    display: block;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  
-  .additional-info .table tbody tr:last-child {
-    border-bottom: none;
-  }
-  
-  .additional-info .table tbody th,
-  .additional-info .table tbody td {
-    display: block;
-    width: auto;
-    text-align: left;
-  }
-  
   .additional-info .table .dataset-label {
     background-color: rgba(0, 141, 201, 0.05);
     color: #0F2D5B;
@@ -1630,3 +1708,11 @@
 .table-striped > tbody > tr:nth-of-type(odd) > * {
   --bs-table-accent-bg: #ffffff;
 } 
+
+
+/* misc */
+
+ul.hierarchy-tree-top{
+  list-style-type: none !important;
+}
+

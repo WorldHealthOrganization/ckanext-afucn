@@ -5135,10 +5135,6 @@ figure {
   margin: 0
 }
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0
-}
 
 article,
 aside,
@@ -5297,60 +5293,6 @@ h6 {
   font-size: 14px
 }
 
-/* input {
-/*   -webkit-appearance: none 
-}
-
-input[type=checkbox] {
-/*   -webkit-appearance: checkbox
-}
-
-input[type=radio] {
-/*   -webkit-appearance: radio
-}
- */
-
-input.text,
-input.title,
-input[type=email],
-input[type=password],
-input[type=tel],
-input[type=text],
-select,
-textarea {
-  background-color: #fff;
-  border: 1px solid #bbb;
-  padding: 2px;
-  color: #4e4e4e
-}
-
-input.text:focus,
-input.title:focus,
-input[type=text]:focus,
-select:focus,
-textarea:focus {
-  border-color: #2d3940;
-  color: #3e3e3e
-}
-
-input.text,
-input.title,
-input[type=text],
-select,
-textarea {
-  margin: 0
-}
-
-textarea {
-  padding: 4px
-}
-
-button,
-input,
-select,
-textarea {
-  font-family: inherit
-}
 
 img {
   max-width: 100%;
@@ -6847,10 +6789,6 @@ header.et-l.et-l--header:after {
   transition-property: all !important;
 }
 
-
-.heading {
-  color: #fff !important;
-}
 
 
 .et_pb_button:after,
