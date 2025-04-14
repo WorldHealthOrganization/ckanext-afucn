@@ -85,6 +85,10 @@ dataset_fields:
   help_text: License definitions and additional information can be found at http://opendefinition.org/
   display_group: Access & Use
 
+- field_name: priority
+  label: Priority
+  form_snippet: priority.html
+
 
 - start_form_page:
     title: About the data
