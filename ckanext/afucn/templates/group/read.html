@@ -1,5 +1,12 @@
 {% ckan_extends %}
 
+{# Optional: Add styles for echart-test-section to your CSS instead of inline #}
+{# e.g., in echarts-viz.css or another file:
+.echart-test-section {
+  margin-top: 20px;
+}
+#}
+
 {% block who_hero %}
   {% snippet 'snippets/who-hero.html',
   show_search_form = false,
@@ -27,17 +34,40 @@
           <h3>{{ _("Featured Indicators") }}</h3>
           {% snippet 'group/snippets/featured_datasets.html', package=package, group_dict=group_dict %}
         </div>
+
+        <div class="row echart-grid-row">
+          <div class="col-md-4 echart-test-section">
+             {% set sex_trend_chart_id = 'group-trend-sex-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/trend_chart_by_sex.html',
+                       instance_id=sex_trend_chart_id,
+                       dataset_slug='life-expectancy-at-birth-hale',
+                       title=_('Life Expectancy at Birth HALE'),
+                       group_dict=group_dict %}
+          </div>
+
+          <div class="col-md-4 echart-test-section">
+            {% set gdp_trend_chart_id = 'group-trend-gdp-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/gdp_trend_chart.html',
+                       instance_id=gdp_trend_chart_id,
+                       title=_('GDP Current Health Expenditure'),
+                       group_dict=group_dict %}
+          </div>
+
+          <div class="col-md-4 echart-test-section">
+            {% set pop_age_chart_id = 'group-pop-age-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/population_age_chart.html',
+                       instance_id=pop_age_chart_id,
+                       group_dict=group_dict %}
+          </div>
+        </div>
       {% endif %}
-
-
 
       {{ super() }}
     {% endblock primary_content %}
   </div>
 {% endblock primary %}
 
-{% block wrapper_class %} wrapper-location-index {% endblock %}
-
+{% block wrapper_class %} wrapper-location-index {% endblock wrapper_class %}
 
 {% block page_header %}
 {% endblock page_header %}
@@ -50,3 +80,12 @@
 
 {% block secondary %}
 {% endblock secondary %}
+
+{% block scripts %}
+
+  {# EchartsViz module itself is assumed to be in the 'afucn/afucn-js' bundle loaded by base.html #}
+
+  {# REMOVED Centralized script to initialize charts #}
+  {# Initialization is now handled by the inline script within each snippet instance #}
+
+{% endblock scripts %}

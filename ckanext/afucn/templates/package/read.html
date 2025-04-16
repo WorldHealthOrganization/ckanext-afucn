@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block package_description %}
+    {{ pkg}}
     {{ super() }}
     {# We include a filed "spatial" through ckanext-scheming. It is not in "extras" #}
     {# AS set pkg = c.pkg_dict is in template this change is made: c.pkg_dict['spatial'] -> pkg.spatial #}
