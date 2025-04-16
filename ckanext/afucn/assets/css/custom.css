@@ -1493,6 +1493,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   border: none;               /* Remove the typical module border */
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 .datasets-base .tags-title {
