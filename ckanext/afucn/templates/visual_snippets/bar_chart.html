@@ -1,0 +1,91 @@
+{#- Bar Chart Snippet (Country Comparison for a Specific Year)
+
+  Extends the base echart_viz snippet to create a bar chart comparing countries.
+  Assumes the data has 'SpatialDim' (for country names/codes), 'NumericValue',
+  and potentially 'SpatialDimLong' for better labels.
+
+  Args:
+    instance_id (str): Unique HTML ID for this chart instance. **REQUIRED**.
+    year (str): The year to filter by. Defaults to '2024'.
+    dataset_slug (str): The slug of the CKAN dataset. **REQUIRED**.
+    title (str, optional): Chart title. Defaults to 'Country Comparison for [year]'.
+    css_class (str, optional): Additional CSS classes.
+    chart_height (str, optional): Chart height.
+
+  Inherits:
+    visual_snippets/echart_viz.html
+-#}
+{% extends "visual_snippets/echart_viz.html" %}
+
+{# --- Default Parameter Values --- #}
+{% set filter_year = year or '2024' %}
+{% set default_title = _('Country Comparison for ') ~ filter_year %}
+
+{# --- Override Base Snippet Variables --- #}
+{# instance_id is passed directly from the call #}
+{% set title = title or default_title %}
+{# dataset_slug is passed directly from the call #}
+{% set css_class = css_class %}
+{% set chart_height = chart_height %}
+
+{# Define the filters: Filter by SpatialDimType=COUNTRY and the specific year #}
+{% set filters = {
+    'SpatialDimType': 'COUNTRY',
+    'TimeDim': filter_year
+} %}
+
+{# --- Define the Chart Options Script --- #}
+{% block chart_options_script %}
+<script>
+  function getChartOptions(filteredData, title) {
+    // Check utils dependency
+    if (typeof EchartsViz === 'undefined' || !EchartsViz.utils) {
+        console.error('EchartsViz utils not available');
+        return { title: { text: title, subtext: 'Script Error' } };
+    }
+
+    // Prepare data: [{ name: 'Country Name', value: number }, ...]
+    const barData = filteredData
+      .map(row => {
+        if (row.hasOwnProperty('SpatialDim') && row.hasOwnProperty('NumericValue')) {
+            // Prioritize country_name_short, then SpatialDimLong, then SpatialDim
+            const countryName = (row.country_name_short && String(row.country_name_short).trim() !== '') ? String(row.country_name_short).trim()
+                              : (row.SpatialDimLong && String(row.SpatialDimLong).trim() !== '') ? String(row.SpatialDimLong).trim()
+                              : String(row.SpatialDim).trim();
+            const value = EchartsViz.utils.normalizeValue(row.NumericValue);
+            return (value !== null) ? { name: countryName, value: value } : null;
+        } else {
+            console.warn('BarChart: Row missing SpatialDim or NumericValue:', row);
+            return null;
+        }
+      })
+      .filter(item => item !== null)
+      .sort((a, b) => b.value - a.value); // Sort descending
+
+    if (barData.length === 0) {
+         return { title: { text: title, subtext: 'No data available', left: 'center', top: 'center' }, series: [] };
+    }
+
+    const categories = barData.map(item => item.name);
+    const values = barData.map(item => item.value);
+
+    // Return ECharts options object for a basic bar chart
+    return {
+         // title: { text: title, left: 'center' }, // REMOVED ECharts title
+         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+         grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+         xAxis: {
+           type: 'value',
+           boundaryGap: [0, 0.01]
+          },
+         yAxis: { type: 'category', data: categories, inverse: true },
+         series: [{
+             name: 'Value',
+             type: 'bar',
+             data: values,
+             // itemStyle: { color: '#3fb1e3' } // REMOVED - Use theme color
+         }]
+     };
+  }
+</script>
+{% endblock chart_options_script %} 

@@ -1,0 +1,69 @@
+/* Reusable EChart Visualization Styles */
+.echart-viz-container {
+    position: relative;
+    min-height: 300px; /* Ensure container has height even when loading */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.echart-viz-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.echart-viz-chart {
+    width: 100%;
+    height: 350px; /* Default height, can be overridden */
+}
+
+.echart-viz-loading,
+.echart-viz-error {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px;
+    z-index: 10; /* Ensure it's above the chart div */
+}
+
+.echart-viz-error p {
+    color: #dc3545; /* Bootstrap danger color */
+    margin: 0;
+}
+
+.echart-viz-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Hide elements initially */
+.echart-viz-container .echart-viz-chart,
+.echart-viz-container .echart-viz-error {
+    display: none;
+}
+
+.echart-viz-container.loading .echart-viz-loading {
+    display: flex;
+}
+.echart-viz-container.error .echart-viz-error {
+    display: flex;
+}
+.echart-viz-container.loaded .echart-viz-chart {
+    display: block;
+}
+
+.echart-viz-container.loaded .echart-viz-loading,
+.echart-viz-container.error .echart-viz-loading {
+    display: none;
+}

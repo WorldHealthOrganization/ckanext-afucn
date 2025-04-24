@@ -1,0 +1,159 @@
+{#- Trend Chart by Sex Snippet
+
+  Extends the base echart_viz snippet to create a multi-line trend chart
+  showing data for 'Male', 'Female', and 'Both sexes'.
+  Assumes the data has 'TimeDim', 'NumericValue', and 'Dim1' (or 'Dim1ValueCode') columns.
+
+  Args:
+    instance_id (str): Unique HTML ID for this chart instance. **REQUIRED**.
+    iso_code (str): The ISO code (or other value for SpatialDim) to filter by.
+                    Defaults to the `group_dict.name` if available in context.
+    dataset_slug (str: Dataset slug'.
+    title (str, optional): Chart title. Defaults to 'Trend by Sex for [iso_code]'.
+    css_class (str, optional): Additional CSS classes.
+    chart_height (str, optional): Chart height.
+
+  Inherits:
+    visual_snippets/echart_viz.html
+-#}
+{% extends "visual_snippets/echart_viz.html" %}
+
+{# --- Default Parameter Values --- #}
+{% set country_code = iso_code or group_dict.name %}
+{% set default_title = _('Trend by Sex') %}
+{% if country_code %}
+  {% set default_title = _('Trend by Sex for ') ~ country_code %}
+{% endif %}
+
+{# --- Override Base Snippet Variables --- #}
+{# instance_id is passed directly from the call #}
+{% set title = title or default_title %}
+{% set dataset_slug = dataset_slug%}
+{% set css_class = css_class %}
+{% set chart_height = chart_height %}
+{# Use a unique chart_type if the central init script needs to handle it specially #}
+{# Or rely solely on the custom getChartOptions function defined below #}
+{% set chart_type = 'trend_by_sex' %}
+
+{# Define the filter: Use SpatialDim based on iso_code/group_dict.name #}
+{% set filters = {'SpatialDim': country_code} %}
+
+{# --- Define the Custom Chart Options Script --- #}
+{% block chart_options_script %}
+<script>
+  // This custom function overrides any default behavior based on chart_type in EchartsViz.js
+  function getChartOptions(filteredData, title) {
+    // Check if EchartsViz and utilities are available
+    if (typeof EchartsViz === 'undefined' || !EchartsViz.utils) {
+        console.error('EchartsViz or EchartsViz.utils not available in getChartOptions scope.');
+        return { title: { text: title, subtext: 'Script Error' } };
+    }
+
+    // --- Calculate overall Min/Max from filtered data --- START
+    let overallMin = Infinity;
+    let overallMax = -Infinity;
+    filteredData.forEach(row => {
+      const value = EchartsViz.utils.normalizeValue(row.NumericValue);
+      if (value !== null) {
+        if (value < overallMin) overallMin = value;
+        if (value > overallMax) overallMax = value;
+      }
+    });
+
+    // Add padding if min/max found, otherwise use defaults
+    let yAxisMin = 0;
+    let yAxisMax = 100; // Default max if no data
+    if (overallMin !== Infinity) {
+      const padding = (overallMax - overallMin) * 0.1; // 10% padding
+      yAxisMin = Math.max(0, Math.floor(overallMin - padding)); // Don't go below 0, floor for neatness
+      yAxisMax = Math.ceil(overallMax + padding); // Ceil for neatness
+    }
+    // --- Calculate overall Min/Max from filtered data --- END
+
+    // 1. Prepare data grouped by Sex and Year
+    const dataBySex = {
+      'SEX_BTSX': { name: 'Both sexes', data: {} },
+      'SEX_MLE': { name: 'Male', data: {} },
+      'SEX_FMLE': { name: 'Female', data: {} }
+    };
+    const allYears = new Set();
+
+    filteredData.forEach(row => {
+      // Defensive check for row existence and TimeDim property
+      if (!row || !row.hasOwnProperty('TimeDim')) {
+          // Keep this warning as it indicates a potential data issue
+          console.warn('Skipping row due to missing TimeDim:', row);
+          return; // Skip this row
+      }
+      const year = String(row.TimeDim).trim();
+      const sexCode = String(row.Dim1ValueCode || row.Dim1).trim().toUpperCase(); // Use Dim1ValueCode or fallback to Dim1
+      const value = EchartsViz.utils.normalizeValue(row.NumericValue);
+
+      if (year && dataBySex.hasOwnProperty(sexCode) && value !== null) {
+          // Only add year if it's valid and associated with data
+          allYears.add(year);
+          dataBySex[sexCode].data[year] = value;
+      } // Removed else block for logging skipped rows
+    });
+
+    const sortedYears = Array.from(allYears).sort((a, b) => a.localeCompare(b));
+
+    // 2. Create ECharts series data
+    const seriesData = Object.keys(dataBySex).map(sexCode => {
+      const sexInfo = dataBySex[sexCode];
+      const seriesValues = sortedYears.map(year => sexInfo.data[year] !== undefined ? sexInfo.data[year] : null);
+
+      return {
+        name: sexInfo.name,
+        type: 'line',
+        smooth: true,
+        data: seriesValues,
+        lineStyle: { width: 3 }
+      };
+    });
+
+    // 3. Build ECharts options object
+    if (seriesData.length === 0 || sortedYears.length === 0) {
+       // Keep this log as it indicates legitimate lack of data for filters
+       console.log(`EchartsViz (trend_by_sex): No data available for title '${title}' after processing.`);
+       return {
+         title: { text: title, subtext: 'No data available for selected criteria', left: 'center', top: 'center' },
+         series: []
+       };
+    }
+
+    const options = {
+      // title: { text: title, left: 'center' }, // REMOVED ECharts title
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: seriesData.map(s => s.name),
+        bottom: 10
+      },
+      grid: { left: '3%', right: '4%', bottom: '40px', containLabel: true },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: sortedYears // Assign the potentially problematic array
+      },
+      yAxis: {
+        type: 'value',
+        min: yAxisMin, // Use calculated min
+        max: yAxisMax, // Use calculated max
+        axisLabel: {
+            formatter: function(value) {
+                if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
+                if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
+                if (value >= 1e3) return (value / 1e3).toFixed(1) + 'K';
+                return value;
+            }
+        }
+      },
+      series: seriesData
+    };
+
+    return options;
+  }
+</script>
+{% endblock chart_options_script %} 

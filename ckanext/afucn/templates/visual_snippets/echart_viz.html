@@ -1,0 +1,149 @@
+{#- Base ECharts Visualization Snippet
+
+  Provides structure and JS initialization for a reusable ECharts viz.
+  Requires the inheriting snippet or call to provide the chart-specific
+  options generation logic via the `chart_options_script` block,
+  which MUST define a `getChartOptions(filteredData, title)` function.
+
+  Args:
+    instance_id (str): A UNIQUE HTML ID for this specific chart instance. **REQUIRED**.
+    dataset_slug (str): The slug (URL identifier) of the CKAN dataset. **REQUIRED**.
+    title (str, optional): The title to display. Defaults to 'ECharts Visualization'.
+    css_class (str, optional): Additional CSS classes for the main container.
+    chart_height (str, optional): CSS height for the chart div. Defaults to '350px'.
+    filters (dict, optional): Key-value pairs to filter data *before* passing to getChartOptions.
+
+  Blocks:
+    chart_options_script: **REQUIRED**. Must contain a `<script>` tag defining a function named
+                          `getChartOptions(filteredData, title)` that takes the filtered data
+                          array and title string, performs chart-specific transformations,
+                          and returns a valid ECharts options object.
+-#}
+{% if not instance_id %}
+  {% set _ = log.error('EChart snippet requires a unique `instance_id` parameter.') %}
+  {# Render nothing or an error message if ID is missing #}
+  <div class="echart-viz-container error">
+    <div class="echart-viz-error">
+      <p>Error: Chart instance ID missing.</p>
+    </div>
+  </div>
+{% elif not dataset_slug %}
+  {# ... error handling for missing dataset_slug ... #}
+   <div id="{{ instance_id }}" class="echart-viz-container error">
+     <div class="echart-viz-title">{{ title or _('ECharts Visualization') }}</div>
+     <div class="echart-viz-error">
+       <p>Error: Dataset slug missing.</p>
+     </div>
+   </div>
+{% else %}
+  {# Proceed only if instance_id and dataset_slug are provided #}
+  {% set chart_title = title or _('ECharts Visualization') %}
+  {% set chart_filters = filters or {} %}
+
+  {# Main container #}
+  <div id="{{ instance_id }}" class="echart-viz-container loading {{ css_class or '' }}">
+
+    {# Title #}
+    <div class="echart-viz-title">{{ chart_title }}</div>
+
+    {# Loading State Indicator #}
+    <div class="echart-viz-loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">{{ _('Loading...') }}</span>
+      </div>
+    </div>
+
+    {# Error State Placeholder #}
+    <div class="echart-viz-error">
+      <p>{{ _('Error loading visualization.') }}</p>
+    </div>
+
+    {# Chart Div #}
+    <div class="echart-viz-chart" style="height: {{ chart_height or '350px' }};"></div>
+
+    {# Filters JSON (still useful to keep separate for clarity) #}
+    <script type="application/json" class="echart-viz-filters-data">
+      {{ chart_filters|tojson|safe }}
+    </script>
+
+    {# --- REQUIRED Block for defining the Chart Options Script --- #}
+    {% block chart_options_script required %}
+      {# This block MUST be defined by inheriting templates #}
+      {# Example:
+      <script>
+        function getChartOptions(filteredData, title) {
+          // Process filteredData
+          // Return echart options object
+        }
+      </script>
+      #}
+    {% endblock chart_options_script %}
+
+    {# --- Initialization Script (runs for each instance) --- #}
+    <script>
+      (function() {
+        // Get config values for this specific instance
+        const instanceId = {{ instance_id|tojson|safe }};
+        const datasetSlug = {{ dataset_slug|tojson|safe }};
+        const chartTitle = {{ title|tojson|safe }};
+
+        // Retrieve filters from the dedicated script tag
+        let chartFilters = {};
+        const container = document.getElementById(instanceId); // Need container to find script tag
+        if (container) {
+            const filtersScriptTag = container.querySelector('script.echart-viz-filters-data');
+            if (filtersScriptTag) {
+                try {
+                    const filtersJsonString = filtersScriptTag.textContent.trim();
+                    if (filtersJsonString) chartFilters = JSON.parse(filtersJsonString);
+                } catch (e) {
+                    console.error(`EchartsViz (${instanceId}): Error parsing filters JSON.`, e);
+                    // Optionally show error in UI
+                }
+            }
+        }
+
+        // Check if the required getChartOptions function was defined (by the block above)
+        if (typeof getChartOptions !== 'function') {
+             console.error(`EchartsViz (${instanceId}): Missing required getChartOptions function definition in snippet.`);
+             if (container) EchartsViz.ui.setError(instanceId, 'Chart config function missing.');
+             return;
+        }
+        // Capture the function specific to this scope/instance
+        const instanceGetChartOptions = getChartOptions;
+        // Optional: Clear global to prevent conflicts? Careful!
+        // getChartOptions = undefined;
+
+        // Configuration object passed to the initializer
+        const vizConfig = {
+          datasetSlug: datasetSlug,
+          title: chartTitle,
+          filters: chartFilters,
+          getChartOptions: instanceGetChartOptions
+        };
+
+        // Call the initializer after the DOM is ready (using jQuery if available)
+        if (typeof jQuery !== 'undefined') {
+            jQuery(document).ready(function() {
+                if (typeof EchartsViz !== 'undefined') {
+                    EchartsViz.init(instanceId, vizConfig);
+                } else {
+                    console.error(`EchartsViz (${instanceId}): Core library not loaded.`);
+                    if (container) EchartsViz.ui.setError(instanceId, 'Core library missing.');
+                }
+            });
+        } else {
+            document.addEventListener('DOMContentLoaded', function() {
+                 if (typeof EchartsViz !== 'undefined') {
+                    EchartsViz.init(instanceId, vizConfig);
+                 } else {
+                    console.error(`EchartsViz (${instanceId}): Core library not loaded.`);
+                    if (container) EchartsViz.ui.setError(instanceId, 'Core library missing.');
+                 }
+            });
+        }
+      })();
+    </script>
+
+  </div>{# End main container #}
+{% endif %} 
