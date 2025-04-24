@@ -10,7 +10,7 @@
     iso_code (str): The ISO code (or other value for SpatialDim) to filter by.
                     Defaults to the `group_dict.name` if available in context.
     year (str, optional): The year to filter by. Defaults to '2024'.
-    dataset_slug (str, optional): Dataset slug. Defaults to 'population'.
+    dataset_slug (str): Dataset slug.
     title (str, optional): Chart title. Defaults to 'Population by Age Group ([year]) for [iso_code]'.
     css_class (str, optional): Additional CSS classes.
     chart_height (str, optional): Chart height.
@@ -28,7 +28,7 @@
 {# --- Override Base Snippet Variables --- #}
 {# instance_id is passed directly from the call #}
 {% set title = title or default_title %}
-{% set dataset_slug = dataset_slug or 'population' %}
+{% set dataset_slug = dataset_slug %}
 {% set css_class = css_class %}
 {% set chart_height = chart_height %}
 

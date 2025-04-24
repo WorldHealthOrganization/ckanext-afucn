@@ -8,7 +8,7 @@
     instance_id (str): Unique HTML ID for this chart instance. **REQUIRED**.
     iso_code (str): The ISO code (or other value for SpatialDim) to filter by.
                     Defaults to the `group_dict.name` if available in context.
-    dataset_slug (str, optional): Dataset slug. Defaults to 'life-expectancy-at-birth-hale'.
+    dataset_slug (str: Dataset slug'.
     title (str, optional): Chart title. Defaults to 'Trend by Sex for [iso_code]'.
     css_class (str, optional): Additional CSS classes.
     chart_height (str, optional): Chart height.
@@ -28,7 +28,7 @@
 {# --- Override Base Snippet Variables --- #}
 {# instance_id is passed directly from the call #}
 {% set title = title or default_title %}
-{% set dataset_slug = dataset_slug or 'life-expectancy-at-birth-hale' %}
+{% set dataset_slug = dataset_slug%}
 {% set css_class = css_class %}
 {% set chart_height = chart_height %}
 {# Use a unique chart_type if the central init script needs to handle it specially #}
