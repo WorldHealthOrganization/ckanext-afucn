@@ -3,7 +3,6 @@ afucn-js:
   output: ckanext-afucn/%(version)s-afucn.js
   contents:
     - js/afucn.js
-    - js/echarts-viz.js
     - js/translate.js
   extra:
     preload:
