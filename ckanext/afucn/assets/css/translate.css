@@ -1,0 +1,74 @@
+/* Language dropdown styling */
+.translate-widget-nav .img-flag,
+.translate-widget-menu .img-flag {
+    vertical-align: middle;
+    width: 20px;
+    opacity: 0.8;
+    border: 0.2px solid #ffffff;
+    position: relative;
+    top: -1px;
+}
+  
+/* Hide the Google Translate default elements */
+.hidden-translate-element,
+.skiptranslate,
+.goog-te-banner-frame {
+  display: none;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  position: absolute;
+  left: -9999px;
+}
+
+/* Prevent Google's top banner from reserving space */
+body {
+  top: 0;
+}
+
+/* Nav dropdown styling */
+.translate-widget-nav .nav-link {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 2.33em;
+}
+
+.translate-widget-nav .nav-link:hover {
+  background-color: #008DC9;
+}
+
+/* Dropdown menu styling */
+.translate-widget-nav .dropdown-menu {
+  margin-top: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.translate-widget-menu {
+  background: #0F2D5B; /* Dark navy background */
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.translate-widget-menu .dropdown-item {
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  padding: 5px 25px 5px 20px;
+  line-height: 2em;
+}
+
+.translate-widget-menu .dropdown-item:hover {
+  background: #0077b3; /* WHO blue color */
+}
+
+/* Prevent Google Translate modifications */
+.notranslate {
+  /* This prevents Google Translate from modifying these elements */
+}
+
+.translate-widget-nav .notranslate * {
+  font-family: inherit;
+}
+  

@@ -113,6 +113,9 @@
                       <a class="nav-link" href="{{ h.url_for('user.login') }}">{{ _('Login') }}</a>
                     </li>
                     {% endif %}
+                    <li class="nav-item translate-widget-nav">
+                      {% include 'snippets/translate_widget.html' %}
+                    </li>
                 </ul>
             </div>
         </div>
