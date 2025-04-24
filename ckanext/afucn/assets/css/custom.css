@@ -1763,3 +1763,17 @@ ul.hierarchy-tree-top{
   list-style-type: none !important;
 }
 
+/* Custom dropdown arrow styling using SVG */
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: middle;
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: none;
+  background: url(/img/down-arrow-white.svg) no-repeat center center;
+  background-size: contain;
+  position: relative;
+  top: -1px;
+}
