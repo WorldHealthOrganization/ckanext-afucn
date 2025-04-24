@@ -1,0 +1,42 @@
+<!-- Hidden Google Translate Element -->
+<div id="google_translate_element" class="hidden-translate-element"></div>
+
+<!-- Nav dropdown for language selection -->
+<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <span id="current-language-flag">
+    {% set current_lang = request.cookies.get('googtrans', '/en/en').split('/')[-1] %}
+    {% if current_lang == 'en' %}
+      <img src="{{ url_for('static', filename='img/lang/en.svg') }}" class="img-flag" alt="EN flag" width="20" height="20"> EN
+    {% elif current_lang == 'fr' %}
+      <img src="{{ url_for('static', filename='img/lang/fr.svg') }}" class="img-flag" alt="FR flag" width="20" height="20"> FR
+    {% elif current_lang == 'pt' %}
+      <img src="{{ url_for('static', filename='img/lang/pt.svg') }}" class="img-flag" alt="PT flag" width="20" height="20"> PT
+    {% else %}
+      <img src="{{ url_for('static', filename='img/lang/en.svg') }}" class="img-flag" alt="EN flag" width="20" height="20"> EN
+    {% endif %}
+  </span>
+</a>
+<ul class="dropdown-menu translate-widget-menu">
+  <li>
+    <a class="dropdown-item lang-option" href="#" data-lang="en">
+      <img src="{{ url_for('static', filename='img/lang/en.svg') }}" class="img-flag" alt="EN flag" width="20" height="20"> EN
+    </a>
+  </li>
+  <li>
+    <a class="dropdown-item lang-option" href="#" data-lang="fr">
+      <img src="{{ url_for('static', filename='img/lang/fr.svg') }}" class="img-flag" alt="FR flag" width="20" height="20"> FR
+    </a>
+  </li>
+  <li>
+    <a class="dropdown-item lang-option" href="#" data-lang="pt">
+      <img src="{{ url_for('static', filename='img/lang/pt.svg') }}" class="img-flag" alt="PT flag" width="20" height="20"> PT
+    </a>
+  </li>
+</ul>
+
+<!-- Pass debug flag to JavaScript -->
+<script>
+  // Set debug mode for the translator
+  window.gtTranslateDebug = {{ g.debug|tojson }};
+</script>
+
