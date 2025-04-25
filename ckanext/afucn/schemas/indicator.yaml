@@ -61,6 +61,18 @@ dataset_fields:
   display_email_name_field: maintainer
   display_group: Overview
 
+- field_name: source
+  label: Source
+  form_placeholder: e.g. “Official Ministry of Health reports”
+  help_text: Additional info or references about the data source.
+  display_group: Overview
+
+- field_name: url
+  label: Data Source URL
+  form_placeholder: https://example.com/datasource.html
+  display_property: foaf:homepage
+  display_snippet: link.html
+  display_group: Overview
 - field_name: language
   # required: true
   label: Dataset Language
@@ -144,13 +156,6 @@ dataset_fields:
   label: Spatial Resolution
   form_placeholder: e.g. “region” “country” "district"
   help_text: The smallest geographic unit represented in the dataset.
-  display_group: About the Data
-
-- field_name: source
-  label: Source
-  form_snippet: markdown.html
-  form_placeholder: e.g. “Official Ministry of Health reports”
-  help_text: Additional info or references about the data source.
   display_group: About the Data
   
 - field_name: sustainable_development_goals
@@ -281,7 +286,6 @@ dataset_fields:
   form_snippet: markdown.html
   form_placeholder: e.g Low sample size for some refions
   display_group: Methodology
-
 
 resource_fields:
 
