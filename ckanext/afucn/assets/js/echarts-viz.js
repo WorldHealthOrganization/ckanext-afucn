@@ -276,6 +276,24 @@ const EchartsViz = {
             const resource = datasetInfo.resources[0];
             if (!resource.url) throw new Error('First resource has no URL.');
 
+            // --> START: Add Source/Organization to Footer
+            let sourceOrOrgText = 'Not specified'; // Default text (Removed _() wrapper)
+            if (datasetInfo.source) {
+                sourceOrOrgText = datasetInfo.source;
+            } else if (datasetInfo.organization && datasetInfo.organization.title) {
+                sourceOrOrgText = datasetInfo.organization.title;
+            }
+            const sourceElement = container.querySelector('.echart-viz-source-value');
+            if (sourceElement) {
+                // Construct the dataset URL
+                const datasetUrl = `/dataset/${datasetInfo.name}`; // Assumes datasetInfo.name is the slug
+                // Set innerHTML to create a link
+                sourceElement.innerHTML = `<a href="${datasetUrl}" target="_blank" rel="noopener noreferrer">${sourceOrOrgText}</a>`;
+            } else {
+                console.warn(`EchartsViz (${instanceId}): Could not find source element '.echart-viz-source-value'.`);
+            }
+            // <-- END: Add Source/Organization to Footer
+
             // Use the direct resource URL provided by CKAN API
             const resourceUrl = resource.url;
             // const resourceUrl = `${ckan.SITE_ROOT}/dataset/${resource.package_id}/resource/${resource.id}/download/${resource.name}`;
