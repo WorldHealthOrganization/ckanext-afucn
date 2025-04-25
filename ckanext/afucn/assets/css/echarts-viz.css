@@ -67,3 +67,20 @@
 .echart-viz-container.error .echart-viz-loading {
     display: none;
 }
+
+/* Footer Styling */
+.echart-viz-footer {
+    margin-top: 15px; /* Add space above the footer */
+    padding-top: 10px; /* Add padding inside the footer */
+    border-top: 1px solid #eee; /* Subtle separator line */
+    font-size: 0.9em; /* Slightly smaller text */
+    color: #555; /* Muted text color */
+}
+
+.echart-viz-footer span:first-child { /* Style the 'Source:' label */
+    font-weight: 600; /* Make the label slightly bolder */
+}
+
+/* Optional: Style the value itself if needed */
+/* .echart-viz-source-value { }
+*/

@@ -61,6 +61,11 @@
     {# Chart Div #}
     <div class="echart-viz-chart" style="height: {{ chart_height or '350px' }};"></div>
 
+    {# Footer for Source Information #}
+    <div class="echart-viz-footer">
+      <span>{{ _('Source') }}:</span> <span class="echart-viz-source-value">{{ _('Loading...') }}</span>
+    </div>
+
     {# Filters JSON (still useful to keep separate for clarity) #}
     <script type="application/json" class="echart-viz-filters-data">
       {{ chart_filters|tojson|safe }}
