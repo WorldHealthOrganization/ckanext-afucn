@@ -6,6 +6,8 @@
       {% do indicator_packages.append(package) %}
     {% endif %}
   {% endfor %}
+  {# Sort indicator packages by priority in descending order #}
+  {% set indicator_packages = indicator_packages|sort(attribute='priority', reverse=true) %}
 
   {% if indicator_packages %}
     <div class="trending-indicators-grid">
