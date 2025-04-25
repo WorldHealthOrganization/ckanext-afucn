@@ -52,17 +52,23 @@ const EchartsViz = {
             const maxFileSizeBytes = EchartsViz.utils.mbToBytes(EchartsViz.config.maxFileSizeMB);
 
             try {
-                // Check file size first (optional, but good practice)
+                // First, try a HEAD request to check if the resource exists and get headers
                 const headResponse = await fetch(resourceUrl, { method: 'HEAD' });
-                if (headResponse.ok) {
-                    const contentLength = headResponse.headers.get('Content-Length');
-                    if (contentLength && parseInt(contentLength) > maxFileSizeBytes) {
-                        throw new Error(`File size exceeds ${EchartsViz.config.maxFileSizeMB}MB limit`);
-                    }
-                } // Ignore HEAD errors, proceed to fetch
+                console.log(`HEAD request status for ${resourceUrl}: ${headResponse.status}`);
 
-                // Fetch the actual data
+                if (!headResponse.ok) {
+                    // If HEAD request fails, log the error and try GET anyway,
+                    // as HEAD might not be supported or configured correctly.
+                    console.warn(`HEAD request failed for ${resourceUrl} with status ${headResponse.status}. Proceeding with GET request.`);
+                    // It might be useful to throw an error here if HEAD is expected to work,
+                    // depending on server configuration and requirements.
+                    // throw new Error(`Resource not found or accessible (HEAD failed): ${headResponse.status}`);
+                }
+
+                // Proceed with GET request to fetch actual data
                 const response = await fetch(resourceUrl);
+                console.log(`GET request status for ${resourceUrl}: ${response.status}`);
+
                 if (!response.ok) {
                     throw new Error(`HTTP error fetching resource: ${response.statusText}`);
                 }
@@ -270,16 +276,12 @@ const EchartsViz = {
             const resource = datasetInfo.resources[0];
             if (!resource.url) throw new Error('First resource has no URL.');
 
-            // 2. Construct Resource URL (needs dataset ID from datasetInfo)
-            const datasetId = datasetInfo.id; // Get the ID from the fetched info
-            let resourceUrl = resource.url;
-            if (resource.url_type === 'upload') {
-                 const filename = resource.name || resource.id;
-                 // Use the retrieved datasetId here
-                 resourceUrl = `/dataset/${datasetId}/resource/${resource.id}/download/${encodeURIComponent(filename)}`;
-            }
+            // Use the direct resource URL provided by CKAN API
+            const resourceUrl = resource.url;
+            // const resourceUrl = `${ckan.SITE_ROOT}/dataset/${resource.package_id}/resource/${resource.id}/download/${resource.name}`;
+            console.log(`Attempting to fetch data from: ${resourceUrl}`);
 
-            // 3. Fetch and Parse Resource Data
+            // 2. Fetch and Parse Resource Data
             const rawData = await EchartsViz.data.fetchResourceData(resourceUrl);
             EchartsViz.instances[instanceId].rawData = rawData;
 
