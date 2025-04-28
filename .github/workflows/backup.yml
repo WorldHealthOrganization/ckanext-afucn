@@ -1,0 +1,49 @@
+name: CKAN Blob Backup
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Every day at midnight UTC
+  workflow_dispatch: # Allow manual manual trigger
+
+jobs:
+  backup-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Azure subscription
+        run: |
+          az account set --subscription 8c247e8d-4f67-46e2-b10e-e89fc1a60fbd
+
+      - name: Install AzCopy
+        run: |
+          curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz
+          sudo mv ./azcopy_linux_amd64_*/azcopy /usr/bin/
+
+      - name: Run AzCopy backup
+        env:
+          STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+          SAS_TOKEN: ${{ secrets.AZURE_SAS_TOKEN }}
+        run: |
+          echo "Getting the day of month..."
+          DAY=$(date +%d)
+          if [ "$DAY" -le 10 ]; then
+            BACKUP_CONTAINER="ckan-backup-01"
+          elif [ "$DAY" -le 20 ]; then
+            BACKUP_CONTAINER="ckan-backup-10"
+          else
+            BACKUP_CONTAINER="ckan-backup-20"
+          fi
+
+          echo "Target backup container: $BACKUP_CONTAINER"
+
+          azcopy sync "https://${STORAGE_ACCOUNT}.blob.core.windows.net/straccpphblob${SAS_TOKEN}" \
+                       "https://${STORAGE_ACCOUNT}.blob.core.windows.net/${BACKUP_CONTAINER}${SAS_TOKEN}" \
+                       --recursive
