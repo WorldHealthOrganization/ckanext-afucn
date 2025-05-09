@@ -6788,7 +6788,11 @@ header.et-l.et-l--header:after {
   transition-property: all !important;
 }
 
-
+.et_pb_promo_button:hover {
+  background-color: rgba(0, 119, 179, 0.2) !important; /* Semi-transparent WHO blue */
+  color: white !important;
+  border: solid rgba(0, 119, 179, 0) !important;
+}
 
 .et_pb_button:after,
 .et_pb_button:before {
@@ -6796,9 +6800,8 @@ header.et-l.et-l--header:after {
 }
 
 .et_pb_button:hover {
-  background-color: rgba(0, 119, 179, 0.2) !important; /* Semi-transparent WHO blue */
-  color: white !important;
-  border: solid rgba(0, 119, 179, 0) !important;
+  background-color: #008DC9 !important;
+
 }
 
 
