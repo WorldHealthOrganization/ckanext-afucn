@@ -1,0 +1,103 @@
+{% extends "visual_snippets/echart_viz.html" %}
+
+{% block chart_options_script %}
+<script>
+  function getChartOptions(filteredData, title) {
+    // The filters are already applied to filteredData via the EchartsViz.data.filterData method
+    // So we just need to filter for year 2024 here
+    const data2024 = filteredData.filter(item => item.TimeDim == 2024);
+    
+    // Process data for chart
+    const chartData = data2024.map(item => {
+      // Check if the value is missing or zero
+      const numericValue = EchartsViz.utils.normalizeValue(item.NumericValue);
+      const isValidValue = numericValue !== null && numericValue !== 0;
+      
+      return {
+        antigen: item.Antigen || 'Unknown',
+        value: isValidValue ? numericValue : '-', // Use '-' as a marker for missing data
+        vaccineName: item.VaccineName || 'Not specified',
+        isValidValue: isValidValue
+      };
+    });
+    
+    // Sort by value descending for better visualization
+    // Put valid values at the top (higher in the chart), then null values
+    chartData.sort((a, b) => {
+      if (a.isValidValue && !b.isValidValue) return -1;
+      if (!a.isValidValue && b.isValidValue) return 1;
+      if (a.isValidValue && b.isValidValue) return b.value - a.value;
+      return 0;
+    });
+    
+    // Prepare data for chart
+    const antigens = chartData.map(item => item.antigen);
+    const values = chartData.map(item => item.isValidValue ? item.value : 0); // Use 0 for rendering (makes bars invisible)
+    
+    return {
+      tooltip: {
+        trigger: 'axis',
+        formatter: function(params) {
+          const dataIndex = params[0].dataIndex;
+          const item = chartData[dataIndex];
+          
+          if (item.isValidValue) {
+            return `${item.antigen}<br/>
+                    Value: ${item.value}%<br/>
+                    Vaccine: ${item.vaccineName}`;
+          } else {
+            return `${item.antigen}<br/>
+                    Value: No data<br/>
+                    Vaccine: ${item.vaccineName}`;
+          }
+        },
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '5%',
+        right: '5%',
+        bottom: '10%',
+        top: '5%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        name: 'Coverage (%)',
+        nameLocation: 'middle',
+        nameGap: 30,
+        max: 100,
+        axisLabel: {
+          formatter: '{value}%'
+        }
+      },
+      yAxis: {
+        type: 'category',
+        data: antigens,
+        inverse: true, // Inverse the order of the y-axis
+        axisLabel: {
+          interval: 0,
+          rotate: 0
+        }
+      },
+      series: [
+        {
+          name: 'Coverage',
+          type: 'bar',
+          data: values,
+          label: {
+            show: true,
+            position: 'right',
+            formatter: function(params) {
+              // Show "No data" for items with invalid values
+              const item = chartData[params.dataIndex];
+              return item.isValidValue ? `${params.value}%` : 'No data';
+            }
+          }
+        }
+      ]
+    };
+  }
+</script>
+{% endblock chart_options_script %} 

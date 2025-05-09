@@ -369,6 +369,10 @@ table.dataTable.table-striped > tbody > tr.odd > * {
     overflow: hidden;
 }
 
+.who-hero.hero-small {
+  padding-top: 50px;
+}
+
 .who-hero .hero-pattern {
     position: absolute;
     top: 0;

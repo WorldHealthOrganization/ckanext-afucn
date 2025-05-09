@@ -1,0 +1,51 @@
+{% ckan_extends %}
+
+{% block subtitle %}{% endblock subtitle %}
+
+{% block who_hero %}
+    {% snippet 'snippets/who-hero.html', 
+    show_search_form = false, 
+    title = '', 
+    description = '',
+    classes = "hero-small hero-login",
+    hero_image = '' %}
+{% endblock %}
+
+{% block breadcrumb_content %}
+{% endblock breadcrumb_content %}
+
+
+{% block primary %}
+  <div class="primary col-xs-12" role="main">
+    {% block primary_content %}
+      <div class="login-container">
+        <div class="login-illustration">
+          <img src="{{ h.url_for('static', filename='/img/login_illustration.png') }}" alt="Login illustration" class="illustration-image">
+        </div>
+        <section class="module login-module">
+          <div class="module-content">
+            <h1 class="page-heading">{% block page_heading %}{{ _('Data Portal Login') }}{% endblock page_heading %}</h1>
+            
+            {% block form %}
+              {% snippet "user/snippets/login_form.html", error_summary=error_summary %}
+            {% endblock form %}
+            
+            <div class="login-actions">
+              {% if h.check_access('user_create') %}
+                <a class="btn btn-link" href="{{ h.url_for('user.register') }}">
+                  <i class="fa fa-user-plus"></i> {{ _('Create an Account') }}
+                </a>
+              {% endif %}
+              <a class="btn btn-link" href="{{ h.url_for('user.request_reset') }}">
+                <i class="fa fa-key"></i> {{ _('Forgot your password?') }}
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    {% endblock primary_content %}
+  </div>
+{% endblock primary %}
+
+{% block secondary_content %}
+{% endblock secondary_content %}
