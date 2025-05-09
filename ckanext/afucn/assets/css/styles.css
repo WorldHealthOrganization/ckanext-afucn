@@ -5907,7 +5907,7 @@ a.et_pb_more_button:after {
   background-position: 50%;
   background-repeat: no-repeat;
   border: 2px solid;
-  border-radius: 3px;
+  border-radius: 0px;
   -webkit-transition-duration: .2s;
   transition-duration: .2s;
   -webkit-transition-property: all !important;
@@ -5921,7 +5921,6 @@ a.et_pb_more_button:after {
 
 .et_pb_button:hover,
 .et_pb_module .et_pb_button:hover {
-  border: 2px solid transparent;
   padding: .3em 2em .3em .7em
 }
 
@@ -6775,7 +6774,7 @@ header.et-l.et-l--header:after {
   color: #fff;
   font-size: 16px;
   font-weight: 500;
-  padding: .3em 1em;
+  padding: 6px 12px !important;
   line-height: 1.7em !important;
   background-color: transparent;
   background-size: cover;
@@ -6797,7 +6796,9 @@ header.et-l.et-l--header:after {
 }
 
 .et_pb_button:hover {
-  background-color: #008DC9 !important;
+  background-color: rgba(0, 119, 179, 0.2) !important; /* Semi-transparent WHO blue */
+  color: white !important;
+  border: solid rgba(0, 119, 179, 0) !important;
 }
 
 

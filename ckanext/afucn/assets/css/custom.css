@@ -161,7 +161,52 @@ table.dataTable.table-striped > tbody > tr.odd > * {
 
 /* Start Header menu styling */
 .account-masthead {
-    background-color: #0F2D5B;
+    background: none;
+    position: absolute;
+    z-index: 1001;
+}
+.account-masthead .account ul li a {
+  font-weight: 400;
+}
+/* Divi Button Styling */
+.btn-divi {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: #ffffff !important;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.btn-divi .fa-angle-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  right: -30px;
+  width: 30px;
+  margin: 0;
+  transition: right 0.3s ease;
+}
+
+.btn-divi:hover .fa-angle-right {
+  right: 0;
+}
+
+.btn-divi:hover {
+  padding-right: 30px !important;
+  background-color: rgba(0, 119, 179, 0.2) !important; /* Semi-transparent WHO blue */
+  text-decoration: none;
+}
+
+.btn-divi .text {
+  margin-left: 5px;
+  display: none; /* Hide the duplicate "Log in" text */
 }
 
 /* Header Styles */
@@ -174,7 +219,7 @@ table.dataTable.table-striped > tbody > tr.odd > * {
     transition: all 0.3s ease-in-out;
 }
 .who-header.logged-in {
-    top: 30px;
+    /*top: 30px;*/
 }
 
 .who-header .nav-container {

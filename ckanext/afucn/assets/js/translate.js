@@ -1,10 +1,10 @@
 // Global variables for translation
 var gtTranslateSettings = {
-  initialized: false,
-  defaultLanguage: 'en',
-  includeLanguages: 'en,fr,pt',
-  currentLanguage: null,
-  isChanging: false
+  initialized: false,      // Tracks if Google Translate has been initialized
+  defaultLanguage: 'en',  // Default language (English)
+  includeLanguages: 'en,fr,pt', // Supported languages: English, French, Portuguese
+  currentLanguage: null,  // Currently selected language
+  isChanging: false      // Flag to prevent multiple simultaneous translations
 };
 
 // Custom logger that only logs in debug mode
@@ -33,14 +33,15 @@ function initGoogleTranslate() {
   // Load Google Translate script if not already loaded
   if (typeof window.googleTranslateElementInit2 !== 'function') {
     window.googleTranslateElementInit2 = function() {
+      // Initialize Google Translate with our custom settings
       new google.translate.TranslateElement({
         pageLanguage: gtTranslateSettings.defaultLanguage,
         includedLanguages: gtTranslateSettings.includeLanguages,
-        autoDisplay: false,
-        gaTrack: false,
-        floatPosition: 0, // Disable floating translation button
+        autoDisplay: false, // Don't show Google's default UI
+        gaTrack: false,     // Disable Google Analytics tracking
+        floatPosition: 0,   // Disable floating translation button
         disableAutoTranslation: true, // Disable automatic translation
-        disableTrns: true, // Try to disable additional features
+        disableTrns: true,  // Try to disable additional features
         multilanguagePage: true // Indicate we control the language UI
       }, 'google_translate_element2');
       
@@ -96,13 +97,13 @@ function fireEvent(element, event) {
 
 // Set cookies for the language
 function setLanguageCookies(lang) {
-  // Set default to English (no cookie)
+  // For English, remove all translation cookies
   if (lang === 'en') {
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname;
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname;
   } else {
-    // Set cookies at multiple levels to ensure they work
+    // For other languages, set cookies at multiple levels to ensure they work
     document.cookie = 'googtrans=/en/' + lang + '; path=/;';
     document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=' + location.hostname;
     document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=.' + location.hostname;
@@ -129,15 +130,12 @@ function doGTranslate(lang) {
   
   // Setting the cookie first is important
   setLanguageCookies(lang);
-  
-  // Store the current language
   gtTranslateSettings.currentLanguage = lang;
   
-  // Find the Google combo box
+  // Find the Google Translate combo box
   var foundCombo = false;
   var teCombo = null;
   
-  // Try to find the Google Translate combo box
   var selects = document.getElementsByTagName('select');
   for (var i = 0; i < selects.length; i++) {
     if (selects[i].className.indexOf('goog-te-combo') != -1) {
@@ -149,7 +147,6 @@ function doGTranslate(lang) {
   
   if (!foundCombo) {
     log("Google Translate combo not found, waiting...");
-    // If combo not found, wait and try again
     setTimeout(function() {
       gtTranslateSettings.isChanging = false;
       doGTranslate(lang);
@@ -158,38 +155,31 @@ function doGTranslate(lang) {
   }
   
   log("Google Translate combo found, setting value to:", lang);
-  
-  // Set the combo value
   teCombo.value = lang;
-  
-  // Fire the change event twice (this is what Google's code does)
   fireEvent(teCombo, 'change');
   fireEvent(teCombo, 'change');
   
-  // Reset the changing flag after a delay
+  // Update active state of buttons to reflect current language
+  $('.translate-btn').removeClass('active');
+  $('.translate-btn[data-lang="' + lang + '"]').addClass('active');
+  
   setTimeout(function() {
     gtTranslateSettings.isChanging = false;
-    
-    // Force a re-check of cookie to verify it changed
     var cookieLang = readCookieLanguage();
     log("After translation, cookie language is:", cookieLang);
     
     if (cookieLang !== lang) {
       log("Cookie didn't update correctly, forcing cookie update");
-      // If cookie didn't update correctly, force set it
       setLanguageCookies(lang);
     }
   }, 1000);
 }
 
-// Reset translation to original language
+// Reset translation to original language (English)
 function resetTranslation() {
   log("Resetting translation to original language");
-  
-  // Clear cookies - this is the most reliable way to reset
   setLanguageCookies('en');
   
-  // Try to find the Google Translate combo box and set it to English
   var foundCombo = false;
   var teCombo = null;
   
@@ -209,16 +199,17 @@ function resetTranslation() {
     fireEvent(teCombo, 'change');
   }
   
-  // Try multiple approaches for resetting
+  // Update active state of buttons to show English as selected
+  $('.translate-btn').removeClass('active');
+  $('.translate-btn[data-lang="en"]').addClass('active');
+  
+  // Try to reset using Google Translate API if available
   try {
-    // Method 1: Check for Translate API
     if (window.google && google.translate) {
-      // Try different properties that might exist
       if (google.translate.TranslateElement && google.translate.TranslateElement.getInstance) {
         var te = google.translate.TranslateElement.getInstance();
         if (te) {
           log("Found TranslateElement instance");
-          // Different possible reset methods
           if (typeof te.restore === 'function') {
             log("Using restore() method");
             te.restore();
@@ -233,11 +224,9 @@ function resetTranslation() {
     logError("Error resetting translation:", e);
   }
   
-  // Update the current language display to English
-  $('#current-language-flag').html('<img src="/img/lang/en.svg" class="img-flag" alt="EN flag" width="20" height="20"> EN');
   gtTranslateSettings.currentLanguage = 'en';
   
-  // If all else fails, try to remove the translation frames
+  // Remove any Google Translate UI elements
   try {
     $('.goog-te-banner-frame').remove();
     $('.goog-te-menu-frame').remove();
@@ -247,7 +236,6 @@ function resetTranslation() {
     logError("Error removing Google frames:", e);
   }
   
-  // Reset the changing flag
   setTimeout(function() {
     gtTranslateSettings.isChanging = false;
   }, 1000);
@@ -257,19 +245,18 @@ function resetTranslation() {
 function preventTranslation() {
   log("Setting up translation prevention");
   
-  // Hide Google Translate elements
+  // Add CSS to hide Google Translate elements
   var css = document.createElement('style');
   css.type = 'text/css';
   css.innerHTML = 'div.skiptranslate, #google_translate_element2 { display: none !important; }' +
                   'body { top: 0 !important; }' +
-                  // Disable Google hover effects
                   'font { background-color: transparent !important; box-shadow: none !important; }';
   document.getElementsByTagName('head')[0].appendChild(css);
   
-  // Add notranslate class to dropdown elements
-  $('.translate-widget-nav, .translate-widget-menu, .translate-widget-menu *').addClass('notranslate');
+  // Add notranslate class to our language buttons
+  $('.translate-button-group, .translate-btn').addClass('notranslate');
   
-  // Use MutationObserver to protect dynamically created elements
+  // Use MutationObserver to prevent Google Translate from modifying our UI
   if (window.MutationObserver) {
     var observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
@@ -283,7 +270,7 @@ function preventTranslation() {
               node.classList.remove('goog-text-highlight');
             }
             
-            // Handle elements that might be Google's dictionary popups
+            // Hide Google's dictionary popups
             if (node.id === 'goog-gt-tt' || 
                 (node.classList && node.classList.contains('goog-te-balloon-frame'))) {
               node.style.display = 'none';
@@ -316,30 +303,14 @@ function preventTranslation() {
 $(document).ready(function() {
   log("Document ready, initializing translate widget");
   
-  // Make sure our dropdown doesn't get translated
-  $('.translate-widget-nav, .translate-widget-menu').addClass('notranslate');
+  // Make sure our buttons don't get translated
+  $('.translate-button-group, .translate-btn').addClass('notranslate');
   
-  // Add hover behavior to match other nav items
-  $('.translate-widget-nav').hover(
-    function() {
-      $(this).find('.dropdown-menu').addClass('show');
-    },
-    function() {
-      $(this).find('.dropdown-menu').removeClass('show');
-    }
-  );
-  
-  // Add click handler to language options
-  $('.lang-option').on('click', function(e) {
+  // Add click handler to language buttons
+  $('.translate-btn').on('click', function(e) {
     e.preventDefault();
     var newLang = $(this).data('lang');
-    log("Language option clicked with value:", newLang);
-    
-    // Update the current language display
-    var flagSrc = $(this).find('img').attr('src');
-    var langText = $(this).text();
-    $('#current-language-flag').html('<img src="' + flagSrc + '" class="img-flag" alt="' + langText + ' flag" width="20" height="20"> ' + langText);
-    
+    log("Language button clicked with value:", newLang);
     doGTranslate(newLang);
   });
   
@@ -355,7 +326,6 @@ $(document).ready(function() {
   
   // Save the current language on unload
   $(window).on('beforeunload', function() {
-    // Check if current language is set and save it
     if (gtTranslateSettings.currentLanguage) {
       log("Saving current language before unload:", gtTranslateSettings.currentLanguage);
       setLanguageCookies(gtTranslateSettings.currentLanguage);
