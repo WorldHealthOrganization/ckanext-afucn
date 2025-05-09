@@ -71,6 +71,31 @@
           </div>
           {% endif %}
         </div>
+
+        <!-- New row for vaccine coverage chart and empty spaces -->
+        <div class="row echart-grid-row">
+          {% set vaccine_dataset_slug = 'ri_coverage_all_antigens' %}
+          {% if h.check_access('package_show', {'id': vaccine_dataset_slug}) %}
+          <div class="col-md-4 echart-test-section">
+            {% set vaccine_chart_id = 'group-vaccine-coverage-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/vaccine_coverage_chart.html',
+                       instance_id=vaccine_chart_id,
+                       dataset_slug=vaccine_dataset_slug,
+                       title=_('Vaccine Coverage 2024'),
+                       filters={'SpatialDim': group_dict.name},
+                       group_dict=group_dict %}
+          </div>
+          {% endif %}
+          
+          <!-- Two empty columns to complete the row -->
+          <div class="col-md-4 echart-test-section">
+            <!-- Empty space for future chart -->
+          </div>
+          
+          <div class="col-md-4 echart-test-section">
+            <!-- Empty space for future chart -->
+          </div>
+        </div>
       {% endif %}
 
       {{ super() }}
