@@ -1826,3 +1826,18 @@ ul.hierarchy-tree-top{
   position: relative;
   top: -1px;
 }
+
+/* This is to fix the modal being messed up by CKAN injecting a margin-top and top */
+/* Clear CKAN’s injected centering */
+.modal {
+  margin-top: unset !important;
+  top:        0 !important;
+}
+
+/* Re-center dialogs via transform, not margin */
+.modal-dialog {
+  position: absolute;   /* or relative, depending on your Bootstrap version */
+  top:      50%;
+  left:     50%;
+  transform: translate(-50%, -50%) !important;
+}

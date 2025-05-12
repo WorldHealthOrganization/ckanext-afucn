@@ -47,7 +47,7 @@
   max-width: 420px;
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(15, 45, 91, 0.08);
+  box-shadow: 0 8px 32px rgba(15, 45, 91, 0.16);
   position: relative;
   overflow: hidden;
 }
@@ -215,10 +215,10 @@
 .login-container .btn-default {
   width: 100%;
   padding: 1rem;
-  background: #ffffff;
-  border: 1.5px solid #E0E0E0;
+  background-color: #ffffff;
+  border: 1.5px solid #008DC9;
   border-radius: 8px;
-  color: #0F2D5B;
+  color: #008DC9;
   font-weight: 600;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -249,15 +249,32 @@
 }
 
 .login-container .btn-default:hover {
-  background: #F5F5F5;
-  border-color: #008DC9;
-  color: #008DC9;
+  background-color: #F5F5F5 !important;
+  border: 1.5px solid #0f2d5b !important;
+  color: #0f2d5b !important;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(15, 45, 91, 0.1);
 }
 
 .login-container .btn-default:hover::before {
   left: 100%;
+}
+
+.login-container .btn-default::after {
+  content: "\f577";               /* unicode for fa-user-shield */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;               /* 900 = solid */
+  position: absolute;
+  left: 1rem;                     /* place it inside your added padding */
+  top: 50%;
+  transform: translateY(-50%);
+  speak: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 1.1rem;              /* adjust to taste */
+  pointer-events: none;
 }
 
 .login-container .login-actions {
