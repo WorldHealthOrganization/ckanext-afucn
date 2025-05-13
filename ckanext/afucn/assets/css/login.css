@@ -4,15 +4,16 @@
   justify-content: center;
   gap: 6rem;
   max-width: 1000px;
-  margin: 3rem auto;
+  margin: 2rem auto;
   padding: 0 2rem;
   position: relative;
+  overflow: visible;
 }
 
 .login-container::after {
   content: '';
   position: absolute;
-  left: 50%;
+  left: 45%;
   top: 50%;
   transform: translate(-50%, -50%);
   height: 60%;
@@ -28,18 +29,23 @@
 
 .login-container .login-illustration {
   flex: 1;
-  max-width: 400px;
+  max-width: 550px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-right: 2rem;
+  margin-left: -200px;
+  position: relative;
+  z-index: 1;
+  height: 646px; /* Match login module height */
 }
 
 .login-container .illustration-image {
   width: 100%;
-  height: auto;
-  max-height: 500px;
   object-fit: contain;
+  object-position: center;
+  border-radius: 5px;
+  box-shadow: 0 8px 32px rgba(15, 45, 91, 0.5);
 }
 
 .login-container .login-module {
@@ -50,43 +56,58 @@
   box-shadow: 0 8px 32px rgba(15, 45, 91, 0.16);
   position: relative;
   overflow: hidden;
+  z-index: 2;
 }
 
 .login-container .login-module::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
   background: 
-    radial-gradient(circle at 50% 50%, #E6F4F9 0%, transparent 50%),
-    linear-gradient(45deg, transparent 0%, rgba(0, 141, 201, 0.03) 50%, transparent 100%);
-  animation: wave 15s linear infinite;
+    radial-gradient(circle at 50% 50%, #E6F4F9 0%, transparent 60%),
+    linear-gradient(45deg, transparent 0%, rgba(0, 141, 201, 0.08) 50%, transparent 100%),
+    linear-gradient(-45deg, transparent 0%, rgba(15, 45, 91, 0.03) 50%, transparent 100%);
+  animation: wave 12s ease-in-out infinite;
   z-index: 0;
+  opacity: 0.9;
+  filter: blur(1px);
 }
 
 @keyframes wave {
   0% {
     transform: rotate(0deg) scale(1);
+    opacity: 0.9;
+  }
+  25% {
+    transform: rotate(90deg) scale(1.04);
+    opacity: 1;
   }
   50% {
-    transform: rotate(180deg) scale(1.1);
+    transform: rotate(180deg) scale(1.08);
+    opacity: 0.9;
+  }
+  75% {
+    transform: rotate(270deg) scale(1.04);
+    opacity: 1;
   }
   100% {
     transform: rotate(360deg) scale(1);
+    opacity: 0.9;
   }
 }
 
 .login-container .login-module .module-content {
-  padding: 2.5rem;
+  padding: 2rem;
   position: relative;
   z-index: 1;
 }
 
 .login-container .login-module .page-heading {
   font-size: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
   color: #0F2D5B;
   font-weight: 600;
@@ -107,7 +128,7 @@
 }
 
 .login-container .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .login-container .form-label {
@@ -161,7 +182,7 @@
 }
 
 .login-container .form-actions {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -278,8 +299,8 @@
 }
 
 .login-container .login-actions {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
   border-top: 1px solid #F5F5F5;
   text-align: center;
 }
@@ -316,11 +337,18 @@
   opacity: 0.5;
 }
 
+/* Add responsive breakpoints for different screen sizes */
+@media (max-width: 1200px) {
+  .login-container {
+    gap: 0rem;
+  }
+
 @media (max-width: 900px) {
   .login-container {
     flex-direction: column;
-    gap: 3rem;
+    gap: 2rem;
     padding: 0 1rem;
+    overflow: hidden;
   }
 
   .login-container::after {
@@ -328,8 +356,12 @@
   }
 
   .login-container .login-illustration {
-    max-width: 300px;
-    padding-right: 0;
+    display: none;
+    margin-left: 0;
+  }
+
+  .login-container .login-module {
+    max-width: 100%;
   }
 
   .login-container .illustration-image {
@@ -344,7 +376,7 @@
   }
   
   .login-container .login-module .module-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
   
   .login-container .login-module .page-heading {
