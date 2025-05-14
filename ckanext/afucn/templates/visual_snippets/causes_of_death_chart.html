@@ -110,7 +110,9 @@
     return {
       title: {
         // Main titleis from echart_viz.html via 'title' prop
-        left: 'center'
+        subtext: 'Categorized by age group',
+        left: 'left',
+        top: '-16px' // Adjust this value as needed (e.g., '0px', '10px') to fine-tune position
       },
       tooltip: {
         trigger: 'axis',
@@ -149,7 +151,7 @@
         left: '1%',   // User preference
         right: '5%',  // User preference
         bottom: '10%', // Adjusted for legend (was 7%, increased to make space)
-        top: '5%',    // User preference
+        top: '7%',    // User preference
         containLabel: true
       },
       xAxis: {
