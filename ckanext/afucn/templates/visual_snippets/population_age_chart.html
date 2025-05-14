@@ -97,7 +97,7 @@
     // Return ECharts options object for a column (bar) chart
     return {
          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-         grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+         grid: { left: '3%', right: '4%', bottom: '0%', top: '3%', containLabel: true },
          xAxis: { type: 'category', data: categories, axisLabel: { interval: 0, rotate: 30 } }, // Rotate labels if they overlap
          yAxis: {
             type: 'value',
