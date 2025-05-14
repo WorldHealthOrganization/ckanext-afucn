@@ -1,0 +1,186 @@
+{% extends "visual_snippets/echart_viz.html" %}
+
+{% block chart_options_script %}
+<script>
+  function getChartOptions(filteredData, titleFromSnippet) {
+    // 1. Filter out "All age groups" (user-specified string)
+    const ageSpecificData = filteredData.filter(item => item.Dim2 !== "All ages");
+
+    // Process data: round NumericValue and identify key fields
+    const processedData = ageSpecificData.map(item => {
+      const numericValue = EchartsViz.utils.normalizeValue(item.NumericValue);
+      const roundedValue = (numericValue !== null && !isNaN(numericValue)) ? Math.round(numericValue * 100) / 100 : null;
+      const isValidValue = roundedValue !== null;
+      return {
+        cause: item.Dim3 || 'Unknown Cause',
+        ageGroup: item.Dim2 || 'Unknown Age Group',
+        value: isValidValue ? roundedValue : 0, // Use 0 for stacking if data is invalid/missing
+        isValidValue: isValidValue
+      };
+    });
+
+    // 2. Get unique causes (Dim3) and age groups (Dim2)
+    const uniqueCausesList = [...new Set(processedData.map(item => item.cause))];
+    let uniqueAgeGroups = [...new Set(processedData.map(item => item.ageGroup))];
+
+    // Define custom sort order for age groups
+    const ageGroupSortOrder = [
+      "0-4",
+      "5-14",
+      "15-29",
+      "30-49",
+      "50-59",
+      "60-69",
+      "70+"
+      // Add any other expected age groups here in the desired order
+    ];
+
+    uniqueAgeGroups.sort((a, b) => {
+      const indexA = ageGroupSortOrder.indexOf(a);
+      const indexB = ageGroupSortOrder.indexOf(b);
+
+      // If both are in the sort order list, sort by their index
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+      // If only A is in the sort order list, A comes first
+      if (indexA !== -1) {
+        return -1;
+      }
+      // If only B is in the sort order list, B comes first
+      if (indexB !== -1) {
+        return 1;
+      }
+      // If neither are in the sort order list, maintain original relative order (or sort alphabetically as fallback)
+      return a.localeCompare(b); // Fallback to alphabetical for unknown groups
+    });
+
+    // Calculate total value for each cause to sort the Y-axis
+    const causeTotals = {};
+    uniqueCausesList.forEach(cause => {
+      causeTotals[cause] = 0;
+      processedData.forEach(item => {
+        if (item.cause === cause) {
+          causeTotals[cause] += item.value;
+        }
+      });
+    });
+
+    const sortedCauses = Object.entries(causeTotals)
+      .sort(([, a], [, b]) => b - a) // Sort by total value descending
+      .map(([cause]) => cause);
+
+    // 4. Create series data for ECharts (one series per age group)
+    const series = uniqueAgeGroups.map((ageGroup, ageGroupIndex) => {
+      const dataForAgeGroup = sortedCauses.map(cause => {
+        const matchingItem = processedData.find(item => item.cause === cause && item.ageGroup === ageGroup);
+        return matchingItem ? matchingItem.value : 0;
+      });
+      const seriesConfig = {
+        name: ageGroup,
+        type: 'bar',
+        stack: 'total', // Key for stacking
+        emphasis: {
+          focus: 'series'
+        },
+        data: dataForAgeGroup
+      };
+
+      // Add total label only to the last series in the stack
+      if (ageGroupIndex === uniqueAgeGroups.length - 1) {
+        seriesConfig.label = {
+          show: true,
+          position: 'right',
+          formatter: function(params) {
+            // params.dataIndex corresponds to the index in sortedCauses
+            const causeName = sortedCauses[params.dataIndex];
+            const total = causeTotals[causeName];
+            if (total > 0) {
+              // Ensure rounding for display
+              return Math.round(total * 100) / 100;
+            }
+            return ''; // Return empty string if total is 0 or less
+          },
+          fontSize: 11, // Adjusted font size for clarity
+        };
+      }
+      return seriesConfig;
+    });
+
+    return {
+      title: {
+        // Main titleis from echart_viz.html via 'title' prop
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow' // Shadow makes it clear which category is hovered
+        },
+        formatter: function(params) {
+          // params is an array of series points for the hovered category (cause)
+          const causeName = params[0].name; // Get cause name from the first series
+          let tooltipContent = `Disease: ${causeName}<br/><strong>Age Groups:</strong><br/>`;
+          let currentTotalForTooltip = 0;
+
+          params.forEach(param => {
+            const seriesName = param.seriesName; // Age group
+            const value = parseFloat(param.value);
+            const displayValue = !isNaN(value) ? (Math.round(value * 100) / 100) : 'No data';
+            tooltipContent += `<strong>${seriesName}:</strong> ${displayValue}<br/>`;
+            if (!isNaN(value)) {
+                currentTotalForTooltip += value; // Summing for display, though causeTotals is primary
+            }
+          });
+          
+          // Use pre-calculated causeTotals for the definitive total, ensuring rounding for display
+          const overallTotal = causeTotals[causeName] !== undefined ? (Math.round(causeTotals[causeName] * 100) / 100) : 'N/A';
+          tooltipContent += `<strong>Total Deaths per 100,000: ${overallTotal}</strong>`;
+          
+          return tooltipContent;
+        }
+      },
+      legend: {
+        data: uniqueAgeGroups,
+        bottom: '0%', // Position legend at the bottom
+        type: 'scroll' // In case of many age groups  
+      },
+      grid: {
+        left: '1%',   // User preference
+        right: '5%',  // User preference
+        bottom: '10%', // Adjusted for legend (was 7%, increased to make space)
+        top: '5%',    // User preference
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        name: 'Deaths per 100,000',
+        nameLocation: 'middle',
+        nameGap: 20, // Adjusted slightly for legend at bottom
+        nameTextStyle: { // Added to control the style of the axis name
+          color: '#888' // A common dark grey for better visibility
+        },
+        axisLabel: {
+          formatter: '{value}'
+        }
+      },
+      yAxis: {
+        type: 'category',
+        data: sortedCauses, // Y-axis categories (causes, sorted by total deaths)
+        inverse: true, // To have the cause with the highest total at the top
+        axisLabel: {
+          interval: 0,
+          rotate: 0,
+          formatter: function (value) {
+            if (value.length > 30) { // Basic text wrapping
+                return value.substring(0, 27) + '...';
+            }
+            return value;
+          }
+        }
+      },
+      series: series
+    };
+  }
+</script>
+{% endblock chart_options_script %} 
