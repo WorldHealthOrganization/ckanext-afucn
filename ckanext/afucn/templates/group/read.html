@@ -76,12 +76,12 @@
         <div class="row echart-grid-row">
           {% set vaccine_dataset_slug = 'ri_coverage_all_antigens' %}
           {% if h.check_access('package_show', {'id': vaccine_dataset_slug}) %}
-          <div class="col-md-4 echart-test-section">
+          <div class="col-md-7 echart-test-section">
             {% set vaccine_chart_id = 'group-vaccine-coverage-' ~ group_dict.name|lower|replace(' ', '-') %}
             {% snippet 'visual_snippets/vaccine_coverage_chart.html',
                        instance_id=vaccine_chart_id,
                        dataset_slug=vaccine_dataset_slug,
-                       title=_('Immunization Coverage (2024)'),
+                       title=_('Vaccine Coverage Over Time by Antigen'),
                        filters={'SpatialDim': group_dict.name},
                        group_dict=group_dict %}
           </div>
@@ -89,7 +89,7 @@
           
           {% set causes_dataset_slug = 'vpd-causes-of-death' %}
           {% if h.check_access('package_show', {'id': causes_dataset_slug}) %}
-          <div class="col-md-4 echart-test-section">
+          <div class="col-md-5 echart-test-section">
             {% set causes_chart_id = 'group-causes-death-' ~ group_dict.name|lower|replace(' ', '-') %}
             {% snippet 'visual_snippets/causes_of_death_chart.html',
                        instance_id=causes_chart_id,
@@ -99,15 +99,7 @@
                        group_dict=group_dict %}
           </div>
           {% else %}
-          <!-- Two empty columns to complete the row -->
-          <div class="col-md-4 echart-test-section">
-            <!-- Empty space for future chart -->
-          </div>
           {% endif %}
-          
-          <div class="col-md-4 echart-test-section">
-            <!-- Empty space for future chart -->
-          </div>
         </div>
       {% endif %}
 
