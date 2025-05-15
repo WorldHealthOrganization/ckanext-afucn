@@ -107,9 +107,9 @@
     return {
       title: {
         // Main titleis from echart_viz.html via 'title' prop
-        subtext: 'Categorized by age group',
+        subtext: 'Categorized by age group:',
         left: 'left',
-        top: '-16px' // Adjust this value as needed (e.g., '0px', '10px') to fine-tune position
+        top: '-14px' // Adjust this value as needed (e.g., '0px', '10px') to fine-tune position
       },
       tooltip: {
         trigger: 'axis',
@@ -141,23 +141,24 @@
       },
       legend: {
         data: uniqueAgeGroups,
-        bottom: '0%', // Position legend at the bottom
-        type: 'scroll' // In case of many age groups  
+        top: '-5px', // Position legend below title/subtitle and custom legend title
+        type: 'scroll',
+        left: '160px'
       },
       grid: {
         left: '1%',   // User preference
         right: '5%',  // User preference
-        bottom: '10%', // Adjusted for legend (was 7%, increased to make space)
-        top: '7%',    // User preference
+        bottom: '5%', // User preference (was adjusted for bottom legend)
+        top: '7%',    // Increased significantly to make space for legend at top
         containLabel: true
       },
       xAxis: {
         type: 'value',
         name: 'Deaths per 100,000',
         nameLocation: 'middle',
-        nameGap: 20, // Adjusted slightly for legend at bottom
+        nameGap: 25, // Reset to a positive value for appropriate spacing below x-axis line
         nameTextStyle: { // Added to control the style of the axis name
-          color: '#888' // A common dark grey for better visibility
+          color: '#888' // User preference
         },
         axisLabel: {
           formatter: '{value}'

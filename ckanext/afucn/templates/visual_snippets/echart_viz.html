@@ -20,21 +20,11 @@
                           and returns a valid ECharts options object.
 -#}
 {% if not instance_id %}
-  {% set _ = log.error('EChart snippet requires a unique `instance_id` parameter.') %}
-  {# Render nothing or an error message if ID is missing #}
-  <div class="echart-viz-container error">
-    <div class="echart-viz-error">
-      <p>Error: Chart instance ID missing.</p>
-    </div>
-  </div>
+  {% set _ = log.error('EChart snippet: `instance_id` is required but was not provided.') %}
+  <!-- EChart Viz: Critical error - instance_id missing. Chart not rendered. -->
 {% elif not dataset_slug %}
-  {# ... error handling for missing dataset_slug ... #}
-   <div id="{{ instance_id }}" class="echart-viz-container error">
-     <div class="echart-viz-title">{{ title or _('ECharts Visualization') }}</div>
-     <div class="echart-viz-error">
-       <p>Error: Dataset slug missing.</p>
-     </div>
-   </div>
+  {% set _ = log.error('EChart snippet: `dataset_slug` is required but was not provided for instance_id: ' ~ instance_id ~ '. Chart not rendered.') %}
+  <!-- EChart Viz ({{ instance_id if instance_id else "unknown" }}): Critical error - dataset_slug missing. Chart not rendered. -->
 {% else %}
   {# Proceed only if instance_id and dataset_slug are provided #}
   {% set chart_title = title or _('ECharts Visualization') %}
@@ -92,9 +82,10 @@
         const datasetSlug = {{ dataset_slug|tojson|safe }};
         const chartTitle = {{ title|tojson|safe }};
 
+        const container = document.getElementById(instanceId);
+
         // Retrieve filters from the dedicated script tag
         let chartFilters = {};
-        const container = document.getElementById(instanceId); // Need container to find script tag
         if (container) {
             const filtersScriptTag = container.querySelector('script.echart-viz-filters-data');
             if (filtersScriptTag) {
@@ -106,12 +97,20 @@
                     // Optionally show error in UI
                 }
             }
+        } else {
+            // This should ideally not be reached if the Jinja logic correctly prevents rendering
+            // when instanceId is missing, but as a fallback:
+            console.error(`EchartsViz (${instanceId || "unknown"}): Main container element not found. Critical error.`);
+            return; // Cannot proceed
         }
 
         // Check if the required getChartOptions function was defined (by the block above)
         if (typeof getChartOptions !== 'function') {
              console.error(`EchartsViz (${instanceId}): Missing required getChartOptions function definition in snippet.`);
-             if (container) EchartsViz.ui.setError(instanceId, 'Chart config function missing.');
+             if (container) {
+                 // EchartsViz.ui.setError(instanceId, 'Chart config function missing.'); // Original behavior
+                 container.style.display = 'none'; // Hide the container
+             }
              return;
         }
         // Capture the function specific to this scope/instance
@@ -130,20 +129,26 @@
         // Call the initializer after the DOM is ready (using jQuery if available)
         if (typeof jQuery !== 'undefined') {
             jQuery(document).ready(function() {
-                if (typeof EchartsViz !== 'undefined') {
+                if (typeof EchartsViz !== 'undefined' && typeof EchartsViz.init === 'function') {
                     EchartsViz.init(instanceId, vizConfig);
                 } else {
-                    console.error(`EchartsViz (${instanceId}): Core library not loaded.`);
-                    if (container) EchartsViz.ui.setError(instanceId, 'Core library missing.');
+                    console.error(`EchartsViz (${instanceId}): Core library EchartsViz or EchartsViz.init not loaded.`);
+                    if (container) {
+                        // EchartsViz.ui.setError(instanceId, 'Core library missing.'); // Original behavior
+                        container.style.display = 'none'; // Hide the container
+                    }
                 }
             });
         } else {
             document.addEventListener('DOMContentLoaded', function() {
-                 if (typeof EchartsViz !== 'undefined') {
+                 if (typeof EchartsViz !== 'undefined' && typeof EchartsViz.init === 'function') {
                     EchartsViz.init(instanceId, vizConfig);
                  } else {
-                    console.error(`EchartsViz (${instanceId}): Core library not loaded.`);
-                    if (container) EchartsViz.ui.setError(instanceId, 'Core library missing.');
+                    console.error(`EchartsViz (${instanceId}): Core library EchartsViz or EchartsViz.init not loaded.`);
+                    if (container) {
+                        // EchartsViz.ui.setError(instanceId, 'Core library missing.'); // Original behavior
+                        container.style.display = 'none'; // Hide the container
+                    }
                  }
             });
         }
