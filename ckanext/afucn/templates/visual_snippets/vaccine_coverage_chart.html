@@ -3,103 +3,225 @@
 {% block chart_options_script %}
 <script>
   function getChartOptions(filteredData, title) {
-    // The filters are already applied to filteredData via the EchartsViz.data.filterData method
-    // So we just need to filter for year 2024 here
-    const data2024 = filteredData.filter(item => item.TimeDim == 2024);
-    
-    // Process data for chart
-    const chartData = data2024.map(item => {
-      // Check if the value is missing or zero
-      const numericValue = EchartsViz.utils.normalizeValue(item.NumericValue);
-      const isValidValue = numericValue !== null && numericValue !== 0;
-      
-      return {
-        antigen: item.Antigen || 'Unknown',
-        value: isValidValue ? numericValue : '-', // Use '-' as a marker for missing data
-        vaccineName: item.VaccineName || 'Not specified',
-        isValidValue: isValidValue
-      };
+    // Basic data validation
+    if (!filteredData || !Array.isArray(filteredData)) {
+        console.warn("EchartsViz (Vaccine Coverage): Filtered data is null, undefined, or not an array. Cannot render chart.", filteredData);
+        return { // Return a minimal, empty chart configuration
+            title: { text: title || 'Vaccine Coverage Heatmap', left: 'center' },
+            series: [] 
+        };
+    }
+
+    // 1. Extract unique antigens and years
+    const antigensSet = new Set();
+    const yearsSet = new Set();
+    filteredData.forEach(item => {
+        if (item && item.Antigen) antigensSet.add(item.Antigen);
+        if (item && item.TimeDim !== null && item.TimeDim !== undefined) yearsSet.add(String(item.TimeDim));
     });
-    
-    // Sort by value descending for better visualization
-    // Put valid values at the top (higher in the chart), then null values
-    chartData.sort((a, b) => {
-      if (a.isValidValue && !b.isValidValue) return -1;
-      if (!a.isValidValue && b.isValidValue) return 1;
-      if (a.isValidValue && b.isValidValue) return b.value - a.value;
-      return 0;
+
+    const sortedAntigens = Array.from(antigensSet).sort();
+    const sortedYears = Array.from(yearsSet).sort((a, b) => Number(a) - Number(b));
+
+    if (sortedAntigens.length === 0 || sortedYears.length === 0) {
+        console.warn("EchartsViz (Vaccine Coverage): No valid antigens or years extracted from data. Cannot render chart.");
+        return {
+            title: { text: title || 'Vaccine Coverage Heatmap', left: 'center' },
+            xAxis: { type: 'category', data: sortedYears },
+            yAxis: { type: 'category', data: sortedAntigens },
+            series: []
+        };
+    }
+
+    // 2. Prepare data for the custom series
+    const chartData = [];
+    filteredData.forEach(item => {
+        if (item && item.TimeDim !== null && item.TimeDim !== undefined && item.Antigen) {
+            const numericValue = EchartsViz.utils.normalizeValue(item.NumericValue);
+            chartData.push([
+                String(item.TimeDim), // X-axis category (Year)
+                item.Antigen,         // Y-axis category (Antigen)
+                numericValue,         // Value for pie
+                item.VaccineName || 'Not specified' // For tooltip
+            ]);
+        }
     });
-    
-    // Prepare data for chart
-    const antigens = chartData.map(item => item.antigen);
-    const values = chartData.map(item => item.isValidValue ? item.value : 0); // Use 0 for rendering (makes bars invisible)
-    
+
+    if (chartData.length === 0) {
+        console.warn("EchartsViz (Vaccine Coverage): Chart data array is empty after processing. No data points will be rendered.");
+        // Still return a chart structure so it doesn't break the UI entirely
+    }
+
+    const whoBlue = '#008DC999'; // User customized
+    const dataGray = '#eee';      // User customized
+    const noDataColor = '#f5f5f5';
+
+    let maxYAxisNameGap = 50;
+    if (sortedAntigens.length > 0) {
+        const longestAntigenNameLength = sortedAntigens.reduce((max, name) => Math.max(max, name ? name.length : 0), 0);
+        maxYAxisNameGap = Math.max(maxYAxisNameGap, longestAntigenNameLength * 6 + 20); // Heuristic
+    }
+
     return {
-      tooltip: {
-        trigger: 'axis',
-        formatter: function(params) {
-          const dataIndex = params[0].dataIndex;
-          const item = chartData[dataIndex];
-          
-          if (item.isValidValue) {
-            return `${item.antigen}<br/>
-                    Value: ${item.value}%<br/>
-                    Vaccine: ${item.vaccineName}`;
-          } else {
-            return `${item.antigen}<br/>
-                    Value: No data<br/>
-                    Vaccine: ${item.vaccineName}`;
-          }
+        title: {
+            // text: title || 'Vaccine Coverage Heatmap', // User removed
+            left: 'center'
         },
-        axisPointer: {
-          type: 'shadow'
-        }
-      },
-      grid: {
-        left: '5%',
-        right: '5%',
-        bottom: '10%',
-        top: '5%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'value',
-        name: 'Coverage (%)',
-        nameLocation: 'middle',
-        nameGap: 30,
-        max: 100,
-        axisLabel: {
-          formatter: '{value}%'
-        },
-        nameTextStyle: { // Added to control the style of the axis name
-          color: '#888' // A common dark grey for better visibility
-        }
-      },
-      yAxis: {
-        type: 'category',
-        data: antigens,
-        inverse: true, // Inverse the order of the y-axis
-        axisLabel: {
-          interval: 0,
-          rotate: 0
-        }
-      },
-      series: [
-        {
-          name: 'Coverage',
-          type: 'bar',
-          data: values,
-          label: {
-            show: true,
-            position: 'right',
+        tooltip: {
+            trigger: 'item',
+            confine: true,
             formatter: function(params) {
-              // Show "No data" for items with invalid values
-              const item = chartData[params.dataIndex];
-              return item.isValidValue ? `${params.value}%` : 'No data';
+                if (!params || !params.data || !Array.isArray(params.data) || params.data.length < 3) {
+                     return 'Invalid data for this cell';
+                }
+                const [year, antigen, value, vaccineName] = params.data;
+                let valueDisplay = 'No data';
+                if (value !== null && value !== undefined && !isNaN(value)) {
+                    valueDisplay = `${value}%`;
+                }
+                return `<b>Antigen:</b> ${antigen || 'Unknown'}<br/>` +
+                       `<b>Year:</b> ${year || 'Unknown'}<br/>` +
+                       `<b>Coverage:</b> ${valueDisplay}<br/>` +
+                       `<b>Vaccine:</b> ${vaccineName || 'Not specified'}`;
             }
-          }
-        }
-      ]
+        },
+        grid: { // User customized
+            left: '1%',
+            right: '5%',
+            bottom: '1%',
+            top: '1%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: sortedYears,
+            // name: 'Year', // User removed
+            // nameLocation: 'middle', // User removed
+            // nameGap: 30, // User removed
+            splitLine: {
+                show: true,
+                lineStyle: { color: '#e0e0e0' }
+            },
+            axisTick: { alignWithLabel: true },
+            axisLabel: {
+                interval: 0,
+                rotate: sortedYears.length > 12 ? 30 : 0
+            }
+        },
+        yAxis: {
+            type: 'category',
+            data: sortedAntigens,
+            // name: 'Antigen', // User removed
+            // nameLocation: 'middle', // User removed
+            // nameGap: maxYAxisNameGap, // User removed
+            inverse: true,
+            axisLabel: {
+                interval: 0,
+                formatter: function (value) {
+                    if (typeof value !== 'string') return '';
+                    return value.length > 25 ? value.substring(0, 22) + '...' : value;
+                }
+            }
+        },
+        series: [{
+            name: 'VaccineCoverage',
+            type: 'custom',
+            data: chartData,
+            progressive: chartData.length > 200 ? 50 : 0,
+            animation: false,
+            renderItem: function (params, api) {
+                const yearIndex = api.value(0);
+                const antigenIndex = api.value(1);
+                const numericValue = api.value(2);
+
+                // Validate indices and category names
+                if (yearIndex === undefined || yearIndex === null || yearIndex < 0 || yearIndex >= sortedYears.length ||
+                    antigenIndex === undefined || antigenIndex === null || antigenIndex < 0 || antigenIndex >= sortedAntigens.length) {
+                    console.warn(`EchartsViz (Vaccine Coverage) renderItem: Invalid year/antigen index. yearIndex=${yearIndex}, antigenIndex=${antigenIndex}`);
+                    return; // Skip rendering this item
+                }
+                const yearCategoryName = sortedYears[yearIndex];
+                const antigenCategoryName = sortedAntigens[antigenIndex];
+
+                if (!yearCategoryName || !antigenCategoryName) {
+                    console.warn(`EchartsViz (Vaccine Coverage) renderItem: Missing category name. year='${yearCategoryName}', antigen='${antigenCategoryName}'`);
+                    return; // Skip rendering this item
+                }
+
+                const center = api.coord([yearCategoryName, antigenCategoryName]);
+                if (!center) {
+                    // This warning is helpful if coordinates can't be resolved
+                    console.warn(`EchartsViz (Vaccine Coverage) renderItem: center is null for ['${yearCategoryName}', '${antigenCategoryName}'], cannot render item.`);
+                    return;
+                }
+
+                let cellWidth = 30, cellHeight = 30;
+                if (api.coordSystem && typeof api.coordSystem.getAxis === 'function') {
+                    const xAxis = api.coordSystem.getAxis('x');
+                    const yAxis = api.coordSystem.getAxis('y');
+                    if (xAxis && typeof xAxis.getBandWidth === 'function') {
+                        const bw = xAxis.getBandWidth();
+                        if (bw > 0) cellWidth = bw;
+                    }
+                    if (yAxis && typeof yAxis.getBandWidth === 'function') {
+                        const bh = yAxis.getBandWidth();
+                        if (bh > 0) cellHeight = bh;
+                    }
+                }
+
+                const R = Math.min(cellWidth, cellHeight) / 2 * 0.85;
+
+                if (R <= 1) {
+                    if (numericValue !== null && numericValue !== undefined && !isNaN(numericValue)) {
+                        return { type: 'circle', shape: { cx: center[0], cy: center[1], r: 2 }, style: { fill: whoBlue }};
+                    }
+                    return; // Skip rendering if too small and no valid data
+                }
+
+                if (numericValue === null || numericValue === undefined || isNaN(numericValue)) {
+                    return {
+                        type: 'rect',
+                        shape: { x: center[0] - Math.min(R, cellWidth/2 * 0.85)/2 , y: center[1] - Math.min(R, cellHeight/2 * 0.85)/2,
+                                 width: Math.min(R, cellWidth/2 * 0.85), height: Math.min(R, cellHeight/2 * 0.85) },
+                        style: { fill: noDataColor, stroke: '#ccc', lineWidth: 0.5 }
+                    };
+                }
+
+                const valueForPie = Math.max(0, Math.min(numericValue, 100));
+                const bluePartProportion = valueForPie / 100;
+
+                let children = [];
+                const startAngle = -Math.PI / 2;
+
+                if (bluePartProportion > 0) {
+                    children.push({
+                        type: 'sector',
+                        shape: {
+                            cx: center[0], cy: center[1], r0: 0, r: R,
+                            startAngle: startAngle,
+                            endAngle: startAngle + bluePartProportion * Math.PI * 2,
+                            clockwise: true
+                        },
+                        style: { fill: whoBlue }
+                    });
+                }
+
+                if (bluePartProportion < 1) {
+                    children.push({
+                        type: 'sector',
+                        shape: {
+                            cx: center[0], cy: center[1], r0: 0, r: R,
+                            startAngle: startAngle + bluePartProportion * Math.PI * 2,
+                            endAngle: startAngle + Math.PI * 2,
+                            clockwise: true
+                        },
+                        style: { fill: dataGray }
+                    });
+                }
+                
+                return { type: 'group', children: children };
+            }
+        }]
     };
   }
 </script>
