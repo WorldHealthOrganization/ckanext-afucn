@@ -5,10 +5,20 @@
   function getChartOptions(filteredData, title) {
     // Configuration for pie chart appearance
     const pieChartSizeMultiplier = 0.65; // Adjust this value (e.g., 0.5 for smaller, 0.8 for larger pies)
-    const whoBlue = '#008DC999'; // User customized
-    const dataGray = '#eee';      // User customized
-    const noDataColor = '#f5f5f5';
-    const whoBlueHover = '#0F2D5B'; // Color for blue part on hover
+    
+    // Base Colors
+    const dataGray = '#eee';      // For the remainder of the pie
+    const noDataColor = '#f5f5f5'; // For cells with no data
+
+    // Conditional Colors for Value (Walden theme inspired) - User updated
+    const valueHighColor = '#90D3FB';      // >= 90%
+    const valueMediumColor = '#F4A81D';    // >= 50% & < 90%
+    const valueLowColor = '#F26829';       // < 50%
+
+    // Conditional Hover Colors for Value (Walden theme inspired)
+    const valueHighHoverColor = '#45C8CA';   // Darker version of valueHighColor
+    const valueMediumHoverColor = '#F0C940'; // Darker version of valueMediumColor
+    const valueLowHoverColor = '#F08060';    // Darker version of valueLowColor
 
     // Basic data validation
     if (!filteredData || !Array.isArray(filteredData)) {
@@ -56,7 +66,6 @@
 
     if (chartData.length === 0) {
         console.warn("EchartsViz (Vaccine Coverage): Chart data array is empty after processing. No data points will be rendered.");
-        // Still return a chart structure so it doesn't break the UI entirely
     }
 
     let maxYAxisNameGap = 50;
@@ -67,8 +76,9 @@
 
     return {
         title: {
-            // text: title || 'Vaccine Coverage Heatmap', // User removed
-            left: 'center'
+            left: 'left',
+            top: '-14px', // Small padding from top
+            subtext: 'Coverage %:'
         },
         tooltip: {
             trigger: 'item',
@@ -88,19 +98,16 @@
                        `<b>Vaccine:</b> ${vaccineName || 'Not specified'}`;
             }
         },
-        grid: { // User customized
+        grid: { 
             left: '1%',
             right: '5%',
-            bottom: '1%',
-            top: '1%',
+            bottom: '5%',  // Reduced as legend moved to top
+            top: '22px',   // Increased to make space for title, subtext, and visualMap
             containLabel: true
         },
         xAxis: {
             type: 'category',
             data: sortedYears,
-            // name: 'Year', // User removed
-            // nameLocation: 'middle', // User removed
-            // nameGap: 30, // User removed
             splitLine: {
                 show: true,
                 lineStyle: { color: '#e0e0e0' }
@@ -114,9 +121,6 @@
         yAxis: {
             type: 'category',
             data: sortedAntigens,
-            // name: 'Antigen', // User removed
-            // nameLocation: 'middle', // User removed
-            // nameGap: maxYAxisNameGap, // User removed
             inverse: true,
             axisLabel: {
                 interval: 0,
@@ -126,38 +130,55 @@
                 }
             }
         },
+        visualMap: {
+            type: 'piecewise',
+            orient: 'horizontal',
+            left: '90px',  // Align with title/subtext block
+            top: '-5px',   // Position below the title and subtext
+            show: true,
+            dimension: 2, // Apply to the third data item (numericValue)
+            pieces: [
+                { gte: 90, label: '≥ 90%', color: valueHighColor },
+                { gte: 50, lt: 90, label: '50% - 89.9%', color: valueMediumColor },
+                { lt: 50, label: '< 50%', color: valueLowColor } 
+            ],
+            textStyle: { // For legend item labels
+                color: '#888' // User specified
+            },
+            itemWidth: 20,
+            itemHeight: 14,
+            itemGap: 10
+        },
         series: [{
             name: 'VaccineCoverage',
             type: 'custom',
             data: chartData,
             progressive: chartData.length > 200 ? 50 : 0,
             animation: false,
-            emphasis: { // Added to enable hover effects on items
-                focus: 'self' // Highlight the item itself
+            emphasis: { 
+                focus: 'self' 
             },
             renderItem: function (params, api) {
                 const yearIndex = api.value(0);
                 const antigenIndex = api.value(1);
                 const numericValue = api.value(2);
 
-                // Validate indices and category names
                 if (yearIndex === undefined || yearIndex === null || yearIndex < 0 || yearIndex >= sortedYears.length ||
                     antigenIndex === undefined || antigenIndex === null || antigenIndex < 0 || antigenIndex >= sortedAntigens.length) {
-                    console.warn(`EchartsViz (Vaccine Coverage) renderItem: Invalid year/antigen index. yearIndex=${yearIndex}, antigenIndex=${antigenIndex}`);
-                    return; // Skip rendering this item
+                    // console.warn(`EchartsViz (Vaccine Coverage) renderItem: Invalid year/antigen index. yearIndex=${yearIndex}, antigenIndex=${antigenIndex}`);
+                    return; 
                 }
                 const yearCategoryName = sortedYears[yearIndex];
                 const antigenCategoryName = sortedAntigens[antigenIndex];
 
                 if (!yearCategoryName || !antigenCategoryName) {
-                    console.warn(`EchartsViz (Vaccine Coverage) renderItem: Missing category name. year='${yearCategoryName}', antigen='${antigenCategoryName}'`);
-                    return; // Skip rendering this item
+                    // console.warn(`EchartsViz (Vaccine Coverage) renderItem: Missing category name. year='${yearCategoryName}', antigen='${antigenCategoryName}'`);
+                    return; 
                 }
 
                 const center = api.coord([yearCategoryName, antigenCategoryName]);
                 if (!center) {
-                    // This warning is helpful if coordinates can't be resolved
-                    console.warn(`EchartsViz (Vaccine Coverage) renderItem: center is null for ['${yearCategoryName}', '${antigenCategoryName}'], cannot render item.`);
+                    // console.warn(`EchartsViz (Vaccine Coverage) renderItem: center is null for ['${yearCategoryName}', '${antigenCategoryName}'], cannot render item.`);
                     return;
                 }
 
@@ -176,17 +197,30 @@
                 }
 
                 const R = Math.min(cellWidth, cellHeight) / 2 * pieChartSizeMultiplier; 
+                
+                let currentFillColor = valueLowColor;
+                let currentHoverFillColor = valueLowHoverColor;
+
+                if (numericValue !== null && numericValue !== undefined && !isNaN(numericValue)) {
+                    if (numericValue >= 90) {
+                        currentFillColor = valueHighColor;
+                        currentHoverFillColor = valueHighHoverColor;
+                    } else if (numericValue >= 50) {
+                        currentFillColor = valueMediumColor;
+                        currentHoverFillColor = valueMediumHoverColor;
+                    }
+                }
 
                 if (R <= 1) {
                     if (numericValue !== null && numericValue !== undefined && !isNaN(numericValue)) {
                         return { 
                             type: 'circle', 
                             shape: { cx: center[0], cy: center[1], r: 2 }, 
-                            style: { fill: whoBlue },
-                            emphasis: { style: { fill: whoBlueHover } } // Hover for small circle too
+                            style: { fill: currentFillColor }, 
+                            emphasis: { style: { fill: currentHoverFillColor } } 
                         };
                     }
-                    return; // Skip rendering if too small and no valid data
+                    return; 
                 }
 
                 if (numericValue === null || numericValue === undefined || isNaN(numericValue)) {
@@ -195,7 +229,6 @@
                         shape: { x: center[0] - Math.min(R, cellWidth/2 * pieChartSizeMultiplier)/2 , y: center[1] - Math.min(R, cellHeight/2 * pieChartSizeMultiplier)/2,
                                  width: Math.min(R, cellWidth/2 * pieChartSizeMultiplier), height: Math.min(R, cellHeight/2 * pieChartSizeMultiplier) },
                         style: { fill: noDataColor, stroke: '#ccc', lineWidth: 0.5 }
-                        // No specific hover for 'no data' rect unless desired
                     };
                 }
 
@@ -214,10 +247,10 @@
                             endAngle: startAngle + bluePartProportion * Math.PI * 2,
                             clockwise: true
                         },
-                        style: { fill: whoBlue },
-                        emphasis: { // Style for the blue sector on hover
+                        style: { fill: currentFillColor }, 
+                        emphasis: { 
                             style: {
-                                fill: whoBlueHover
+                                fill: currentHoverFillColor 
                             }
                         }
                     });
@@ -233,7 +266,6 @@
                             clockwise: true
                         },
                         style: { fill: dataGray }
-                        // No specific hover for gray part unless desired
                     });
                 }
                 
