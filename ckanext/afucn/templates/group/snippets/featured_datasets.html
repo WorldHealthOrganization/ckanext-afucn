@@ -31,6 +31,15 @@
         {% if package.resources and package.resources|length > 0 %}
           {% set resource = package.resources[0] %}
 
+          <script>
+            (function() {
+              var packageName = {{ package.title | tojson }};
+              var packageUrl = {{ resource.url | tojson }};
+              var packagePriority = {{ package.get('priority') | default('N/A') | tojson }};
+              console.log("dataset {{ loop.index }}: name: " + packageName + ", url: " + packageUrl + ", priority: " + packagePriority);
+            })();
+          </script>
+
           <!-- Card container for trend visualization -->
           <div class="trend-card">
             <h3 class="trend-title">{{ package.title }}</h3>
@@ -62,7 +71,7 @@
             <!-- Dataset metadata -->
             <div class="trend-metadata">
               <div class="metadata-source">
-                Source: {{ package.priority if package.priority is defined and package.priority is not none else 'N/A' }} {{ package.organization.title if package.organization else 'Unknown' }}
+                Source: {{ package.organization.title if package.organization else 'Unknown' }}
               </div>
               <div class="metadata-date">
                 Updated: {{ h.render_datetime(package.metadata_modified, date_format='%Y') if package.metadata_modified else 'Unknown' }}
