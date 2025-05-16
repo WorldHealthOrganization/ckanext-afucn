@@ -1,13 +1,29 @@
 {% if group_dict.package_count > 0 %}
-  {% set packages = c.page.items[:3] if c.page.items else [] %}
-  {% set indicator_packages = [] %}
-  {% for package in packages %}
-    {% if package.type == 'indicator' %}
-      {% do indicator_packages.append(package) %}
+  {% set current_packages = c.page.items[:3] if c.page.items else [] %}
+  {% set raw_indicator_packages = [] %}
+  {% for package_item in current_packages %}
+    {% if package_item.type == 'indicator' %}
+      {% do raw_indicator_packages.append(package_item) %}
     {% endif %}
   {% endfor %}
-  {# Sort indicator packages by priority in descending order #}
-  {% set indicator_packages = indicator_packages|sort(attribute='priority', reverse=true) %}
+
+  {# Prepare for sorting with handling for missing priority attribute #}
+  {% set sortable_indicators_list = [] %}
+  {% for p_item in raw_indicator_packages %}
+    {% set effective_priority = 0 %} {# Default to 0 (low priority) #}
+    {% if p_item.priority is defined and p_item.priority is not none %}
+      {% set effective_priority = p_item.priority %}
+    {% endif %}
+    {% do sortable_indicators_list.append({'pkg_data': p_item, 'sort_key': effective_priority}) %}
+  {% endfor %}
+
+  {% set sorted_indicator_items_list = sortable_indicators_list|sort(attribute='sort_key', reverse=true) %}
+
+  {# Reconstruct indicator_packages list from sorted items #}
+  {% set indicator_packages = [] %}
+  {% for sorted_item in sorted_indicator_items_list %}
+    {% do indicator_packages.append(sorted_item.pkg_data) %}
+  {% endfor %}
 
   {% if indicator_packages %}
     <div class="trending-indicators-grid">
@@ -46,7 +62,7 @@
             <!-- Dataset metadata -->
             <div class="trend-metadata">
               <div class="metadata-source">
-                Source: {{ package.organization.title if package.organization else 'Unknown' }}
+                Source: {{ package.priority if package.priority is defined and package.priority is not none else 'N/A' }} {{ package.organization.title if package.organization else 'Unknown' }}
               </div>
               <div class="metadata-date">
                 Updated: {{ h.render_datetime(package.metadata_modified, date_format='%Y') if package.metadata_modified else 'Unknown' }}
