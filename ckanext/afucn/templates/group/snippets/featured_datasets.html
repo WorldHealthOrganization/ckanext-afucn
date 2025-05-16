@@ -13,7 +13,7 @@
     {# Use Jinja's int filter with a default of 0. #}
     {# This converts numbers and numeric strings to integers. #}
     {# Non-numeric strings, None, or undefined attributes become 0, ensuring a numeric sort key. #}
-    {% set effective_priority = p_item.priority | int(0) %}
+    {% set effective_priority = p_item.get('priority', 0) | int %}
     {% do sortable_indicators_list.append({'pkg_data': p_item, 'sort_key': effective_priority}) %}
   {% endfor %}
 
