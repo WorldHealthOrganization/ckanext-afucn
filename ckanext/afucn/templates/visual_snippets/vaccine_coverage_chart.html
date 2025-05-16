@@ -3,6 +3,13 @@
 {% block chart_options_script %}
 <script>
   function getChartOptions(filteredData, title) {
+    // Configuration for pie chart appearance
+    const pieChartSizeMultiplier = 0.65; // Adjust this value (e.g., 0.5 for smaller, 0.8 for larger pies)
+    const whoBlue = '#008DC999'; // User customized
+    const dataGray = '#eee';      // User customized
+    const noDataColor = '#f5f5f5';
+    const whoBlueHover = '#0F2D5B'; // Color for blue part on hover
+
     // Basic data validation
     if (!filteredData || !Array.isArray(filteredData)) {
         console.warn("EchartsViz (Vaccine Coverage): Filtered data is null, undefined, or not an array. Cannot render chart.", filteredData);
@@ -51,10 +58,6 @@
         console.warn("EchartsViz (Vaccine Coverage): Chart data array is empty after processing. No data points will be rendered.");
         // Still return a chart structure so it doesn't break the UI entirely
     }
-
-    const whoBlue = '#008DC999'; // User customized
-    const dataGray = '#eee';      // User customized
-    const noDataColor = '#f5f5f5';
 
     let maxYAxisNameGap = 50;
     if (sortedAntigens.length > 0) {
@@ -129,6 +132,9 @@
             data: chartData,
             progressive: chartData.length > 200 ? 50 : 0,
             animation: false,
+            emphasis: { // Added to enable hover effects on items
+                focus: 'self' // Highlight the item itself
+            },
             renderItem: function (params, api) {
                 const yearIndex = api.value(0);
                 const antigenIndex = api.value(1);
@@ -169,11 +175,16 @@
                     }
                 }
 
-                const R = Math.min(cellWidth, cellHeight) / 2 * 0.85;
+                const R = Math.min(cellWidth, cellHeight) / 2 * pieChartSizeMultiplier; 
 
                 if (R <= 1) {
                     if (numericValue !== null && numericValue !== undefined && !isNaN(numericValue)) {
-                        return { type: 'circle', shape: { cx: center[0], cy: center[1], r: 2 }, style: { fill: whoBlue }};
+                        return { 
+                            type: 'circle', 
+                            shape: { cx: center[0], cy: center[1], r: 2 }, 
+                            style: { fill: whoBlue },
+                            emphasis: { style: { fill: whoBlueHover } } // Hover for small circle too
+                        };
                     }
                     return; // Skip rendering if too small and no valid data
                 }
@@ -181,9 +192,10 @@
                 if (numericValue === null || numericValue === undefined || isNaN(numericValue)) {
                     return {
                         type: 'rect',
-                        shape: { x: center[0] - Math.min(R, cellWidth/2 * 0.85)/2 , y: center[1] - Math.min(R, cellHeight/2 * 0.85)/2,
-                                 width: Math.min(R, cellWidth/2 * 0.85), height: Math.min(R, cellHeight/2 * 0.85) },
+                        shape: { x: center[0] - Math.min(R, cellWidth/2 * pieChartSizeMultiplier)/2 , y: center[1] - Math.min(R, cellHeight/2 * pieChartSizeMultiplier)/2,
+                                 width: Math.min(R, cellWidth/2 * pieChartSizeMultiplier), height: Math.min(R, cellHeight/2 * pieChartSizeMultiplier) },
                         style: { fill: noDataColor, stroke: '#ccc', lineWidth: 0.5 }
+                        // No specific hover for 'no data' rect unless desired
                     };
                 }
 
@@ -202,7 +214,12 @@
                             endAngle: startAngle + bluePartProportion * Math.PI * 2,
                             clockwise: true
                         },
-                        style: { fill: whoBlue }
+                        style: { fill: whoBlue },
+                        emphasis: { // Style for the blue sector on hover
+                            style: {
+                                fill: whoBlueHover
+                            }
+                        }
                     });
                 }
 
@@ -216,6 +233,7 @@
                             clockwise: true
                         },
                         style: { fill: dataGray }
+                        // No specific hover for gray part unless desired
                     });
                 }
                 
