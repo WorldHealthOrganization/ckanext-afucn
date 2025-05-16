@@ -7,13 +7,13 @@
     {% endif %}
   {% endfor %}
 
-  {# Prepare for sorting with handling for missing priority attribute #}
+  {# Prepare for sorting with handling for missing or non-numeric priority attribute #}
   {% set sortable_indicators_list = [] %}
   {% for p_item in raw_indicator_packages %}
-    {% set effective_priority = 0 %} {# Default to 0 (low priority) #}
-    {% if p_item.priority is defined and p_item.priority is not none %}
-      {% set effective_priority = p_item.priority %}
-    {% endif %}
+    {# Use Jinja's int filter with a default of 0. #}
+    {# This converts numbers and numeric strings to integers. #}
+    {# Non-numeric strings, None, or undefined attributes become 0, ensuring a numeric sort key. #}
+    {% set effective_priority = p_item.priority | int(0) %}
     {% do sortable_indicators_list.append({'pkg_data': p_item, 'sort_key': effective_priority}) %}
   {% endfor %}
 
