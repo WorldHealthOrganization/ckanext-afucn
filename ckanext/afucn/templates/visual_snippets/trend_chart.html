@@ -68,7 +68,7 @@
     return {
         // title: { text: title, left: 'center' }, // REMOVED ECharts title
         tooltip: { trigger: 'axis', formatter: params => `Year: ${params[0].axisValueLabel}<br/>Value: ${params[0].value ? params[0].value.toLocaleString() : 'N/A'}` },
-        grid: { left: '3%', right: '4%', bottom: '3%', top: '2%', containLabel: true },
+        grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
         xAxis: { type: 'category', boundaryGap: false, data: years },
         yAxis: {
             type: 'value',
