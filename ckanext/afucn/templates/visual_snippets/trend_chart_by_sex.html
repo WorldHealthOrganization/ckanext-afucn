@@ -126,6 +126,15 @@
       // title: { text: title, left: 'center' }, // REMOVED ECharts title
       tooltip: {
         trigger: 'axis',
+        formatter: function(params) {
+          let result = `Year: ${params[0].axisValueLabel}<br/>`;
+          params.forEach(param => {
+            const sex = param.seriesName;
+            const value = param.value !== null ? param.value.toLocaleString() : 'N/A';
+            result += `Life Expectancy (${sex}): ${value} years<br/>`;
+          });
+          return result;
+        }
       },
       legend: {
         data: seriesData.map(s => s.name),

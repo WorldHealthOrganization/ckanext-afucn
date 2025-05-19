@@ -273,8 +273,17 @@ const EchartsViz = {
             // 1. Get Dataset Info using datasetSlug
             const datasetInfo = await EchartsViz.data.fetchDatasetInfo(config.datasetSlug);
             if (!datasetInfo.resources || datasetInfo.resources.length === 0) throw new Error('Dataset has no resources.');
-            const resource = datasetInfo.resources[0];
-            if (!resource.url) throw new Error('First resource has no URL.');
+            
+            // Find first resource that is CSV or Excel
+            const resource = datasetInfo.resources.find(r => {
+                const url = r.url.toLowerCase();
+                const format = (r.format || '').toLowerCase();
+                return url.endsWith('.csv') || url.endsWith('.xlsx') || url.endsWith('.xls') ||
+                       format === 'csv' || format === 'xlsx' || format === 'xls';
+            });
+            
+            if (!resource) throw new Error('No CSV or Excel resources found in dataset.');
+            if (!resource.url) throw new Error('Selected resource has no URL.');
 
             // --> START: Add Source/Organization to Footer
             let sourceOrOrgText = 'Not specified'; // Default text (Removed _() wrapper)

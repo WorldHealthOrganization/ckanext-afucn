@@ -69,7 +69,7 @@
     return {
         // title: { text: title, left: 'center' }, // REMOVED ECharts title
         animationDuration: 10000,
-        tooltip: { trigger: 'axis', formatter: params => `Year: ${params[0].axisValueLabel}<br/>Value: ${params[0].value ? params[0].value.toLocaleString() : 'N/A'}%` }, // Added % to tooltip
+        tooltip: { trigger: 'axis', formatter: params => `Year: ${params[0].axisValueLabel}<br/>Health Expenditure In GDP: ${params[0].value ? params[0].value.toLocaleString() : 'N/A'}%` },
         grid: { left: '3%', right: '4%', bottom: '3%', top: '3%', containLabel: true },
         xAxis: { type: 'category', boundaryGap: false, data: years },
         yAxis: {
