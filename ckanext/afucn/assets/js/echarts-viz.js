@@ -180,13 +180,23 @@ const EchartsViz = {
             }
 
             try {
-                 // Check if echarts is loaded
-                 if (typeof echarts === 'undefined') {
+                // Check if echarts is loaded
+                if (typeof echarts === 'undefined') {
                     throw new Error('ECharts library is required but not loaded.');
-                 }
+                }
+
+                // Add safety net to ensure element has size before rendering
+                const dom = instance.chartInstance.getDom();
+                const box = dom.getBoundingClientRect();
+
+                if (box.width === 0 || box.height === 0) {
+                    // try again on the next frame
+                    requestAnimationFrame(() => EchartsViz.charts.renderChart(instanceId, chartOptions));
+                    return;
+                }
+
                 instance.chartInstance.clear();
                 instance.chartInstance.setOption(chartOptions, true); // true to clear previous options
-                EchartsViz.ui.setState(instanceId, 'loaded');
             } catch (error) {
                 console.error(`Error setting ECharts options for ${instanceId}:`, error);
                 EchartsViz.ui.setError(instanceId, `Failed to render chart: ${error.message}`);
@@ -349,11 +359,15 @@ const EchartsViz = {
                 throw new Error(`Error in chart option generation: ${e.message}`);
             }
             if (!chartOptions || typeof chartOptions !== 'object') {
-                 throw new Error('getChartOptions function did not return a valid options object.');
+                throw new Error('getChartOptions function did not return a valid options object.');
             }
 
-            // 7. Render Chart
-            EchartsViz.charts.renderChart(instanceId, chartOptions);
+            // 7. Set state to loaded FIRST, then render chart
+            EchartsViz.ui.setState(instanceId, 'loaded');
+            // Small delay to ensure DOM is updated
+            setTimeout(() => {
+                EchartsViz.charts.renderChart(instanceId, chartOptions);
+            }, 50);
 
         } catch (error) {
             console.error(`EchartsViz (${instanceId}): Initialization failed.`, error);
