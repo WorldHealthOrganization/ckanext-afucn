@@ -26,9 +26,63 @@
   {% endfor %}
 
   {% if indicator_packages %}
-    <div class="trending-indicators-grid">
-      {% for package in indicator_packages %}
-        {% if package.resources and package.resources|length > 0 %}
+    {# New filtering logic based on resource properties #}
+    {% set valid_indicator_packages_for_charting = [] %}
+    {% set MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024 %} {# 1MB #}
+
+    {% for package_item in indicator_packages %}
+      {% if package_item.resources and package_item.resources|length > 0 %}
+        {% set found_and_valid_resource_for_package = false %} {# Flag for this package_item #}
+        {% for resource_to_check in package_item.resources %}
+          {% if not found_and_valid_resource_for_package %} {# Only proceed if we haven't found a valid one yet for this package #}
+            {# 1. File Format Check (CSV or Excel) for current resource_to_check #}
+            {% set format_ok = false %}
+            {% if resource_to_check.format or resource_to_check.url %} {# Proceed if either format or url is available #}
+                {% set format_lower = resource_to_check.format.lower() if resource_to_check.format else '' %}
+                {% set url_lower = resource_to_check.url.lower() if resource_to_check.url else '' %}
+
+                {% set format_is_csv = 'csv' in format_lower or url_lower.endswith('.csv') %}
+                {% set format_is_excel = format_lower in ['xls', 'xlsx', 'excel',
+                                                    'application/vnd.ms-excel',
+                                                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+                                       or url_lower.endswith('.xls') or url_lower.endswith('.xlsx') %}
+
+                {% if format_is_csv or format_is_excel %}
+                    {% set format_ok = true %}
+                {% endif %}
+            {% endif %}
+
+            {# If this resource has the correct format, then check its size #}
+            {% if format_ok %}
+              {% set file_size_ok = false %}
+              {% if resource_to_check.size is not none %}
+                {% set current_size = resource_to_check.size | string | int(-1) %} {# Convert to string, then int with fallback -1 #}
+                {% if current_size > 0 and current_size <= MAX_FILE_SIZE_BYTES %} {# Ensure size is positive and within limit #}
+                  {% set file_size_ok = true %}
+                {% endif %}
+              {% else %}
+                {# If size is not available for a CSV/Excel, we might assume it's okay or skip.
+                   For now, strictly requiring size. If size is None, file_size_ok remains false.
+                   This behavior aligns with portal_visualization.html's HEAD request for Content-Length.
+                   In CKAN, resource.size should ideally be populated. #}
+              {% endif %}
+
+              {# If both format and size checks pass for this resource_to_check #}
+              {% if file_size_ok %}
+                {% do valid_indicator_packages_for_charting.append(package_item) %}
+                {% set found_and_valid_resource_for_package = true %} {# Mark as found and break from inner loop (resources) #}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endfor %} {# End loop over package_item.resources #}
+      {% endif %}
+    {% endfor %} {# End loop over indicator_packages #}
+
+    {# Now, render charts only for the valid packages #}
+    {% if valid_indicator_packages_for_charting %}
+      <div class="trending-indicators-grid">
+        {% for package in valid_indicator_packages_for_charting %}
+          {# Snippet to render the trend chart #}
           {% snippet 'visual_snippets/trend_chart.html',
               instance_id='featured-dataset-' ~ package.name,
               iso_code=group_dict.name,
@@ -36,10 +90,14 @@
               title=package.title,
               chart_height='300px'
           %}
-        {% endif %}
-      {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      {# This message is shown if indicator_packages was not empty initially, but all failed the new resource validation #}
+      <p>{{ _("No indicator datasets suitable for visualization found for this location.") }}</p>
+    {% endif %}
   {% else %}
+    {# This is the original else for 'if indicator_packages' (i.e., no indicators of type 'indicator' after sorting by priority) #}
     <p>{{ _("No indicator datasets found for this location") }}</p>
   {% endif %}
 {% else %}
