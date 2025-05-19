@@ -72,10 +72,8 @@
         xAxis: { type: 'category', boundaryGap: false, data: years },
         yAxis: {
             type: 'value',
-            // min: 30,  // Set minimum value for Y-axis
-            // max: 60,  // Set maximum value for Y-axis
             axisLabel: {
-                formatter: function(value) { // Basic formatter
+                formatter: function(value) {
                     if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
                     if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
                     if (value >= 1e3) return (value / 1e3).toFixed(1) + 'K';
@@ -83,14 +81,22 @@
                 }
             }
         },
+        animation: true,
+        animationDuration: 1000,
+        animationEasing: 'cubicInOut',
         series: [{
             name: 'Value',
             type: 'line',
             smooth: true,
             data: values,
-            lineStyle: { width: 3 }
+            lineStyle: { width: 3 },
+            animation: true,
+            animationDuration: 1000,
+            animationEasing: 'cubicInOut',
+            progressive: 100,
+            progressiveThreshold: 1000
         }]
-      };
-    }
-  </script>
+    };
+  }
+</script>
 {% endblock chart_options_script %}
