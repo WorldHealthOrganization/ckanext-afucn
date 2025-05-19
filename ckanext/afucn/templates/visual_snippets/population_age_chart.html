@@ -96,7 +96,14 @@
 
     // Return ECharts options object for a column (bar) chart
     return {
-         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+         tooltip: { 
+           trigger: 'axis', 
+           axisPointer: { type: 'shadow' },
+           formatter: function(params) {
+             const param = params[0];
+             return `Age Group: ${param.name}<br/>Population: ${param.value.toLocaleString()}`;
+           }
+         },
          grid: { left: '3%', right: '4%', bottom: '0%', top: '3%', containLabel: true },
          xAxis: { type: 'category', data: categories, axisLabel: { interval: 0, rotate: 30 } }, // Rotate labels if they overlap
          yAxis: {
