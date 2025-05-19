@@ -1346,7 +1346,6 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
-  padding: 20px;
 }
 
 /* Individual trend card styling */

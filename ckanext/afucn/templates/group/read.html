@@ -29,13 +29,10 @@
       {% if '/location' in request.path %}
         {% snippet 'group/snippets/location_stats.html', group_type = group_type %}
         {% snippet 'group/snippets/location_charts.html', group_type = group_type %}
-              <!-- Display first 5 datasets of the group -->
-        <div class="group-indicators">
-          <h3>{{ _("Featured Indicators") }}</h3>
-          {% snippet 'group/snippets/featured_datasets.html', package=package, group_dict=group_dict %}
-        </div>
+
 
         <div class="row echart-grid-row">
+          <h3 class="py-3">{{ _("General Indicators") }}</h3>
           {% set sex_dataset_slug = 'life-expectancy-at-birth-hale' %}
           {% if h.check_access('package_show', {'id': sex_dataset_slug}) %}
           <div class="col-md-4 echart-test-section">
@@ -74,6 +71,7 @@
 
         <!-- New row for vaccine coverage chart and empty spaces -->
         <div class="row echart-grid-row">
+          <h3 class="py-3">{{ _("Vaccine Preventable Diseases") }}</h3>
           {% set vaccine_dataset_slug = 'ri_coverage_all_antigens' %}
           {% if h.check_access('package_show', {'id': vaccine_dataset_slug}) %}
           <div class="col-md-7 echart-test-section">
@@ -100,6 +98,11 @@
           </div>
           {% else %}
           {% endif %}
+        </div>
+        <!-- Display first 5 datasets of the group -->
+        <h3 class="py-3">{{ _("Featured Indicators") }}</h3>
+        <div class="group-indicators">
+          {% snippet 'group/snippets/featured_datasets.html', package=package, group_dict=group_dict %}
         </div>
       {% endif %}
 
