@@ -4,7 +4,7 @@
 <script>
   function getChartOptions(filteredData, title) {
     // Configuration for pie chart appearance
-    const pieChartSizeMultiplier = 0.65; // Adjust this value (e.g., 0.5 for smaller, 0.8 for larger pies)
+    const pieChartSizeMultiplier = 0.5; // Adjust this value (e.g., 0.5 for smaller, 0.8 for larger pies)
     
     // Base Colors
     const dataGray = '#eee';      // For the remainder of the pie
@@ -16,9 +16,9 @@
     const valueLowColor = '#F26829';       // < 50%
 
     // Conditional Hover Colors for Value (Walden theme inspired)
-    const valueHighHoverColor = '#45C8CA';   // Darker version of valueHighColor
-    const valueMediumHoverColor = '#F0C940'; // Darker version of valueMediumColor
-    const valueLowHoverColor = '#F08060';    // Darker version of valueLowColor
+    const valueHighHoverColor = '#B8E1FF';   // Lighter version of valueHighColor
+    const valueMediumHoverColor = '#FFC04D'; // Lighter version of valueMediumColor
+    const valueLowHoverColor = '#FF9D6B';    // Lighter version of valueLowColor
 
     // Basic data validation
     if (!filteredData || !Array.isArray(filteredData)) {
