@@ -1,6 +1,7 @@
 
 import logging
 from ckantoolkit import h
+from ckan.plugins import toolkit as tk
 
 all_helpers = {}
 
@@ -40,3 +41,8 @@ def get_labeler_for_facet(facet, schema_type='dataset'):
         return h.scheming_choices_label(choices, field['name'])
 
     return get_label_for_field
+
+
+def get_google_tag():
+    gtag = tk.config.get('ckanext.afucn.gtag')
+    return gtag
