@@ -27,3 +27,9 @@
   <script src="{{ url_for('static', filename='js/walden.js') }}"></script>
 {% endblock %}
 
+{% block htmltag %}
+  {{ super() }}
+    {% block googletag %}
+        {% include 'snippets/google_tag.html' %}
+    {% endblock %}
+{% endblock %}
