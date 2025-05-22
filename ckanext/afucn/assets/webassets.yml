@@ -5,6 +5,7 @@ afucn-js:
     - js/afucn.js
     - js/echarts-viz.js
     - js/translate.js
+    - js/chatbot.js
   extra:
     preload:
       - base/main
@@ -24,3 +25,4 @@ afucn-css:
     - css/echarts-viz.css
     - css/translate.css
     - css/login.css
+    - css/chatbot.css
