@@ -278,6 +278,12 @@ dataset_fields:
   form_placeholder: e.g Low sample size for some refions
   display_group: Methodology
 
+- field_name: testfield
+  label: Test Field
+  form_snippet: markdown.html
+  form_placeholder: This is a test field
+  display_group: Methodology
+
 
 resource_fields:
 
