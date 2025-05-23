@@ -5135,10 +5135,6 @@ figure {
   margin: 0
 }
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0
-}
 
 article,
 aside,
@@ -5297,60 +5293,6 @@ h6 {
   font-size: 14px
 }
 
-/* input {
-/*   -webkit-appearance: none 
-}
-
-input[type=checkbox] {
-/*   -webkit-appearance: checkbox
-}
-
-input[type=radio] {
-/*   -webkit-appearance: radio
-}
- */
-
-input.text,
-input.title,
-input[type=email],
-input[type=password],
-input[type=tel],
-input[type=text],
-select,
-textarea {
-  background-color: #fff;
-  border: 1px solid #bbb;
-  padding: 2px;
-  color: #4e4e4e
-}
-
-input.text:focus,
-input.title:focus,
-input[type=text]:focus,
-select:focus,
-textarea:focus {
-  border-color: #2d3940;
-  color: #3e3e3e
-}
-
-input.text,
-input.title,
-input[type=text],
-select,
-textarea {
-  margin: 0
-}
-
-textarea {
-  padding: 4px
-}
-
-button,
-input,
-select,
-textarea {
-  font-family: inherit
-}
 
 img {
   max-width: 100%;
@@ -5965,7 +5907,7 @@ a.et_pb_more_button:after {
   background-position: 50%;
   background-repeat: no-repeat;
   border: 2px solid;
-  border-radius: 3px;
+  border-radius: 0px;
   -webkit-transition-duration: .2s;
   transition-duration: .2s;
   -webkit-transition-property: all !important;
@@ -5979,7 +5921,6 @@ a.et_pb_more_button:after {
 
 .et_pb_button:hover,
 .et_pb_module .et_pb_button:hover {
-  border: 2px solid transparent;
   padding: .3em 2em .3em .7em
 }
 
@@ -6833,7 +6774,7 @@ header.et-l.et-l--header:after {
   color: #fff;
   font-size: 16px;
   font-weight: 500;
-  padding: .3em 1em;
+  padding: 6px 12px !important;
   line-height: 1.7em !important;
   background-color: transparent;
   background-size: cover;
@@ -6847,11 +6788,11 @@ header.et-l.et-l--header:after {
   transition-property: all !important;
 }
 
-
-.heading {
-  color: #fff !important;
+.et_pb_promo_button:hover {
+  background-color: rgba(0, 119, 179, 0.2) !important; /* Semi-transparent WHO blue */
+  color: white !important;
+  border: solid rgba(0, 119, 179, 0) !important;
 }
-
 
 .et_pb_button:after,
 .et_pb_button:before {
@@ -6860,6 +6801,7 @@ header.et-l.et-l--header:after {
 
 .et_pb_button:hover {
   background-color: #008DC9 !important;
+
 }
 
 

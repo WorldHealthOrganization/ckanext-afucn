@@ -1,0 +1,102 @@
+{#- Trend Chart Snippet
+
+  Extends the base echart_viz snippet to specifically create a trend chart.
+  Assumes the data has 'TimeDim' and 'NumericValue' columns.
+
+  Args:
+    instance_id (str): Unique HTML ID for this chart instance. **REQUIRED**.
+    iso_code (str): The ISO code (or other value for SpatialDim) to filter by.
+                    Defaults to the `group_dict.name` if available in context, otherwise null.
+    dataset_slug (str): The slug of the CKAN dataset. **REQUIRED**.
+    title (str, optional): Chart title. Defaults to 'Historical Trend for [iso_code]'.
+    css_class (str, optional): Additional CSS classes.
+    chart_height (str, optional): Chart height.
+
+  Inherits:
+    visual_snippets/echart_viz.html
+-#}
+{% extends "visual_snippets/echart_viz.html" %}
+
+{# --- Default Parameter Values --- #}
+{% set country_code = iso_code or group_dict.name %}
+{% set default_title = _('Historical Trend') %}
+{% if country_code %}
+  {% set default_title = _('Historical Trend for ') ~ country_code %}
+{% endif %}
+
+{# --- Override Base Snippet Variables --- #}
+{# instance_id is passed directly from the call #}
+{% set title = title or default_title %}
+{# dataset_slug is passed directly from the call #}
+{% set css_class = css_class %}
+{% set chart_height = chart_height %}
+
+{# Define the filter: Use SpatialDim based on iso_code/group_dict.name #}
+{% set filters = {'SpatialDim': country_code} %}
+
+{# --- Define the Chart Options Script --- #}
+{% block chart_options_script %}
+<script>
+  function getChartOptions(filteredData, title) {
+    // Check utils dependency
+    if (typeof EchartsViz === 'undefined' || !EchartsViz.utils) {
+        console.error('EchartsViz utils not available');
+        return { title: { text: title, subtext: 'Script Error' } };
+    }
+
+    // Prepare data: [[year, value], ...]
+    const trendData = filteredData
+      .map(row => {
+           if (row.hasOwnProperty('TimeDim') && row.hasOwnProperty('NumericValue')) {
+              return [String(row.TimeDim).trim(), EchartsViz.utils.normalizeValue(row.NumericValue)];
+           } else {
+              console.warn('TrendChart: Row missing TimeDim or NumericValue:', row);
+              return null;
+           }
+      })
+      .filter(pair => pair !== null && pair[1] !== null)
+      .sort((a, b) => String(a[0]).localeCompare(String(b[0]))); // Sort by year
+
+    if (trendData.length === 0) {
+        return { title: { text: title, subtext: 'No data available', left: 'center', top: 'center' }, series: [] };
+    }
+
+    const years = trendData.map(item => item[0]);
+    const values = trendData.map(item => item[1]);
+
+    // Return ECharts options object for a basic trend line
+    return {
+        // title: { text: title, left: 'center' }, // REMOVED ECharts title
+        tooltip: { trigger: 'axis', formatter: params => `Year: ${params[0].axisValueLabel}<br/>Value: ${params[0].value ? params[0].value.toLocaleString() : 'N/A'}` },
+        grid: { left: '3%', right: '4%', bottom: '3%', top: '2%', containLabel: true },
+        xAxis: { type: 'category', boundaryGap: false, data: years },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: function(value) {
+                    if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
+                    if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
+                    if (value >= 1e3) return (value / 1e3).toFixed(1) + 'K';
+                    return value;
+                }
+            }
+        },
+        animation: true,
+        animationDuration: 1000,
+        animationEasing: 'cubicInOut',
+        series: [{
+            name: 'Value',
+            type: 'line',
+            smooth: true,
+            data: values,
+            lineStyle: { width: 3 },
+            animation: true,
+            animationDuration: 1000,
+            animationEasing: 'cubicInOut',
+            progressive: 100,
+            progressiveThreshold: 1000
+        }]
+    };
+  }
+</script>
+{% endblock chart_options_script %}

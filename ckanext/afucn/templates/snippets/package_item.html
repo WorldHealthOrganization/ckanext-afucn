@@ -10,11 +10,8 @@ Example:
 {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
 
 #}
-{% if package.type == 'dataset' %}
-  {% set resource_type = "Datapack" %}
-{% else %}
-  {% set resource_type = h.scheming_get_dataset_schema(package.type).name %}
-{% endif %}
+
+{% set resource_type = h.scheming_get_dataset_schema(package.type).name %}
 
 {% block package_item %}
 <li class="dataset-item-container">
@@ -59,7 +56,7 @@ Example:
          {{ resource_type }}
       </a>
       <!-- Resource count as a stylized label -->
-      <span class="resource-count">{{ package.num_resources }} Resources</span>
+      <span class="resource-count">{{ package.num_resources }} {{ _('Resource') if package.num_resources == 1 else _('Resources') }}</span>
     </div>
   </div>
 

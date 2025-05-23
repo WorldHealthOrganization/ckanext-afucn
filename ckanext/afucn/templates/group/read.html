@@ -1,5 +1,12 @@
 {% ckan_extends %}
 
+{# Optional: Add styles for echart-test-section to your CSS instead of inline #}
+{# e.g., in echarts-viz.css or another file:
+.echart-test-section {
+  margin-top: 20px;
+}
+#}
+
 {% block who_hero %}
   {% snippet 'snippets/who-hero.html',
   show_search_form = false,
@@ -22,22 +29,89 @@
       {% if '/location' in request.path %}
         {% snippet 'group/snippets/location_stats.html', group_type = group_type %}
         {% snippet 'group/snippets/location_charts.html', group_type = group_type %}
-              <!-- Display first 5 datasets of the group -->
+
+
+        <div class="row echart-grid-row">
+          <h3 class="py-3">{{ _("General Indicators") }}</h3>
+          {% set sex_dataset_slug = 'life-expectancy-at-birth-hale' %}
+          {% if h.check_access('package_show', {'id': sex_dataset_slug}) %}
+          <div class="col-md-4 echart-test-section">
+             {% set sex_trend_chart_id = 'group-trend-sex-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/trend_chart_by_sex.html',
+                       instance_id=sex_trend_chart_id,
+                       dataset_slug=sex_dataset_slug,
+                       title=_('Life Expectancy at Birth HALE'),
+                       group_dict=group_dict %}
+          </div>
+          {% endif %}
+
+          {% set gdp_dataset_slug = 'gdp-current-health-expenditure' %}
+          {% if h.check_access('package_show', {'id': gdp_dataset_slug}) %}
+          <div class="col-md-4 echart-test-section">
+            {% set gdp_trend_chart_id = 'group-trend-gdp-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/gdp_trend_chart.html',
+                       instance_id=gdp_trend_chart_id,
+                       dataset_slug=gdp_dataset_slug,
+                       title=_('GDP Current Health Expenditure'),
+                       group_dict=group_dict %}
+          </div>
+          {% endif %}
+
+          {% set pop_dataset_slug = 'population' %}
+          {% if h.check_access('package_show', {'id': pop_dataset_slug}) %}
+          <div class="col-md-4 echart-test-section">
+            {% set pop_age_chart_id = 'group-pop-age-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/population_age_chart.html',
+                       instance_id=pop_age_chart_id,
+                       dataset_slug=pop_dataset_slug,
+                       group_dict=group_dict %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- New row for vaccine coverage chart and empty spaces -->
+        <div class="row echart-grid-row">
+          <h3 class="py-3">{{ _("Vaccine Preventable Diseases") }}</h3>
+          {% set vaccine_dataset_slug = 'ri_coverage_all_antigens' %}
+          {% if h.check_access('package_show', {'id': vaccine_dataset_slug}) %}
+          <div class="col-md-7 echart-test-section">
+            {% set vaccine_chart_id = 'group-vaccine-coverage-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/vaccine_coverage_chart.html',
+                       instance_id=vaccine_chart_id,
+                       dataset_slug=vaccine_dataset_slug,
+                       title=_('Vaccine Coverage Over Time by Antigen'),
+                       filters={'SpatialDim': group_dict.name},
+                       group_dict=group_dict %}
+          </div>
+          {% endif %}
+          
+          {% set causes_dataset_slug = 'vpd-causes-of-death' %}
+          {% if h.check_access('package_show', {'id': causes_dataset_slug}) %}
+          <div class="col-md-5 echart-test-section">
+            {% set causes_chart_id = 'group-causes-death-' ~ group_dict.name|lower|replace(' ', '-') %}
+            {% snippet 'visual_snippets/causes_of_death_chart.html',
+                       instance_id=causes_chart_id,
+                       dataset_slug=causes_dataset_slug,
+                       title=_('Causes of Death for Vaccine Preventable Diseases (2021)'),
+                       filters={'SpatialDim': group_dict.name},
+                       group_dict=group_dict %}
+          </div>
+          {% else %}
+          {% endif %}
+        </div>
+        <!-- Display first 5 datasets of the group -->
+        <h3 class="py-3">{{ _("Featured Indicators") }}</h3>
         <div class="group-indicators">
-          <h3>{{ _("Featured Indicators") }}</h3>
           {% snippet 'group/snippets/featured_datasets.html', package=package, group_dict=group_dict %}
         </div>
       {% endif %}
-
-
 
       {{ super() }}
     {% endblock primary_content %}
   </div>
 {% endblock primary %}
 
-{% block wrapper_class %} wrapper-location-index {% endblock %}
-
+{% block wrapper_class %} wrapper-location-index {% endblock wrapper_class %}
 
 {% block page_header %}
 {% endblock page_header %}
@@ -50,3 +124,12 @@
 
 {% block secondary %}
 {% endblock secondary %}
+
+{% block scripts %}
+
+  {# EchartsViz module itself is assumed to be in the 'afucn/afucn-js' bundle loaded by base.html #}
+
+  {# REMOVED Centralized script to initialize charts #}
+  {# Initialization is now handled by the inline script within each snippet instance #}
+
+{% endblock scripts %}

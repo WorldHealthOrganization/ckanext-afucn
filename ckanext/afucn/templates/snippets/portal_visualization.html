@@ -1,10 +1,3 @@
-{% asset 'afucn/afucn-css' %}
-
-<!-- Required libraries -->
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
 <!-- Container for all visualizations -->
 <div id="portal_viz">
   <!-- Loading and error states -->
@@ -804,18 +797,7 @@ const PortalViz = {
     },
 
     showError: function(message, isDebugError = false) {
-      jQuery("#loading_state").hide();
-      jQuery("#viz_content").hide();
-      
-      if (PortalViz.state.isDebugMode && isDebugError) {
-        jQuery("#error_state").hide();
-        jQuery("#debug_error_state").show();
-        jQuery("#debug_error_state p").text(message);
-      } else {
-        jQuery("#error_state").show();
-        jQuery("#debug_error_state").hide();
-      }
-      
+      jQuery("#portal_viz").hide();
       PortalViz.state.isLoading = false;
       PortalViz.state.hasError = true;
     },
@@ -861,9 +843,20 @@ const PortalViz = {
 
       const maxFileSizeBytes = PortalViz.utils.mbToBytes(PortalViz.config.maxFileSizeMB);
 
+      // Find the first resource that is either CSV or Excel
+      const resources = {{ pkg.resources|tojson }};
+      const supportedResource = resources.find(resource => {
+        const url = resource.url.toLowerCase();
+        return url.endsWith('.csv') || url.endsWith('.xlsx') || url.endsWith('.xls');
+      });
+
+      if (!supportedResource) {
+        throw new Error('No supported data file found (CSV or Excel)');
+      }
+
       Promise.all([
         // First fetch and process the data file
-        fetch("{{ pkg.resources[0].url }}", { method: 'HEAD' })
+        fetch(supportedResource.url, { method: 'HEAD' })
           .then(response => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
@@ -876,14 +869,14 @@ const PortalViz = {
             }
             
             // If file size is acceptable, proceed with actual download
-            return fetch("{{ pkg.resources[0].url }}");
+            return fetch(supportedResource.url);
           })
           .then(response => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
             const contentType = response.headers.get('content-type');
-            const fileUrl = "{{ pkg.resources[0].url }}".toLowerCase();
+            const fileUrl = supportedResource.url.toLowerCase();
             
             if (fileUrl.endsWith('.csv') || contentType.includes('csv')) {
               return response.text().then(text => PortalViz.dataProcessor.processCSVData(text));

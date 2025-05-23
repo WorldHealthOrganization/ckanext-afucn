@@ -1,0 +1,278 @@
+{% extends "visual_snippets/echart_viz.html" %}
+
+{% block chart_options_script %}
+<script>
+  function getChartOptions(filteredData, title) {
+    // Configuration for pie chart appearance
+    const pieChartSizeMultiplier = 0.65; // Adjust this value (e.g., 0.5 for smaller, 0.8 for larger pies)
+    
+    // Base Colors
+    const dataGray = '#eee';      // For the remainder of the pie
+    const noDataColor = '#f5f5f5'; // For cells with no data
+
+    // Conditional Colors for Value (Walden theme inspired) - User updated
+    const valueHighColor = '#90D3FB';      // >= 90%
+    const valueMediumColor = '#F4A81D';    // >= 50% & < 90%
+    const valueLowColor = '#F26829';       // < 50%
+
+    // Conditional Hover Colors for Value (Walden theme inspired)
+    const valueHighHoverColor = '#45C8CA';   // Darker version of valueHighColor
+    const valueMediumHoverColor = '#F0C940'; // Darker version of valueMediumColor
+    const valueLowHoverColor = '#F08060';    // Darker version of valueLowColor
+
+    // Basic data validation
+    if (!filteredData || !Array.isArray(filteredData)) {
+        console.warn("EchartsViz (Vaccine Coverage): Filtered data is null, undefined, or not an array. Cannot render chart.", filteredData);
+        return { // Return a minimal, empty chart configuration
+            title: { text: title || 'Vaccine Coverage Heatmap', left: 'center' },
+            series: [] 
+        };
+    }
+
+    // 1. Extract unique antigens and years
+    const antigensSet = new Set();
+    const yearsSet = new Set();
+    filteredData.forEach(item => {
+        if (item && item.Antigen) antigensSet.add(item.Antigen);
+        if (item && item.TimeDim !== null && item.TimeDim !== undefined) yearsSet.add(String(item.TimeDim));
+    });
+
+    const sortedAntigens = Array.from(antigensSet).sort();
+    const sortedYears = Array.from(yearsSet).sort((a, b) => Number(a) - Number(b));
+
+    if (sortedAntigens.length === 0 || sortedYears.length === 0) {
+        console.warn("EchartsViz (Vaccine Coverage): No valid antigens or years extracted from data. Cannot render chart.");
+        return {
+            title: { text: title || 'Vaccine Coverage Heatmap', left: 'center' },
+            xAxis: { type: 'category', data: sortedYears },
+            yAxis: { type: 'category', data: sortedAntigens },
+            series: []
+        };
+    }
+
+    // 2. Prepare data for the custom series
+    const chartData = [];
+    filteredData.forEach(item => {
+        if (item && item.TimeDim !== null && item.TimeDim !== undefined && item.Antigen) {
+            const numericValue = EchartsViz.utils.normalizeValue(item.NumericValue);
+            chartData.push([
+                String(item.TimeDim), // X-axis category (Year)
+                item.Antigen,         // Y-axis category (Antigen)
+                numericValue,         // Value for pie
+                item.VaccineName || 'Not specified' // For tooltip
+            ]);
+        }
+    });
+
+    if (chartData.length === 0) {
+        console.warn("EchartsViz (Vaccine Coverage): Chart data array is empty after processing. No data points will be rendered.");
+    }
+
+    let maxYAxisNameGap = 50;
+    if (sortedAntigens.length > 0) {
+        const longestAntigenNameLength = sortedAntigens.reduce((max, name) => Math.max(max, name ? name.length : 0), 0);
+        maxYAxisNameGap = Math.max(maxYAxisNameGap, longestAntigenNameLength * 6 + 20); // Heuristic
+    }
+
+    return {
+        title: {
+            left: 'left',
+            top: '-14px', // Small padding from top
+            subtext: 'Coverage %:'
+        },
+        tooltip: {
+            trigger: 'item',
+            confine: true,
+            formatter: function(params) {
+                if (!params || !params.data || !Array.isArray(params.data) || params.data.length < 3) {
+                     return 'Invalid data for this cell';
+                }
+                const [year, antigen, value, vaccineName] = params.data;
+                let valueDisplay = 'No data';
+                if (value !== null && value !== undefined && !isNaN(value)) {
+                    valueDisplay = `${value}%`;
+                }
+                return `<b>Antigen:</b> ${antigen || 'Unknown'}<br/>` +
+                       `<b>Year:</b> ${year || 'Unknown'}<br/>` +
+                       `<b>Coverage:</b> ${valueDisplay}<br/>` +
+                       `<b>Vaccine:</b> ${vaccineName || 'Not specified'}`;
+            }
+        },
+        grid: { 
+            left: '1%',
+            right: '5%',
+            bottom: '5%',  // Reduced as legend moved to top
+            top: '22px',   // Increased to make space for title, subtext, and visualMap
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: sortedYears,
+            splitLine: {
+                show: true,
+                lineStyle: { color: '#e0e0e0' }
+            },
+            axisTick: { alignWithLabel: true },
+            axisLabel: {
+                interval: 0,
+                rotate: sortedYears.length > 12 ? 30 : 0
+            }
+        },
+        yAxis: {
+            type: 'category',
+            data: sortedAntigens,
+            inverse: true,
+            axisLabel: {
+                interval: 0,
+                formatter: function (value) {
+                    if (typeof value !== 'string') return '';
+                    return value.length > 25 ? value.substring(0, 22) + '...' : value;
+                }
+            }
+        },
+        visualMap: {
+            type: 'piecewise',
+            orient: 'horizontal',
+            left: '90px',  // Align with title/subtext block
+            top: '-5px',   // Position below the title and subtext
+            show: true,
+            dimension: 2, // Apply to the third data item (numericValue)
+            pieces: [
+                { gte: 90, label: '≥ 90%', color: valueHighColor },
+                { gte: 50, lt: 90, label: '50% - 89.9%', color: valueMediumColor },
+                { lt: 50, label: '< 50%', color: valueLowColor } 
+            ],
+            textStyle: { // For legend item labels
+                color: '#888' // User specified
+            },
+            itemWidth: 20,
+            itemHeight: 14,
+            itemGap: 10
+        },
+        series: [{
+            name: 'VaccineCoverage',
+            type: 'custom',
+            data: chartData,
+            progressive: chartData.length > 200 ? 50 : 0,
+            animation: false,
+            emphasis: { 
+                focus: 'self' 
+            },
+            renderItem: function (params, api) {
+                const yearIndex = api.value(0);
+                const antigenIndex = api.value(1);
+                const numericValue = api.value(2);
+
+                if (yearIndex === undefined || yearIndex === null || yearIndex < 0 || yearIndex >= sortedYears.length ||
+                    antigenIndex === undefined || antigenIndex === null || antigenIndex < 0 || antigenIndex >= sortedAntigens.length) {
+                    // console.warn(`EchartsViz (Vaccine Coverage) renderItem: Invalid year/antigen index. yearIndex=${yearIndex}, antigenIndex=${antigenIndex}`);
+                    return; 
+                }
+                const yearCategoryName = sortedYears[yearIndex];
+                const antigenCategoryName = sortedAntigens[antigenIndex];
+
+                if (!yearCategoryName || !antigenCategoryName) {
+                    // console.warn(`EchartsViz (Vaccine Coverage) renderItem: Missing category name. year='${yearCategoryName}', antigen='${antigenCategoryName}'`);
+                    return; 
+                }
+
+                const center = api.coord([yearCategoryName, antigenCategoryName]);
+                if (!center) {
+                    // console.warn(`EchartsViz (Vaccine Coverage) renderItem: center is null for ['${yearCategoryName}', '${antigenCategoryName}'], cannot render item.`);
+                    return;
+                }
+
+                let cellWidth = 30, cellHeight = 30;
+                if (api.coordSystem && typeof api.coordSystem.getAxis === 'function') {
+                    const xAxis = api.coordSystem.getAxis('x');
+                    const yAxis = api.coordSystem.getAxis('y');
+                    if (xAxis && typeof xAxis.getBandWidth === 'function') {
+                        const bw = xAxis.getBandWidth();
+                        if (bw > 0) cellWidth = bw;
+                    }
+                    if (yAxis && typeof yAxis.getBandWidth === 'function') {
+                        const bh = yAxis.getBandWidth();
+                        if (bh > 0) cellHeight = bh;
+                    }
+                }
+
+                const R = Math.min(cellWidth, cellHeight) / 2 * pieChartSizeMultiplier; 
+                
+                let currentFillColor = valueLowColor;
+                let currentHoverFillColor = valueLowHoverColor;
+
+                if (numericValue !== null && numericValue !== undefined && !isNaN(numericValue)) {
+                    if (numericValue >= 90) {
+                        currentFillColor = valueHighColor;
+                        currentHoverFillColor = valueHighHoverColor;
+                    } else if (numericValue >= 50) {
+                        currentFillColor = valueMediumColor;
+                        currentHoverFillColor = valueMediumHoverColor;
+                    }
+                }
+
+                if (R <= 1) {
+                    if (numericValue !== null && numericValue !== undefined && !isNaN(numericValue)) {
+                        return { 
+                            type: 'circle', 
+                            shape: { cx: center[0], cy: center[1], r: 2 }, 
+                            style: { fill: currentFillColor }, 
+                            emphasis: { style: { fill: currentHoverFillColor } } 
+                        };
+                    }
+                    return; 
+                }
+
+                if (numericValue === null || numericValue === undefined || isNaN(numericValue)) {
+                    return {
+                        type: 'rect',
+                        shape: { x: center[0] - Math.min(R, cellWidth/2 * pieChartSizeMultiplier)/2 , y: center[1] - Math.min(R, cellHeight/2 * pieChartSizeMultiplier)/2,
+                                 width: Math.min(R, cellWidth/2 * pieChartSizeMultiplier), height: Math.min(R, cellHeight/2 * pieChartSizeMultiplier) },
+                        style: { fill: noDataColor, stroke: '#ccc', lineWidth: 0.5 }
+                    };
+                }
+
+                const valueForPie = Math.max(0, Math.min(numericValue, 100));
+                const bluePartProportion = valueForPie / 100;
+
+                let children = [];
+                const startAngle = -Math.PI / 2;
+
+                if (bluePartProportion > 0) {
+                    children.push({
+                        type: 'sector',
+                        shape: {
+                            cx: center[0], cy: center[1], r0: 0, r: R,
+                            startAngle: startAngle,
+                            endAngle: startAngle + bluePartProportion * Math.PI * 2,
+                            clockwise: true
+                        },
+                        style: { fill: currentFillColor }, 
+                        emphasis: { 
+                            style: {
+                                fill: currentHoverFillColor 
+                            }
+                        }
+                    });
+                }
+
+                if (bluePartProportion < 1) {
+                    children.push({
+                        type: 'sector',
+                        shape: {
+                            cx: center[0], cy: center[1], r0: 0, r: R,
+                            startAngle: startAngle + bluePartProportion * Math.PI * 2,
+                            endAngle: startAngle + Math.PI * 2,
+                            clockwise: true
+                        },
+                        style: { fill: dataGray }
+                    });
+                }
+                
+                return { type: 'group', children: children };
+            }
+        }]
+    };
+  }
+</script>
+{% endblock chart_options_script %} 

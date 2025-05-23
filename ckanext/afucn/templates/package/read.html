@@ -32,7 +32,7 @@
       <a href="{{ h.url_for('organization_read', id=pkg.organization.name) }}" class="organization-card-link">
 
         <!-- Full-width image -->
-        <img src="/uploads/group/{{ pkg.organization.image_url }}" alt="{{ pkg.organization.title }}" class="organization-image">
+        <img src="{{ pkg.organization.image_url and ('/uploads/group/' + pkg.organization.image_url) or h.url_for_static('/base/images/placeholder-organization.png') }}" alt="{{ pkg.organization.title }}" class="organization-image" width="200" height="200">
 
         <!-- Title -->
         <h2 class="organization-title">{{ pkg.organization.title }}</h2>

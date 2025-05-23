@@ -1,0 +1,98 @@
+/* Reusable EChart Visualization Styles */
+.echart-viz-container {
+    position: relative;
+    min-height: 300px; /* Ensure container has height even when loading */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 430px; /* Ensures all cards are the same height (title + chart + footer) */
+}
+
+.echart-viz-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    height: 48px; /* Fixed height for up to 2 lines */
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+}
+
+.echart-viz-chart {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 200px;
+    /* Remove height: 350px; to allow flex to control height */
+}
+
+.echart-viz-loading,
+.echart-viz-error {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px;
+    z-index: 10; /* Ensure it's above the chart div */
+}
+
+.echart-viz-error p {
+    color: #dc3545; /* Bootstrap danger color */
+    margin: 0;
+}
+
+.echart-viz-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Hide elements initially */
+.echart-viz-container .echart-viz-chart,
+.echart-viz-container .echart-viz-error {
+    display: none;
+}
+
+.echart-viz-container.loading .echart-viz-loading {
+    display: flex;
+}
+.echart-viz-container.error .echart-viz-error {
+    display: flex;
+}
+.echart-viz-container.loaded .echart-viz-chart {
+    display: block;
+}
+
+.echart-viz-container.loaded .echart-viz-loading,
+.echart-viz-container.error .echart-viz-loading {
+    display: none;
+}
+
+/* Footer Styling */
+.echart-viz-footer {
+    margin-top: 15px; /* Add space above the footer */
+    padding-top: 10px; /* Add padding inside the footer */
+    border-top: 1px solid #eee; /* Subtle separator line */
+    font-size: 0.9em; /* Slightly smaller text */
+    color: #555; /* Muted text color */
+}
+
+.echart-viz-footer span:first-child { /* Style the 'Source:' label */
+    font-weight: 600; /* Make the label slightly bolder */
+}
+
+/* Optional: Style the value itself if needed */
+/* .echart-viz-source-value { }
+*/

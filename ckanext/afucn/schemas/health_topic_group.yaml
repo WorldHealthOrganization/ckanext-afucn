@@ -1,4 +1,3 @@
----
 scheming_version: "1"
 group_type: "health-topic"
 about_url: "https://github.com/WorldHealthOrganization/ckanext-afucn"
@@ -21,7 +20,7 @@ fields:
 - field_name: "notes"
   label: "Description"
   form_snippet: "markdown.html"
-  form_placeholder: "Information about my the health topic..."
+  form_placeholder: "Information about the health topic..."
 
 - field_name: image_url
   label: Image URL

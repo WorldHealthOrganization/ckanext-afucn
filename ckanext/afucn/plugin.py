@@ -9,6 +9,13 @@ from ckanext.afucn import helpers as h
 
 subresource = config.get('ckanext.afucn.subresource', False)
 
+# Define a proper call_action helper that calls the action in one step
+def call_action(action_name, data_dict=None):
+    """Call the named CKAN action."""
+    if data_dict is None:
+        data_dict = {}
+    return toolkit.get_action(action_name)({}, data_dict)
+
 # --------------------------------------------------------------------
 # Original Plugin Class
 # --------------------------------------------------------------------
@@ -32,6 +39,8 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     def get_helpers(self):
         return {
             'get_labeler_for_facet': h.get_labeler_for_facet,
+            'call_action': call_action,
+            'get_google_tag': h.get_google_tag,
         }
 
     # IFacets

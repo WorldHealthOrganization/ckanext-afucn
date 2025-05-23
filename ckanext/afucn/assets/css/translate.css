@@ -1,0 +1,78 @@
+/* Hide Google Translate default elements */
+.hidden-translate-element,
+.skiptranslate,
+.goog-te-banner-frame {
+  display: none;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  position: absolute;
+  left: -9999px;
+}
+
+/* Prevent Google's top banner from reserving space */
+body {
+  top: 0;
+}
+
+/* Translate button group styling */
+.translate-button-group {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.translate-button-group::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 50%; /* half height */
+  width: 1px;
+  background-color: white;
+}
+/* Individual translate button styling */
+.translate-btn {
+  display: flex !important;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px !important;
+  color: white;
+  text-decoration: none;
+  font-size: 12px !important; 
+  font-weight: bold;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+  line-height: 1.7em !important;
+}
+
+/* Hover and active states */
+.translate-btn:hover,
+.translate-btn.active {
+  opacity: 1;
+  background-color: rgba(0, 119, 179, 0.2); /* Semi-transparent WHO blue */
+}
+
+.translate-btn.active {
+  font-weight: 600 !important;
+}
+
+/* Flag image styling */
+.translate-btn .img-flag {
+  width: 20px;
+  border: 0.5px solid #ffffff;
+}
+
+/* Prevent Google Translate modifications */
+.notranslate {
+  /* This prevents Google Translate from modifying these elements */
+}
+
+.translate-btn .notranslate * {
+  font-family: inherit;
+}
+  

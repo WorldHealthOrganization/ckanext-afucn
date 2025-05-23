@@ -1,5 +1,10 @@
 {% ckan_extends %}
 
+{% block breadcrumb_content %}
+  {{ super.super() }}
+  <li class="active"><a href="" title="{{ h.resource_display_name(res) }}">{{ _('Resource') }}</a></li>
+{% endblock %}
+
 {% block who_hero %}
     {% snippet 'snippets/who-hero.html', 
     show_search_form = false, 

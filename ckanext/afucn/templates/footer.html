@@ -11,10 +11,7 @@
           <div class="et_pb_module et_pb_text et_pb_text_0_tb_footer et_pb_text_align_left et_pb_bg_layout_light">
             <div class="et_pb_text_inner">
               <p>
-                The Open Data Portal of the World Health Organization Regional
-                Office for Africa (WHO AFRO) is managed by the Precision Public
-                Health (PPH) Unit within the Universal Health Coverage,
-                Communicable and Non-Communicable Diseases (UCN) Cluster.
+                The Open Data Portal of the World Health Organization Regional Office for Africa (WHO AFRO) is managed by the BI Team in the Disease Prevention and Control (DPC) Cluster.
               </p>
               <p>
                 The portal provides open access to health data, supporting
@@ -103,9 +100,10 @@
               </h2>
             </div>
             <div class="et_pb_button_wrapper">
-              <a class="et_pb_button et_pb_promo_button"
-                href="https://dataportal.afro.who.int/">{{ _('Join Our Newsletter') }}</a>
-            </div>
+              <a class="et_pb_button et_pb_promo_button btn-divi"
+                href="https://dataportal.afro.who.int/">{{ _('Join Our Newsletter') }}<i class="fa-solid fa-angle-right"></i>
+              </a>
+            </div>    
           </div>
         </div>
       </div>
@@ -135,11 +133,8 @@
           class="et_pb_column et_pb_column_1_2 et_pb_column_6_tb_footer et_pb_css_mix_blend_mode_passthrough et-last-child">
           <div class="et_pb_module et_pb_image et_pb_image_1_tb_footer">
             <span class="et_pb_image_wrap"><img loading="lazy" decoding="async" width="488" height="143"
-                src="https://dataportal.afro.who.int/wp-content/uploads/2025/03/dataportal-logo-small-white.png" alt=""
-                title="UCN Data Portal [white]" srcset="
-                https://dataportal.afro.who.int/wp-content/uploads/2025/03/dataportal-logo-small-white.png         350w,
-                https://dataportal.afro.who.int/wp-content/uploads/2025/03/dataportal-logo-small-white-300x132.png 300w
-                " sizes="(max-width: 350px) 100vw, 350px"
+                src="{{ url_for('static', filename='/img/dataportal-logo-small-white.png') }}" alt=""
+                title="DPC Data Portal [white]"
                 class="wp-image-1556" /></span>
           </div>
         </div>
@@ -161,7 +156,7 @@
           class="et_pb_column et_pb_column_1_3 et_pb_column_9_tb_footer et_pb_css_mix_blend_mode_passthrough et-last-child">
           <div class="et_pb_module et_pb_text et_pb_text_1_tb_footer et_pb_text_align_left et_pb_bg_layout_light">
             <div class="et_pb_text_inner">
-              <p>@2025 {{ _('WHO AFRO') }} – {{ _('UCN Cluster') }} – {{ _('PPH Unit') }}</p>
+              <p>@2025 {{ _('WHO AFRO') }} – {{ _('Disease Prevention and Control Cluster') }}</p>
             </div>
           </div>
         </div>

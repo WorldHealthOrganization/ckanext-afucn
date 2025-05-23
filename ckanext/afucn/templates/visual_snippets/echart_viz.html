@@ -1,0 +1,159 @@
+{#- Base ECharts Visualization Snippet
+
+  Provides structure and JS initialization for a reusable ECharts viz.
+  Requires the inheriting snippet or call to provide the chart-specific
+  options generation logic via the `chart_options_script` block,
+  which MUST define a `getChartOptions(filteredData, title)` function.
+
+  Args:
+    instance_id (str): A UNIQUE HTML ID for this specific chart instance. **REQUIRED**.
+    dataset_slug (str): The slug (URL identifier) of the CKAN dataset. **REQUIRED**.
+    title (str, optional): The title to display. Defaults to 'ECharts Visualization'.
+    css_class (str, optional): Additional CSS classes for the main container.
+    chart_height (str, optional): CSS height for the chart div. Defaults to '350px'.
+    filters (dict, optional): Key-value pairs to filter data *before* passing to getChartOptions.
+
+  Blocks:
+    chart_options_script: **REQUIRED**. Must contain a `<script>` tag defining a function named
+                          `getChartOptions(filteredData, title)` that takes the filtered data
+                          array and title string, performs chart-specific transformations,
+                          and returns a valid ECharts options object.
+-#}
+{% if not instance_id %}
+  {% set _ = log.error('EChart snippet: `instance_id` is required but was not provided.') %}
+  <!-- EChart Viz: Critical error - instance_id missing. Chart not rendered. -->
+{% elif not dataset_slug %}
+  {% set _ = log.error('EChart snippet: `dataset_slug` is required but was not provided for instance_id: ' ~ instance_id ~ '. Chart not rendered.') %}
+  <!-- EChart Viz ({{ instance_id if instance_id else "unknown" }}): Critical error - dataset_slug missing. Chart not rendered. -->
+{% else %}
+  {# Proceed only if instance_id and dataset_slug are provided #}
+  {% set chart_title = title or _('ECharts Visualization') %}
+  {% set chart_filters = filters or {} %}
+
+  {# Main container #}
+  <div id="{{ instance_id }}" class="echart-viz-container loading {{ css_class or '' }}">
+
+    {# Title #}
+    <div class="echart-viz-title">{{ chart_title }}</div>
+
+    {# Loading State Indicator #}
+    <div class="echart-viz-loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">{{ _('Loading...') }}</span>
+      </div>
+    </div>
+
+    {# Error State Placeholder #}
+    <div class="echart-viz-error">
+      <p>{{ _('Error loading visualization.') }}</p>
+    </div>
+
+    {# Chart Div #}
+    <div class="echart-viz-chart" style="height: {{ chart_height or '350px' }};"></div>
+
+    {# Footer for Source Information #}
+    <div class="echart-viz-footer">
+      <span>{{ _('Source') }}:</span> <span class="echart-viz-source-value">{{ _('Loading...') }}</span>
+    </div>
+
+    {# Filters JSON (still useful to keep separate for clarity) #}
+    <script type="application/json" class="echart-viz-filters-data">
+      {{ chart_filters|tojson|safe }}
+    </script>
+
+    {# --- REQUIRED Block for defining the Chart Options Script --- #}
+    {% block chart_options_script required %}
+      {# This block MUST be defined by inheriting templates #}
+      {# Example:
+      <script>
+        function getChartOptions(filteredData, title) {
+          // Process filteredData
+          // Return echart options object
+        }
+      </script>
+      #}
+    {% endblock chart_options_script %}
+
+    {# --- Initialization Script (runs for each instance) --- #}
+    <script>
+      (function() {
+        // Get config values for this specific instance
+        const instanceId = {{ instance_id|tojson|safe }};
+        const datasetSlug = {{ dataset_slug|tojson|safe }};
+        const chartTitle = {{ title|tojson|safe }};
+
+        const container = document.getElementById(instanceId);
+
+        // Retrieve filters from the dedicated script tag
+        let chartFilters = {};
+        if (container) {
+            const filtersScriptTag = container.querySelector('script.echart-viz-filters-data');
+            if (filtersScriptTag) {
+                try {
+                    const filtersJsonString = filtersScriptTag.textContent.trim();
+                    if (filtersJsonString) chartFilters = JSON.parse(filtersJsonString);
+                } catch (e) {
+                    console.error(`EchartsViz (${instanceId}): Error parsing filters JSON.`, e);
+                    // Optionally show error in UI
+                }
+            }
+        } else {
+            // This should ideally not be reached if the Jinja logic correctly prevents rendering
+            // when instanceId is missing, but as a fallback:
+            console.error(`EchartsViz (${instanceId || "unknown"}): Main container element not found. Critical error.`);
+            return; // Cannot proceed
+        }
+
+        // Check if the required getChartOptions function was defined (by the block above)
+        if (typeof getChartOptions !== 'function') {
+             console.error(`EchartsViz (${instanceId}): Missing required getChartOptions function definition in snippet.`);
+             if (container) {
+                 // EchartsViz.ui.setError(instanceId, 'Chart config function missing.'); // Original behavior
+                 container.style.display = 'none'; // Hide the container
+             }
+             return;
+        }
+        // Capture the function specific to this scope/instance
+        const instanceGetChartOptions = getChartOptions;
+        // Optional: Clear global to prevent conflicts? Careful!
+        // getChartOptions = undefined;
+
+        // Configuration object passed to the initializer
+        const vizConfig = {
+          datasetSlug: datasetSlug,
+          title: chartTitle,
+          filters: chartFilters,
+          getChartOptions: instanceGetChartOptions
+        };
+
+        // Call the initializer after the DOM is ready (using jQuery if available)
+        if (typeof jQuery !== 'undefined') {
+            jQuery(document).ready(function() {
+                if (typeof EchartsViz !== 'undefined' && typeof EchartsViz.init === 'function') {
+                    EchartsViz.init(instanceId, vizConfig);
+                } else {
+                    console.error(`EchartsViz (${instanceId}): Core library EchartsViz or EchartsViz.init not loaded.`);
+                    if (container) {
+                        // EchartsViz.ui.setError(instanceId, 'Core library missing.'); // Original behavior
+                        container.style.display = 'none'; // Hide the container
+                    }
+                }
+            });
+        } else {
+            document.addEventListener('DOMContentLoaded', function() {
+                 if (typeof EchartsViz !== 'undefined' && typeof EchartsViz.init === 'function') {
+                    EchartsViz.init(instanceId, vizConfig);
+                 } else {
+                    console.error(`EchartsViz (${instanceId}): Core library EchartsViz or EchartsViz.init not loaded.`);
+                    if (container) {
+                        // EchartsViz.ui.setError(instanceId, 'Core library missing.'); // Original behavior
+                        container.style.display = 'none'; // Hide the container
+                    }
+                 }
+            });
+        }
+      })();
+    </script>
+
+  </div>{# End main container #}
+{% endif %} 

@@ -1,0 +1,26 @@
+<!-- Hidden Google Translate Element -->
+<div id="google_translate_element" class="hidden-translate-element"></div>
+
+<!-- Horizontal language selection buttons -->
+<div class="translate-button-group">
+  {% set current_lang = request.cookies.get('googtrans', '/en/en').split('/')[-1] %}
+  <a class="translate-btn {% if current_lang == 'en' %}active{% endif %}" href="#" data-lang="en">
+    <img src="{{ url_for('static', filename='img/lang/en.svg') }}" class="img-flag" alt="EN flag" width="20">
+    <span>EN</span>
+  </a>
+  <a class="translate-btn {% if current_lang == 'fr' %}active{% endif %}" href="#" data-lang="fr">
+    <img src="{{ url_for('static', filename='img/lang/fr.svg') }}" class="img-flag" alt="FR flag" width="20">
+    <span>FR</span>
+  </a>
+  <a class="translate-btn {% if current_lang == 'pt' %}active{% endif %}" href="#" data-lang="pt">
+    <img src="{{ url_for('static', filename='img/lang/pt.svg') }}" class="img-flag" alt="PT flag" width="20">
+    <span>PT</span>
+  </a>
+</div>
+
+<!-- Pass debug flag to JavaScript -->
+<script>
+  // Set debug mode for the translator
+  window.gtTranslateDebug = {{ g.debug|tojson }};
+</script>
+

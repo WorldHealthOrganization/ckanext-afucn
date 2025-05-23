@@ -1,0 +1,129 @@
+{#- Population by Age Group Chart Snippet
+
+  Extends the base echart_viz snippet to create a column chart showing
+  population distribution by age group for a specific country and year.
+  Assumes the data has 'Dim1' (for age group), 'NumericValue',
+  'SpatialDim', and 'TimeDim' columns.
+
+  Args:
+    instance_id (str): Unique HTML ID ... **REQUIRED**.
+    iso_code (str): The ISO code (or other value for SpatialDim) to filter by.
+                    Defaults to the `group_dict.name` if available in context.
+    year (str, optional): The year to filter by. Defaults to '2024'.
+    dataset_slug (str): Dataset slug.
+    title (str, optional): Chart title. Defaults to 'Population by Age Group ([year]) for [iso_code]'.
+    css_class (str, optional): Additional CSS classes.
+    chart_height (str, optional): Chart height.
+
+  Inherits:
+    visual_snippets/echart_viz.html
+-#}
+{% extends "visual_snippets/echart_viz.html" %}
+
+{# --- Default Parameter Values --- #}
+{% set country_code = iso_code or group_dict.name %}
+{% set filter_year = year or '2024' %}
+{% set default_title = _('Population by Age Group (') ~ filter_year ~ ')' %}
+
+{# --- Override Base Snippet Variables --- #}
+{# instance_id is passed directly from the call #}
+{% set title = title or default_title %}
+{% set dataset_slug = dataset_slug %}
+{% set css_class = css_class %}
+{% set chart_height = chart_height %}
+
+{# Define the filters: Filter by SpatialDim (country) and TimeDim (year) #}
+{% set filters = {
+    'SpatialDim': country_code,
+    'TimeDim': filter_year
+} %}
+
+{# --- Define the Chart Options Script --- #}
+{% block chart_options_script %}
+<script>
+  function getChartOptions(filteredData, title) {
+    // Check utils dependency
+    if (typeof EchartsViz === 'undefined' || !EchartsViz.utils) {
+        console.error('EchartsViz utils not available');
+        return { title: { text: title, subtext: 'Script Error' } };
+    }
+
+    // Prepare data: [{ name: 'Age Group', value: number }, ...]
+    // Assuming age groups are in 'Dim1' and values in 'NumericValue'
+    const ageGroupData = filteredData
+      .map(row => {
+        if (row.hasOwnProperty('Dim1') && row.hasOwnProperty('NumericValue')) {
+            const ageGroup = String(row.Dim1).trim();
+            const value = EchartsViz.utils.normalizeValue(row.NumericValue);
+            return (value !== null && ageGroup !== '') ? { name: ageGroup, value: value } : null;
+        } else {
+            console.warn('PopulationAgeChart: Row missing Dim1 or NumericValue:', row);
+            return null;
+        }
+      })
+      .filter(item => item !== null);
+
+      // --- Define custom sort order for age groups --- START
+      const ageSortOrder = [
+        'Live births',
+        'Under 1 year',
+        '1-4 years',
+        '5-14 years',
+        '15-64 years',
+        '65+ years'
+      ];
+
+      // Create a map for quick index lookup
+      const sortOrderMap = ageSortOrder.reduce((map, group, index) => {
+        map[group] = index;
+        return map;
+      }, {});
+
+      // Sort ageGroupData based on the defined order
+      ageGroupData.sort((a, b) => {
+        const indexA = sortOrderMap[a.name] !== undefined ? sortOrderMap[a.name] : Infinity;
+        const indexB = sortOrderMap[b.name] !== undefined ? sortOrderMap[b.name] : Infinity;
+        return indexA - indexB;
+      });
+      // --- Define custom sort order for age groups --- END
+
+    if (ageGroupData.length === 0) {
+         return { title: { text: title, subtext: 'No data available', left: 'center', top: 'center' }, series: [] };
+    }
+
+    const categories = ageGroupData.map(item => item.name);
+    const values = ageGroupData.map(item => item.value);
+
+    // Return ECharts options object for a column (bar) chart
+    return {
+         tooltip: { 
+           trigger: 'axis', 
+           axisPointer: { type: 'shadow' },
+           formatter: function(params) {
+             const param = params[0];
+             return `Age Group: ${param.name}<br/>Population: ${param.value.toLocaleString()}`;
+           }
+         },
+         grid: { left: '3%', right: '4%', bottom: '0%', top: '3%', containLabel: true },
+         xAxis: { type: 'category', data: categories, axisLabel: { interval: 0, rotate: 30 } }, // Rotate labels if they overlap
+         yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: function(value) {
+                    if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
+                    if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
+                    if (value >= 1e3) return (value / 1e3).toFixed(1) + 'K';
+                    return value;
+                }
+            }
+         },
+         series: [{
+             name: 'Population',
+             type: 'bar', // Use 'bar' for column chart
+             data: values,
+             // itemStyle: { color: '#5470c6' } // REMOVED - Use theme color
+         }]
+     };
+  }
+</script>
+{% endblock chart_options_script %} 

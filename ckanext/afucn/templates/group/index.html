@@ -6,11 +6,16 @@
       show_search_form = false, 
       title = _('Africa Region Countries'), 
       description = _('Explore valuable health datasets from the countries of the Africa Region') %}
-  {% else %}
+  {% elif request.path == "/health-topic" %}
     {% snippet 'snippets/who-hero.html', 
       show_search_form = false, 
       title = _('Health Topics'), 
       description = _('Browse datasets organized by key health categories including diseases, health systems, and more from the Africa Region') %}
+  {% elif request.path == "/project" %}
+    {% snippet 'snippets/who-hero.html', 
+      show_search_form = false, 
+      title = _('Projects'), 
+      description = _('Explore datasets related to specific health projects and initiatives from the Africa Region') %}
   {% endif %}
 {% endblock %}
 
@@ -49,6 +54,8 @@
                     {% snippet "group/snippets/group_list_location.html", groups=page.items %}
                   {% elif (request.path == "/health-topic") or (request.path == "/health-topic/") %}
                     {% snippet "group/snippets/group_list_health_topic.html", groups=page.items %}
+                  {% elif (request.path == "/project") or (request.path == "/project/") %}
+                    {% snippet "group/snippets/group_list_project.html", groups=page.items %}
                   {% else %}
                     {% snippet "group/snippets/group_list.html", groups=page.items %}
                   {% endif %}

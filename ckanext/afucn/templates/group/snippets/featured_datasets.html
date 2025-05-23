@@ -1,644 +1,103 @@
-{% asset 'afucn/afucn-css' %}
-<!-- Required libraries -->
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
 {% if group_dict.package_count > 0 %}
-  {% set packages = c.page.items[:3] if c.page.items else [] %}
-  {% set indicator_packages = [] %}
-  {% for package in packages %}
-    {% if package.type == 'indicator' %}
-      {% do indicator_packages.append(package) %}
+  {% set current_packages = c.page.items[:3] if c.page.items else [] %}
+  {% set raw_indicator_packages = [] %}
+  {% for package_item in current_packages %}
+    {% if package_item.type == 'indicator' %}
+      {% do raw_indicator_packages.append(package_item) %}
     {% endif %}
   {% endfor %}
 
+  {# Prepare for sorting with handling for missing or non-numeric priority attribute #}
+  {% set sortable_indicators_list = [] %}
+  {% for p_item in raw_indicator_packages %}
+    {# Use Jinja's int filter with a default of 0. #}
+    {# This converts numbers and numeric strings to integers. #}
+    {# Non-numeric strings, None, or undefined attributes become 0, ensuring a numeric sort key. #}
+    {% set effective_priority = p_item.get('priority', 0) | int %}
+    {% do sortable_indicators_list.append({'pkg_data': p_item, 'sort_key': effective_priority}) %}
+  {% endfor %}
+
+  {% set sorted_indicator_items_list = sortable_indicators_list|sort(attribute='sort_key', reverse=true) %}
+
+  {# Reconstruct indicator_packages list from sorted items #}
+  {% set indicator_packages = [] %}
+  {% for sorted_item in sorted_indicator_items_list %}
+    {% do indicator_packages.append(sorted_item.pkg_data) %}
+  {% endfor %}
+
   {% if indicator_packages %}
-    <div class="trending-indicators-grid">
-      {% for package in indicator_packages %}
-        {% if package.resources and package.resources|length > 0 %}
-          {% set resource = package.resources[0] %}
+    {# New filtering logic based on resource properties #}
+    {% set valid_indicator_packages_for_charting = [] %}
+    {% set MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024 %} {# 1MB #}
 
-          <!-- Card container for trend visualization -->
-          <div class="trend-card">
-            <h3 class="trend-title">{{ package.title }}</h3>
-            
-            <div id="portal_viz_{{ loop.index }}" class="portal-viz">
-              <!-- Loading and error states -->
-              <div class="loading_state text-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-3">Loading visualization...</p>
-              </div>
+    {% for package_item in indicator_packages %}
+      {% if package_item.resources and package_item.resources|length > 0 %}
+        {% set found_and_valid_resource_for_package = false %} {# Flag for this package_item #}
+        {% for resource_to_check in package_item.resources %}
+          {% if not found_and_valid_resource_for_package %} {# Only proceed if we haven't found a valid one yet for this package #}
+            {# 1. File Format Check (CSV or Excel) for current resource_to_check #}
+            {% set format_ok = false %}
+            {% if resource_to_check.format or resource_to_check.url %} {# Proceed if either format or url is available #}
+                {% set format_lower = resource_to_check.format.lower() if resource_to_check.format else '' %}
+                {% set url_lower = resource_to_check.url.lower() if resource_to_check.url else '' %}
 
-              <div class="error_state text-center">
-                <p class="mb-0">This data format does not support visualization.</p>
-              </div>
+                {% set format_is_csv = 'csv' in format_lower or url_lower.endswith('.csv') %}
+                {% set format_is_excel = format_lower in ['xls', 'xlsx', 'excel',
+                                                    'application/vnd.ms-excel',
+                                                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+                                       or url_lower.endswith('.xls') or url_lower.endswith('.xlsx') %}
 
-              <!-- Debug error state -->
-              <div class="debug_error_state alert alert-danger">
-                <p class="mb-0"></p>
-              </div>
+                {% if format_is_csv or format_is_excel %}
+                    {% set format_ok = true %}
+                {% endif %}
+            {% endif %}
 
-              <!-- Visualization content -->
-              <div class="viz_content">
-                <div class="trend visualization"></div>
-              </div>
-            </div>
-            
-            <!-- Dataset metadata -->
-            <div class="trend-metadata">
-              <div class="metadata-source">
-                Source: {{ package.organization.title if package.organization else 'Unknown' }}
-              </div>
-              <div class="metadata-date">
-                Updated: {{ h.render_datetime(package.metadata_modified, date_format='%Y') if package.metadata_modified else 'Unknown' }}
-              </div>
-            </div>
-          </div>
+            {# If this resource has the correct format, then check its size #}
+            {% if format_ok %}
+              {% set file_size_ok = false %}
+              {% if resource_to_check.size is not none %}
+                {% set current_size = resource_to_check.size | string | int(-1) %} {# Convert to string, then int with fallback -1 #}
+                {% if current_size > 0 and current_size <= MAX_FILE_SIZE_BYTES %} {# Ensure size is positive and within limit #}
+                  {% set file_size_ok = true %}
+                {% endif %}
+              {% else %}
+                {# If size is not available for a CSV/Excel, we might assume it's okay or skip.
+                   For now, strictly requiring size. If size is None, file_size_ok remains false.
+                   This behavior aligns with portal_visualization.html's HEAD request for Content-Length.
+                   In CKAN, resource.size should ideally be populated. #}
+              {% endif %}
 
-          <script>
-          (function() {
-              // Namespace for the visualization module
-              const PortalViz = {
-                  // Configuration settings
-                  config: {
-                      // Data limits
-                      maxRowCount: 2000, // Maximum number of rows allowed in dataset
-                      maxFileSizeMB: 1, // Maximum file size in MB
+              {# If both format and size checks pass for this resource_to_check #}
+              {% if file_size_ok %}
+                {% do valid_indicator_packages_for_charting.append(package_item) %}
+                {% set found_and_valid_resource_for_package = true %} {# Mark as found and break from inner loop (resources) #}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endfor %} {# End loop over package_item.resources #}
+      {% endif %}
+    {% endfor %} {# End loop over indicator_packages #}
 
-                      // Chart settings
-                      chartHeight: '300px'
-                  },
-
-                  // State management for this instance
-                  state: {
-                      trendChart: null,
-                      csvData: null,
-                      isLoading: false,
-                      hasError: false,
-                      isDebugMode: {{ g.debug | tojson }},
-                      containerIndex: {{ loop.index }},
-                      container: document.getElementById('portal_viz_{{ loop.index }}')
-                  },
-
-                  // UI elements for this instance
-                  elements: {
-                      loadingState: document.querySelector('#portal_viz_{{ loop.index }} .loading_state'),
-                      errorState: document.querySelector('#portal_viz_{{ loop.index }} .error_state'),
-                      debugErrorState: document.querySelector('#portal_viz_{{ loop.index }} .debug_error_state'),
-                      vizContent: document.querySelector('#portal_viz_{{ loop.index }} .viz_content'),
-                      trendElement: document.querySelector('#portal_viz_{{ loop.index }} .trend')
-                  },
-
-                  // Utility functions
-                  utils: {
-                      // Convert MB to bytes
-                      mbToBytes: function(mb) {
-                          return mb * 1024 * 1024;
-                      },
-
-                      normalizeIso: function(iso) {
-                          return (iso || "")
-                              .toString()
-                              .trim()
-                              .replace(/^\uFEFF/, '')
-                              .replace(/^"+|"+$/g, '')
-                              .toUpperCase();
-                      },
-
-                      calculateDataRange: function(data) {
-                          try {
-                              // Safely extract numeric values, filtering out invalid ones
-                              const values = data
-                                  .map(row => {
-                                      const raw = row.NumericValue;
-                                      // If it's already a number, use it directly; if it's a string, parse it
-                                      if (typeof raw === 'number') return raw;
-                                      if (typeof raw === 'string') {
-                                          const parsed = parseFloat(raw);
-                                          return isNaN(parsed) ? null : parsed;
-                                      }
-                                      return null; // Everything else we treat as invalid
-                                  })
-                                  .filter(value => value !== null);
-
-                              // If no valid numeric values are found, return a default range
-                              if (values.length === 0) {
-                                  return {
-                                      min: 0,
-                                      max: 0
-                                  };
-                              }
-
-                              // --- Instead of Math.min(...values), we do a manual loop. ---
-                              let min = Infinity;
-                              let max = -Infinity;
-                              for (let i = 0; i < values.length; i++) {
-                                  const val = values[i];
-                                  if (val < min) min = val;
-                                  if (val > max) max = val;
-                              }
-
-                              // If min and max are the same, return a small range around the single value
-                              if (min === max) {
-                                  return {
-                                      min: Math.max(0, min - 0.1),
-                                      max: max + 0.1
-                                  };
-                              }
-
-                              return {
-                                  min,
-                                  max
-                              };
-                          } catch (error) {
-                              console.error("Error calculating data range:", error);
-                              // Fallback
-                              return {
-                                  min: 0,
-                                  max: 0
-                              };
-                          }
-                      }
-                  },
-
-                  // Data processing functions
-                  dataProcessor: {
-                      // File processing functions
-                      processCSVData: function(csvText) {
-                          return new Promise((resolve, reject) => {
-                              Papa.parse(csvText, {
-                                  header: true,
-                                  skipEmptyLines: true,
-                                  complete: function(results) {
-                                      if (results.data.length > PortalViz.config.maxRowCount) {
-                                          reject(new Error(`Dataset exceeded ${PortalViz.config.maxRowCount} rows`));
-                                          return;
-                                      }
-                                      if (!results.data.length || !results.data[0].hasOwnProperty('SpatialDim')) {
-                                          reject(new Error('Missing required SpatialDim column'));
-                                          return;
-                                      }
-                                      resolve(results.data);
-                                  },
-                                  error: function(error) {
-                                      console.error("Error parsing CSV:", error);
-                                      reject(error);
-                                  }
-                              });
-                          });
-                      },
-
-                      processExcelData: function(arrayBuffer) {
-                          return new Promise((resolve, reject) => {
-                              try {
-                                  const workbook = XLSX.read(arrayBuffer);
-                                  const firstSheetName = workbook.SheetNames[0];
-                                  const worksheet = workbook.Sheets[firstSheetName];
-                                  const data = XLSX.utils.sheet_to_json(worksheet);
-
-                                  if (data.length > PortalViz.config.maxRowCount) {
-                                      reject(new Error(`Dataset exceeded ${PortalViz.config.maxRowCount} rows`));
-                                      return;
-                                  }
-
-                                  resolve(data);
-                              } catch (error) {
-                                  console.error("Error parsing Excel:", error);
-                                  reject(error);
-                              }
-                          });
-                      },
-
-                      // Data aggregation functions
-                      calculateTrendData: function(csvData, locationCode, locationName) {
-                          const yearData = {};
-                          
-                          // Filter data for the current location
-                          // If location code is valid, use it, otherwise try to match by name
-                          const filteredData = csvData.filter(row => {
-                              // Check if we have a direct ISO match
-                              if (row.SpatialDim === locationCode) {
-                                  return true;
-                              }
-                              
-                              // If location name is provided, try to match on name as well
-                              if (locationName && row.SpatialDimLong) {
-                                  return row.SpatialDimLong.toLowerCase() === locationName.toLowerCase();
-                              }
-                              
-                              return false;
-                          });
-
-                          // If no direct matches, use regional data if available
-                          const usedData = filteredData.length > 0 ? filteredData : 
-                              csvData.filter(row => row.SpatialDimType === 'REGION');
-
-                          // Aggregate data by year
-                          usedData.forEach(row => {
-                              const year = row.TimeDim.toString().trim();
-                              const value = parseFloat(row.NumericValue);
-                              if (!isNaN(value)) {
-                                  if (!yearData[year]) {
-                                      yearData[year] = {
-                                          sum: 0,
-                                          count: 0
-                                      };
-                                  }
-                                  yearData[year].sum += value;
-                                  yearData[year].count++;
-                              }
-                          });
-
-                          // Calculate averages and sort by year
-                          const years = Object.keys(yearData).sort();
-                          const averages = years.map(year => [
-                              year,
-                              Math.round((yearData[year].sum / yearData[year].count) * 100) / 100
-                          ]);
-
-                          return {
-                              years,
-                              averages
-                          };
-                      },
-
-                      // Validation functions
-                      validateVisualizationRequirements: function(data) {
-                          const validations = {
-                              trend: {
-                                  isValid: false,
-                                  message: 'Trend visualization requires at least one value in SpatialDim, two unique values in TimeDim, and values in NumericValue',
-                                  check: () => {
-                                      const hasSpatialDim = data.some(row => row.SpatialDim);
-                                      const uniqueTimeDims = new Set(data.map(row => row.TimeDim)).size;
-                                      const hasNumericValue = data.some(row => row.NumericValue && !isNaN(row.NumericValue));
-                                      return hasSpatialDim && uniqueTimeDims >= 1 && hasNumericValue;
-                                  }
-                              }
-                          };
-
-                          // Run validations
-                          Object.keys(validations).forEach(viz => {
-                              validations[viz].isValid = validations[viz].check();
-                          });
-
-                          return validations;
-                      }
-                  },
-
-                  // Chart configuration and update functions
-                  charts: {
-                      // Chart initialization
-                      initializeChart: function() {
-                          const chartConfig = {
-                              renderer: 'canvas',
-                              width: 'auto',
-                              height: PortalViz.config.chartHeight
-                          };
-
-                          // Set dimensions
-                          PortalViz.elements.trendElement.style.height = PortalViz.config.chartHeight;
-
-                          // Initialize trend chart
-                          PortalViz.state.trendChart = echarts.init(PortalViz.elements.trendElement, null, chartConfig);
-
-                          // Setup resize observer
-                          const resizeObserver = new ResizeObserver(entries => {
-                              for (let entry of entries) {
-                                  PortalViz.state.trendChart && PortalViz.state.trendChart.resize();
-                              }
-                          });
-
-                          // Observe chart element
-                          resizeObserver.observe(PortalViz.elements.trendElement);
-                      },
-
-                      getTrendChartConfig: function(years, averages, locationName) {
-                          // Check if there's only a single data point
-                          if (averages.length === 1) {
-                              const year = averages[0][0];
-                              const value = averages[0][1];
-
-                              return {
-                                  backgroundColor: 'transparent',
-                                  title: {
-                                      text: '',
-                                      subtext: '',
-                                  },
-                                  textStyle: {
-                                      fontFamily: 'Arial',
-                                      fontSize: 14,
-                                      color: '#333'
-                                  },
-                                  grid: {
-                                      left: '10%',
-                                      right: '10%',
-                                      bottom: '15%',
-                                      top: '15%',
-                                      containLabel: true
-                                  },
-                                  graphic: {
-                                      elements: [{
-                                          type: 'text',
-                                          style: {
-                                              text: 'Historical trend cannot\n be displayed with\n a single value',
-                                              fontSize: 14,
-                                              textAlign: 'left'
-                                          },
-                                          left: '7%',
-                                          top: '35%'
-                                      }, {
-                                          type: 'text',
-                                          style: {
-                                              text: `Year: ${year}`,
-                                              fontSize: 12,
-                                              textAlign: 'left'
-                                          },
-                                          left: '7%',
-                                          top: '50%'
-                                      }, {
-                                          type: 'text',
-                                          style: {
-                                              text: `Value: ${value.toLocaleString()}`,
-                                              fontSize: 12,
-                                              textAlign: 'left'
-                                          },
-                                          left: '7%',
-                                          top: '55%'
-                                      }]
-                                  }
-                              };
-                          }
-
-                          // Original code for multiple data points
-                          return {
-                              backgroundColor: 'transparent',
-                              title: {
-                                  text: '',
-                                  subtext: '',
-                              },
-                              tooltip: {
-                                  trigger: 'axis',
-                                  backgroundColor: 'rgba(255,255,255,0.9)',
-                                  borderColor: '#ccc',
-                                  borderWidth: 1,
-                                  textStyle: {
-                                      color: '#333'
-                                  },
-                                  formatter: function(params) {
-                                      const data = params[0];
-                                      return `Year: ${data.name}<br />Value: ${data.value[1].toLocaleString()}`;
-                                  }
-                              },
-                              grid: {
-                                  left: '5%',
-                                  right: '5%',
-                                  bottom: '8%',
-                                  top: '8%',
-                                  containLabel: true
-                              },
-                              xAxis: {
-                                  type: 'category',
-                                  boundaryGap: false,
-                                  axisLine: {
-                                      lineStyle: {
-                                          color: '#999999'
-                                      }
-                                  },
-                                  axisLabel: {
-                                      color: '#666666',
-                                      fontSize: 10
-                                  }
-                              },
-                              yAxis: {
-                                  type: 'value',
-                                  axisLine: {
-                                      lineStyle: {
-                                          color: '#999999'
-                                      }
-                                  },
-                                  axisLabel: {
-                                      color: '#666666',
-                                      fontSize: 10,
-                                      formatter: function(value) {
-                                          if (value >= 1000000000) {
-                                              return (value / 1000000000).toFixed(1) + 'B';
-                                          } else if (value >= 1000000) {
-                                              return (value / 1000000).toFixed(1) + 'M';
-                                          } else if (value >= 1000) {
-                                              return (value / 1000).toFixed(1) + 'K';
-                                          }
-                                          return value;
-                                      }
-                                  },
-                                  splitLine: {
-                                      lineStyle: {
-                                          type: 'dashed',
-                                          color: '#E6E6E6'
-                                      }
-                                  }
-                              },
-                              series: [{
-                                  name: 'Average Value',
-                                  type: 'line',
-                                  data: averages,
-                                  smooth: true,
-                                  symbol: 'circle',
-                                  symbolSize: 6,
-                                  itemStyle: {
-                                      color: '#008DC9'
-                                  },
-                                  lineStyle: {
-                                      width: 2,
-                                      color: '#008DC9'
-                                  },
-                                  areaStyle: {
-                                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                          offset: 0,
-                                          color: 'rgba(0,141,201,0.3)'
-                                      }, {
-                                          offset: 1,
-                                          color: 'rgba(0,141,201,0.1)'
-                                      }])
-                                  }
-                              }]
-                          };
-                      },
-
-                      // Update trend chart
-                      updateTrendChart: function(years, averages, locationName) {
-                          if (!PortalViz.state.trendChart) return;
-
-                          const validations = PortalViz.dataProcessor.validateVisualizationRequirements(PortalViz.state.csvData);
-                          if (!validations.trend.isValid) {
-                              if (PortalViz.state.isDebugMode) {
-                                  console.error('Trend chart validation failed:', validations.trend.message);
-                              }
-                              return;
-                          }
-
-                          const option = PortalViz.charts.getTrendChartConfig(years, averages, locationName);
-                          PortalViz.state.trendChart.setOption(option, true);
-                      }
-                  },
-
-                  // UI related functions
-                  ui: {
-                      showLoading: function() {
-                          PortalViz.elements.loadingState.style.display = 'block';
-                          PortalViz.elements.errorState.style.display = 'none';
-                          PortalViz.elements.debugErrorState.style.display = 'none';
-                          PortalViz.elements.vizContent.style.display = 'none';
-                          PortalViz.state.isLoading = true;
-                          PortalViz.state.hasError = false;
-                      },
-
-                      showError: function(message, isDebugError = false) {
-                          PortalViz.elements.loadingState.style.display = 'none';
-                          PortalViz.elements.vizContent.style.display = 'none';
-
-                          if (PortalViz.state.isDebugMode && isDebugError) {
-                              PortalViz.elements.errorState.style.display = 'none';
-                              PortalViz.elements.debugErrorState.style.display = 'block';
-                              PortalViz.elements.debugErrorState.querySelector('p').textContent = message;
-                          } else {
-                              PortalViz.elements.errorState.style.display = 'block';
-                              PortalViz.elements.debugErrorState.style.display = 'none';
-                          }
-
-                          PortalViz.state.isLoading = false;
-                          PortalViz.state.hasError = true;
-                      },
-
-                      showContent: function(validations) {
-                          PortalViz.elements.loadingState.style.display = 'none';
-                          PortalViz.elements.errorState.style.display = 'none';
-                          PortalViz.elements.debugErrorState.style.display = 'none';
-                          
-                          // Show content if trend visualization is valid
-                          if (validations.trend.isValid) {
-                              PortalViz.elements.vizContent.style.display = 'block';
-                          } else {
-                              PortalViz.ui.showError('This data format does not support visualization.');
-                              return;
-                          }
-
-                          PortalViz.state.isLoading = false;
-                          PortalViz.state.hasError = false;
-
-                          // Force a resize after content is shown
-                          setTimeout(() => {
-                              PortalViz.state.trendChart && PortalViz.state.trendChart.resize();
-                          }, 100);
-                      }
-                  },
-
-                  // Initialization
-                  init: function() {
-                      try {
-                          this.ui.showLoading();
-
-                          // Check if required libraries are loaded
-                          if (typeof echarts === 'undefined' || typeof Papa === 'undefined' || typeof XLSX === 'undefined') {
-                              throw new Error('Required visualization libraries are not loaded');
-                          }
-
-                          const maxFileSizeBytes = this.utils.mbToBytes(this.config.maxFileSizeMB);
-                          // Use the resource URL from the current package in the loop
-                          const resourceUrl = "{{ resource.url }}";
-
-                          Promise.all([
-                                  // First fetch and process the data file
-                                  fetch(resourceUrl, {
-                                      method: 'HEAD'
-                                  })
-                                  .then(response => {
-                                      if (!response.ok) {
-                                          throw new Error(`HTTP error! status: ${response.status}`);
-                                      }
-
-                                      // Check file size using Content-Length header
-                                      const contentLength = response.headers.get('Content-Length');
-                                      if (contentLength && parseInt(contentLength) > maxFileSizeBytes) {
-                                          throw new Error(`File size exceeds ${this.config.maxFileSizeMB}MB limit`);
-                                      }
-
-                                      // If file size is acceptable, proceed with actual download
-                                      return fetch(resourceUrl);
-                                  })
-                                  .then(response => {
-                                      if (!response.ok) {
-                                          throw new Error(`HTTP error! status: ${response.status}`);
-                                      }
-                                      const contentType = response.headers.get('content-type');
-                                      const fileUrl = resourceUrl.toLowerCase();
-
-                                      if (fileUrl.endsWith('.csv') || contentType.includes('csv')) {
-                                          return response.text().then(text => this.dataProcessor.processCSVData(text));
-                                      } else if (fileUrl.endsWith('.xlsx') || fileUrl.endsWith('.xls') ||
-                                          contentType.includes('excel') || contentType.includes('spreadsheet')) {
-                                          return response.arrayBuffer().then(buffer => this.dataProcessor.processExcelData(buffer));
-                                      } else {
-                                          throw new Error('Unsupported file format');
-                                      }
-                                  })
-                              ])
-                              .then(([data]) => {
-                                  // Process data
-                                  this.state.csvData = data;
-                                  if (!this.state.csvData || !this.state.csvData.length) {
-                                      throw new Error('No data available in the file');
-                                  }
-
-                                  // Validate data structure
-                                  if (!this.state.csvData.some(row => row.SpatialDim)) {
-                                      throw new Error('Missing or empty SpatialDim column');
-                                  }
-
-                                  // Initialize chart
-                                  this.charts.initializeChart();
-
-                                  // Validate trend visualization
-                                  const validations = this.dataProcessor.validateVisualizationRequirements(this.state.csvData);
-
-                                  // If trend visualization fails, show error message
-                                  if (!validations.trend.isValid) {
-                                      this.ui.showError('This data format does not support visualization.');
-                                      return;
-                                  }
-
-                                  // Update trend chart with data for current group (location)
-                                  const locationName = "{{ group_dict.display_name }}";
-                                  const locationCode = "{{ group_dict.name }}";
-                                  const trendData = this.dataProcessor.calculateTrendData(this.state.csvData, locationCode, locationName);
-                                  
-                                  this.charts.updateTrendChart(trendData.years, trendData.averages, locationName);
-                                  this.ui.showContent(validations);
-                              })
-                              .catch(err => {
-                                  console.error("Error loading data:", err);
-                                  this.ui.showError(err.message, true);
-                              });
-                      } catch (err) {
-                          console.error("Initialization error:", err);
-                          this.ui.showError(err.message, true);
-                      }
-                  }
-              };
-
-              // Initialize when document is ready
-              jQuery(document).ready(function() {
-                  PortalViz.init();
-              });
-          })();
-          </script>
-        {% endif %}
-      {% endfor %}
-    </div>
+    {# Now, render charts only for the valid packages #}
+    {% if valid_indicator_packages_for_charting %}
+      <div class="trending-indicators-grid">
+        {% for package in valid_indicator_packages_for_charting %}
+          {# Snippet to render the trend chart #}
+          {% snippet 'visual_snippets/trend_chart.html',
+              instance_id='featured-dataset-' ~ package.name,
+              iso_code=group_dict.name,
+              dataset_slug=package.name,
+              title=package.title,
+              chart_height='300px'
+          %}
+        {% endfor %}
+      </div>
+    {% else %}
+      {# This message is shown if indicator_packages was not empty initially, but all failed the new resource validation #}
+      <p>{{ _("No indicator datasets suitable for visualization found for this location.") }}</p>
+    {% endif %}
   {% else %}
+    {# This is the original else for 'if indicator_packages' (i.e., no indicators of type 'indicator' after sorting by priority) #}
     <p>{{ _("No indicator datasets found for this location") }}</p>
   {% endif %}
 {% else %}
