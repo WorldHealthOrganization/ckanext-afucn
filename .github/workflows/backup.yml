@@ -2,12 +2,13 @@ name: CKAN Full Backup (Blob + Database via Azure VM)
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Every day at midnight UTC
-  workflow_dispatch: # Allow manual runs too
+    - cron: "0 0 * * *"   # Every day at midnight UTC
+  workflow_dispatch:      # Allow manual runs too
 
 jobs:
   backup-job:
     runs-on: ubuntu-latest
+    timeout-minutes: 60   # Hard cap on total job time
 
     steps:
       - name: Checkout code
@@ -20,73 +21,86 @@ jobs:
 
       - name: Set Azure Subscription
         run: |
-          az account set --subscription 8c247e8d-4f67-46e2-b10e-e89fc1a60fbd
+          set -euo pipefail
+          az account set --subscription 8c247e8-4f67-46e2-b10e-e89fc1a60fbd
 
       - name: Install AzCopy
         run: |
+          set -euo pipefail
           curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz
           sudo mv ./azcopy_linux_amd64_*/azcopy /usr/bin/
 
       - name: Determine Backup Container (Day of Month Logic)
         id: set_container
         run: |
-          echo "Calculating backup container..."
+          set -euo pipefail
           DAY=$(date +%d)
-          if [ "$DAY" -le 10 ]; then
-            echo "container=ckan-backup-01" >> $GITHUB_OUTPUT
-          elif [ "$DAY" -le 20 ]; then
-            echo "container=ckan-backup-10" >> $GITHUB_OUTPUT
-          else
-            echo "container=ckan-backup-20" >> $GITHUB_OUTPUT
+          if   [ "$DAY" -le 10 ]; then CONTAINER=ckan-backup-01
+          elif [ "$DAY" -le 20 ]; then CONTAINER=ckan-backup-10
+          else                          CONTAINER=ckan-backup-20
           fi
+          echo "container=$CONTAINER" >> $GITHUB_OUTPUT
 
       - name: Run AzCopy Blob Backup
         env:
           STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
-          SAS_TOKEN: ${{ secrets.AZURE_SAS_TOKEN }}
+          SAS_TOKEN:        ${{ secrets.AZURE_SAS_TOKEN }}
         run: |
+          set -euo pipefail
           BACKUP_CONTAINER=${{ steps.set_container.outputs.container }}
-          echo "Starting blob backup to $BACKUP_CONTAINER"
-
-          azcopy sync "https://${STORAGE_ACCOUNT}.blob.core.windows.net/straccpphblob?${SAS_TOKEN}" \
-                      "https://${STORAGE_ACCOUNT}.blob.core.windows.net/${BACKUP_CONTAINER}?${SAS_TOKEN}" \
-                      --recursive --log-level=INFO
+          azcopy sync \
+            "https://${STORAGE_ACCOUNT}.blob.core.windows.net/straccpphblob?${SAS_TOKEN}" \
+            "https://${STORAGE_ACCOUNT}.blob.core.windows.net/${BACKUP_CONTAINER}?${SAS_TOKEN}" \
+            --recursive \
+            --log-level=INFO \
+            --overwrite=true \
+            --quiet
 
       - name: Backup PostgreSQL Database from Azure VM
         env:
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
-          SAS_TOKEN: ${{ secrets.AZURE_SAS_TOKEN }}
+          POSTGRES_PASSWORD:       ${{ secrets.POSTGRES_PASSWORD }}
+          STORAGE_ACCOUNT:         ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+          SAS_TOKEN:               ${{ secrets.AZURE_SAS_TOKEN }}
         run: |
-          BACKUP_CONTAINER=${{ steps.set_container.outputs.container }}
-          echo "Starting database backup on Azure VM..."
-
           az vm run-command invoke \
             --command-id RunShellScript \
             --name vm-pph-dataportal \
             --resource-group PPH-P-EUW-RG01 \
-            --scripts "
-            set -e
+            --timeout-in-seconds 3600 \
+            --scripts '
+              set -euo pipefail
 
-            echo 'Dumping database...'
-            export PGPASSWORD='${{ secrets.POSTGRES_PASSWORD }}'
-            DATE=\$(date +%F)
-            FILENAME=\"ckan_backup_\${DATE}.dump\"
+              echo "Dumping database..."
+              export PGPASSWORD="${POSTGRES_PASSWORD}"
+              DATE=$(date +%F)
+              FILENAME="ckan_backup_${DATE}.dump"
 
-            pg_dump -h dbs-pph-postgresql.postgres.database.azure.com -U nomana -d ckan -F c -b -v -f \"/tmp/backup/\$FILENAME\" 2>&1 | tee /tmp/backup/pg_dump.log
+              pg_dump \
+                -h dbs-pph-postgresql.postgres.database.azure.com \
+                -U nomana \
+                -d ckan \
+                -F c -b -v \
+                -f "/tmp/backup/${FILENAME}" \
+                2>&1 | tee /tmp/backup/pg_dump.log
 
-            echo 'Checking dump file size...'
-            ls -lh /tmp/backup/
+              echo "Checking dump file size..."
+              ls -lh /tmp/backup/
 
-            echo 'Installing AzCopy if missing...'
-            if ! command -v azcopy &> /dev/null; then
-              curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz
-              sudo mv ./azcopy_linux_amd64_*/azcopy /usr/bin/
-            fi
+              echo "Ensuring AzCopy is installed..."
+              if ! command -v azcopy >/dev/null; then
+                curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz
+                sudo mv ./azcopy_linux_amd64_*/azcopy /usr/bin/
+              fi
 
-            echo 'Uploading database dump...'
-            azcopy copy \"/tmp/backup/\$FILENAME\" \"https://${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}.blob.core.windows.net/${BACKUP_CONTAINER}/\$FILENAME?${{ secrets.AZURE_SAS_TOKEN }}\" --from-to=LocalBlob --log-level=INFO
+              echo "Uploading database dump..."
+              azcopy copy \
+                "/tmp/backup/${FILENAME}" \
+                "https://${STORAGE_ACCOUNT}.blob.core.windows.net/${BACKUP_CONTAINER}/${FILENAME}?${SAS_TOKEN}" \
+                --from-to=LocalBlob \
+                --overwrite=true \
+                --log-level=INFO \
+                --quiet
 
-            echo 'Cleaning up backup file...'
-            rm -f /tmp/backup/\$FILENAME
-          "
+              echo "Cleaning up backup file..."
+              rm -f "/tmp/backup/${FILENAME}"
+            '
