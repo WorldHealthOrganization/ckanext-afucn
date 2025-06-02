@@ -30,10 +30,7 @@ jobs:
             --command-id RunShellScript \
             --name vm-pph-dataportal \
             --resource-group PPH-P-EUW-RG01 \
-            --scripts '
-              # fail on any error, undefined var, or pipeline failure
-              set -euo pipefail
-
+            --scripts "
               cd /dataportal/dataportal
               mv .env.prod .env
 
@@ -43,4 +40,4 @@ jobs:
 
               # prune without prompt
               docker builder prune -f
-            '
+              "
