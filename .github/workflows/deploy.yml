@@ -33,11 +33,6 @@ jobs:
             --scripts "
               cd /dataportal/dataportal
               mv .env.prod .env
-
-              # build and start
               docker compose build --no-cache
               docker compose up -d
-
-              # prune without prompt
-              docker builder prune -f
               "
