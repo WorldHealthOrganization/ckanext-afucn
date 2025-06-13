@@ -52,8 +52,7 @@ jobs:
             "https://${STORAGE_ACCOUNT}.blob.core.windows.net/straccpphblob?${SAS_TOKEN}" \
             "https://${STORAGE_ACCOUNT}.blob.core.windows.net/${BACKUP_CONTAINER}?${SAS_TOKEN}" \
             --recursive \
-            --log-level=INFO \
-            --quiet
+            --log-level=INFO
 
       - name: Backup PostgreSQL Database from Azure VM
         env:
