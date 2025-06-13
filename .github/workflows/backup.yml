@@ -22,7 +22,7 @@ jobs:
       - name: Set Azure Subscription
         run: |
           set -euo pipefail
-          az account set --subscription 8c247e8-4f67-46e2-b10e-e89fc1a60fbd
+          az account set --subscription 8c247e8d-4f67-46e2-b10e-e89fc1a60fbd
 
       - name: Install AzCopy
         run: |
