@@ -64,7 +64,6 @@ jobs:
             --command-id RunShellScript \
             --name vm-pph-dataportal \
             --resource-group PPH-P-EUW-RG01 \
-            --timeout-in-seconds 3600 \
             --scripts '
               set -euo pipefail
 
