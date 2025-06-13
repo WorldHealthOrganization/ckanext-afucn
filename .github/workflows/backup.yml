@@ -53,7 +53,6 @@ jobs:
             "https://${STORAGE_ACCOUNT}.blob.core.windows.net/${BACKUP_CONTAINER}?${SAS_TOKEN}" \
             --recursive \
             --log-level=INFO \
-            --overwrite=true \
             --quiet
 
       - name: Backup PostgreSQL Database from Azure VM
