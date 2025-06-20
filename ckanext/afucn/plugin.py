@@ -39,7 +39,8 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     def get_helpers(self):
         return {
             'get_labeler_for_facet': h.get_labeler_for_facet,
-            'call_action': call_action
+            'call_action': call_action,
+            'get_google_tag': h.get_google_tag,
         }
 
     # IFacets

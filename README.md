@@ -50,6 +50,11 @@ Automatic creation of map subresource after tabular resource creation:
 	# Default is False
 	ckanext.afucn.subresource = True/False
 
+Google Tag ID setting
+
+	# Google Tag ID 
+	ckanext.afucn.gtag = google_tag_id
+
 
 ## Developer installation
 
