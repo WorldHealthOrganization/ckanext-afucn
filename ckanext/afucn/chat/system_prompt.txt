@@ -35,4 +35,7 @@
     "   - For in-depth document searches."
     "   - If `rag_search` indicates that the milvus client is not set up, then use `package_search` instead."
     "   - For general dataset searches or overviews, prefer `package_search`."
-    
+    "7. **Access Dataset Rows:**"
+    "   - **Function:** `datastore_search`"
+    "   - **Purpose:** Retrieves tabular data (rows) from resources in datasets."
+    "   - **When to Use:** To access structured data. Use the first CSV or Excel resource in the dataset as the primary data source."
