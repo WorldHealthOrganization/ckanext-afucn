@@ -325,6 +325,16 @@ caption {
   color: #3c4245;
 }
 
+#newChatButton{
+  background-color: #0F2D5B;
+  border-color: #0F2D5B;
+}
+
+#deleteChatButton{
+  background-color: #dc3545;
+  border-color: #dc3545; 
+}
+
 .dropdown-header {
 
   color: #3c4245;
