@@ -90,11 +90,11 @@
     // Function to format the number dynamically based on its value
     function formatNumber(value) {
         if (value >= 1e9) {
-            return (value / 1e9).toFixed(2) + ' Billions'; // For billions
+            return (value / 1e9).toFixed(2) + ' Billion'; // For billion
         } else if (value >= 1e6) {
-            return (value / 1e6).toFixed(2) + ' Millions'; // For millions
+            return (value / 1e6).toFixed(2) + ' Million'; // For million
         } else if (value >= 1e3) {
-            return (value / 1e3).toFixed(2) + ' Thousands'; // For thousands
+            return (value / 1e3).toFixed(2) + ' Thousand'; // For thousand
         } else {
             return value.toFixed(2); // For numbers less than 1000
         }
