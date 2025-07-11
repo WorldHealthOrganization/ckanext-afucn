@@ -1,7 +1,7 @@
-{#- GDP Current Health Expenditure Trend Chart Snippet
+{#- Health Expenditure as a proportion of GDP Trend Chart Snippet
 
   Extends the base echart_viz snippet to create a trend chart for
-  GDP Current Health Expenditure (%).
+  Health Expenditure as a proportion of GDP (%).
   Assumes the data has 'TimeDim' and 'NumericValue' columns.
 
   Args:
@@ -9,7 +9,7 @@
     iso_code (str): The ISO code (or other value for SpatialDim) to filter by.
                     Defaults to the `group_dict.name` if available in context.
     dataset_slug (str): Dataset slug.
-    title (str, optional): Chart title. Defaults to 'GDP Current Health Expenditure Trend for [iso_code]'.
+    title (str, optional): Chart title. Defaults to 'Health Expenditure as a proportion of GDP Trend for [iso_code]'.
     css_class (str, optional): Additional CSS classes.
     chart_height (str, optional): Chart height.
 
@@ -20,9 +20,9 @@
 
 {# --- Default Parameter Values --- #}
 {% set country_code = iso_code or group_dict.name %}
-{% set default_title = _('GDP Current Health Expenditure') %}
+{% set default_title = _('Health Expenditure as a proportion of GDP') %}
 {% if country_code %}
-  {% set default_title = _('GDP Current Health Expenditure for ') ~ country_code %}
+  {% set default_title = _('Health Expenditure as a proportion of GDP for ') ~ country_code %}
 {% endif %}
 
 {# --- Override Base Snippet Variables --- #}
