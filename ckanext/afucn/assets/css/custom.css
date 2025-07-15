@@ -1840,3 +1840,11 @@ ul.hierarchy-tree-top{
   left:     50%;
   transform: translate(-50%, -50%) !important;
 }
+
+
+/* Custom styling for the chat imput box*/
+#composer-background {
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
