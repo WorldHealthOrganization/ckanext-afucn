@@ -8,6 +8,7 @@ from ckan.common import config
 from ckanext.afucn import helpers as h
 
 subresource = config.get('ckanext.afucn.subresource', False)
+defender_scan = config.get('ckanext.afucn.defender_scan', True)
 
 # Define a proper call_action helper that calls the action in one step
 def call_action(action_name, data_dict=None):
@@ -68,8 +69,16 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     # IResourceController
 
     def after_resource_create(self, context, resource_dict):
+        
         if subresource:
             create_subresource(context, resource_dict)
+        
+        
+        if defender_scan:
+            resource_dict['defender_scan'] = 'OK'
+            toolkit.get_action("resource_patch")(context, resource_dict)
+            
+        
         return
     
     # IPackageController

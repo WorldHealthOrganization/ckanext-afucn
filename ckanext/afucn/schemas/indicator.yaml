@@ -305,3 +305,6 @@ resource_fields:
 - field_name: format
   label: Format
   preset: resource_format_autocomplete
+
+- field_name: defender_scan
+  label: Defender Scan status
