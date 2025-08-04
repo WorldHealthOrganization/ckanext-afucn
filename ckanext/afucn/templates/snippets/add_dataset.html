@@ -1,0 +1,19 @@
+{% set dataset_type = dataset_type if dataset_type else 'dataset' %}
+{% set link_label = h.humanize_entity_type('package', dataset_type, 'add link') or _("Add Dataset") %}
+{% set route_name = dataset_type ~ '.new' %}
+
+{% if group %}
+    {% link_for link_label, named_route=route_name, group=group, class_='btn btn-primary', icon='plus-square' %}
+
+{% else %}
+  <div class="dropdown btn-group">
+    <a href="#" class="btn btn-primary dropdown-toggle" type="button" id="dropdownExplorer" data-bs-toggle="dropdown" aria-expanded="false">
+      {{ _('Add Dataset') }}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li>{% link_for _('Dataset'), named_route='dataset.new', class_='dropdown-item', icon='table' %}</li>
+      <li>{% link_for _('Indicator'), named_route='indicator.new', class_='dropdown-item', icon='heartbeat' %}</li>
+    </ul>
+  </div>
+{% endif %}
