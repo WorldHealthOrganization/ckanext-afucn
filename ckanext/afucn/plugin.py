@@ -68,8 +68,11 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     # IResourceController
 
     def before_resource_create(self, context, resource_dict):
-
-        resource_dict['defender_scan'] = 'OK'
+        
+        if resource_dict['url_type'] == 'upload':
+            resource_dict['defender_scan'] = 'OK'
+        else:
+            resource_dict['defender_scan'] = 'Resource is link and not a subject of defender scan'
 
         return
 
