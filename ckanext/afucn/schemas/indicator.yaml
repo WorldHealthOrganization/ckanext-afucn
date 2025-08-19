@@ -308,3 +308,4 @@ resource_fields:
 
 - field_name: defender_scan
   label: Defender Scan status
+  form_snippet: defender.html
