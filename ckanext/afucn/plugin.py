@@ -67,9 +67,29 @@ class AfucnPlugin(plugins.SingletonPlugin, DefaultTranslation):
     
     # IResourceController
 
+    def before_resource_create(self, context, resource_dict):
+        
+        if resource_dict['url_type'] == 'upload':
+            resource_dict['defender_scan'] = 'No threats detected'
+        else:
+            resource_dict['defender_scan'] = 'Resource is link and not a subject of defender scan'
+
+        return
+    
+    def before_resource_update(self, context, current, resource_dict):
+        
+        if resource_dict['url_type'] == 'upload':
+            resource_dict['defender_scan'] = 'No threats detected'
+        else:
+            resource_dict['defender_scan'] = 'Resource is link and not a subject of defender scan'
+
+        return
+
     def after_resource_create(self, context, resource_dict):
+        
         if subresource:
             create_subresource(context, resource_dict)
+        
         return
     
     # IPackageController
