@@ -1,0 +1,5 @@
+{% ckan_extends %}
+
+{% block resource_additional_information_inner %}
+  {{ super() | replace('table-toggle-more', '') }}
+{% endblock %}
