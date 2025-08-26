@@ -8,7 +8,6 @@ on:
 jobs:
   deploy-to-vm:
     runs-on: ubuntu-latest
-    # (optional) kill the job if it’s stuck >30m
     timeout-minutes: 30
 
     steps:
@@ -24,15 +23,42 @@ jobs:
         run: |
           az account set --subscription 8c247e8d-4f67-46e2-b10e-e89fc1a60fbd
 
-      - name: Run commands on Azure VM
+      - name: Create deployment script
         run: |
-          az vm run-command invoke \
+          cat <<'EOF' > deploy.sh
+          #!/bin/bash
+          set -e
+
+          cd /dataportal/dataportal
+          cp -f .env.prod .env
+
+          echo ">>> Starting docker compose build"
+          docker compose build --no-cache > /tmp/docker_build.log 2>&1
+          echo ">>> Docker build finished"
+
+          echo ">>> Starting docker compose up"
+          docker compose up -d >> /tmp/docker_build.log 2>&1
+          echo ">>> Docker containers started"
+
+          echo "DEPLOYMENT_DONE"
+          EOF
+
+      - name: Run deployment on VM and wait
+        run: |
+          # Run the script and capture output
+          output=$(az vm run-command invoke \
             --command-id RunShellScript \
             --name vm-pph-dataportal \
             --resource-group PPH-P-EUW-RG01 \
-            --scripts "
-              cd /dataportal/dataportal
-              mv .env.prod .env
-              docker compose build --no-cache
-              docker compose up -d
-              "
+            --scripts @deploy.sh \
+            --query "value[0].message" -o tsv)
+
+          echo "$output"
+
+          # Check for explicit done signal
+          if echo "$output" | grep -q "DEPLOYMENT_DONE"; then
+            echo "✅ Deployment completed successfully"
+          else
+            echo "❌ Deployment did not finish correctly"
+            exit 1
+          fi
