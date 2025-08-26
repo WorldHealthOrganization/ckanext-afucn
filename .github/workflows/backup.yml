@@ -67,8 +67,6 @@ jobs:
             --scripts '
               set -euo pipefail
 
-              mkdir -p /tmp/backup
-
               echo "Dumping database..."
               export PGPASSWORD="${POSTGRES_PASSWORD}"
               DATE=$(date +%F)
@@ -88,7 +86,7 @@ jobs:
               echo "Ensuring AzCopy is installed..."
               if ! command -v azcopy >/dev/null; then
                 curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz
-                mv ./azcopy_linux_amd64_*/azcopy /usr/bin/
+                sudo mv ./azcopy_linux_amd64_*/azcopy /usr/bin/
               fi
 
               echo "Uploading database dump..."
