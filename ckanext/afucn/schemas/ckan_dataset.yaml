@@ -75,6 +75,7 @@ dataset_fields:
   label: Maintainer
   form_placeholder: Joe Bloggs
   display_property: dc:contributor
+  required: true
 
 - field_name: maintainer_email
   label: Maintainer Email
@@ -82,6 +83,7 @@ dataset_fields:
   display_property: dc:contributor
   display_snippet: email.html
   display_email_name_field: maintainer
+  required: true
 
 - field_name : spatial
   label: Spatial
