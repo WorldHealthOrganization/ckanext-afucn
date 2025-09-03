@@ -50,7 +50,7 @@ dataset_fields:
 
 - field_name: maintainer
   label: Maintainer
-  # required: true
+  required: true
   display_group: Overview
 
 - field_name: maintainer_email
@@ -59,6 +59,7 @@ dataset_fields:
   display_property: dc:contributor
   display_snippet: email.html
   display_email_name_field: maintainer
+  required: true
   display_group: Overview
 
 - field_name: source
