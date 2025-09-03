@@ -265,6 +265,29 @@ caption {
   border-color: #006cbe;
 }
 
+.btn-success {
+  background-color: #40BF73;
+  border-color: #40BF73;
+  color: #FFFFFF;
+}
+
+.btn-success:hover {
+  background-color: #3aaf6a;
+  border-color: #3aaf6a;
+  color: #FFFFFF;
+}
+
+.btn-danger {
+  background-color: #F26829;
+  border-color: #F26829;
+  color: #FFFFFF;
+}
+
+.btn-danger:hover {
+  background-color: #e05d24;
+  border-color: #e05d24;
+  color: #FFFFFF;
+}
 
 .btn-secondary {
   color: #fff;
@@ -300,6 +323,16 @@ caption {
 .btn-link:disabled,
 .btn-link.disabled {
   color: #3c4245;
+}
+
+#newChatButton{
+  background-color: #0F2D5B;
+  border-color: #0F2D5B;
+}
+
+#deleteChatButton{
+  background-color: #dc3545;
+  border-color: #dc3545; 
 }
 
 .dropdown-header {
